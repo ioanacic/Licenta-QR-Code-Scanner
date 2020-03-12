@@ -7,6 +7,9 @@
 
     <uses-permission android:name="android.permission.CAMERA" />
 
+    <uses-permission-sdk-23 android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
+    <uses-permission-sdk-23 android:name="android.permission.READ_EXTERNAL_STORAGE"/>
+
     <application
         android:allowBackup="true"
         android:fullBackupContent="false"
@@ -34,6 +37,18 @@
 
         <activity android:name=".BarcodeCaptureActivity"
             android:label="Read Barcode"/>
+
+        <activity android:name=".DecodedQRActivity"
+            android:label="Read decoded QR"/>
+
+        <activity android:name="GenerateQRActivity"
+            android:label="Generate QR code"/>
+
+        <activity android:name="SecondActivity"
+            android:label="After you logged in"/>
+
+        <activity android:name=".SignUpActivity"
+            android:label="Create account"/>
     </application>
 
 </manifest>

@@ -60,8 +60,6 @@ import java.io.IOException;
 public final class BarcodeCaptureActivity extends AppCompatActivity implements BarcodeGraphicTracker.BarcodeUpdateListener {
     private static final String TAG = "Barcode-reader";
 
-    // test git :)   
-
     // intent request code to handle updating play services if needed.
     private static final int RC_HANDLE_GMS = 9001;
 
@@ -434,5 +432,8 @@ public final class BarcodeCaptureActivity extends AppCompatActivity implements B
     @Override
     public void onBarcodeDetected(Barcode barcode) {
         //do something with barcode data returned
+        Intent intent = new Intent(this, DecodedQRActivity.class);
+        intent.putExtra(BarcodeObject, barcode.displayValue);
+        startActivity(intent);
     }
 }

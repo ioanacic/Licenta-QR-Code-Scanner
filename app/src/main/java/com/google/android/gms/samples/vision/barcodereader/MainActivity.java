@@ -19,103 +19,168 @@ package com.google.android.gms.samples.vision.barcodereader;
 import android.content.Intent;
 import android.os.Bundle;
 import android.app.Activity;
+import android.support.annotation.NonNull;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
-import android.widget.CompoundButton;
+import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
 
-import com.google.android.gms.common.api.CommonStatusCodes;
-import com.google.android.gms.vision.barcode.Barcode;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.auth.AuthResult;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseAuthInvalidCredentialsException;
+import com.google.firebase.auth.FirebaseAuthUserCollisionException;
+import com.google.firebase.auth.FirebaseAuthWeakPasswordException;
+import com.google.firebase.auth.FirebaseUser;
 
 /**
  * Main activity demonstrating how to pass extra parameters to an activity that
  * reads barcodes.
  */
 public class MainActivity extends Activity implements View.OnClickListener {
+    private static final String TAG = "EmailPassword";
 
-    // use a compound button so either checkbox or switch widgets work.
-//    private CompoundButton autoFocus;
-//    private CompoundButton useFlash;
-    private TextView statusMessage;
-    private TextView barcodeValue;
+    private EditText mEmailField;
+    private EditText mPasswordField;
 
-    private static final int RC_BARCODE_CAPTURE = 9001;
-    private static final String TAG = "BarcodeMain";
+    private FirebaseAuth mAuth;
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
+        setContentView(R.layout.sign_in_activity);
 
-        statusMessage = (TextView)findViewById(R.id.status_message);
-        barcodeValue = (TextView)findViewById(R.id.barcode_value);
+        // Views
+        mEmailField = findViewById(R.id.fieldEmail);
+        mPasswordField = findViewById(R.id.fieldPassword);
 
-//        autoFocus = (CompoundButton) findViewById(R.id.auto_focus);
-//        useFlash = (CompoundButton) findViewById(R.id.use_flash);
+        // Buttons
+        findViewById(R.id.emailSignInButton).setOnClickListener(this);
+        findViewById(R.id.emailCreateAccountButton).setOnClickListener(this);
+        findViewById(R.id.signOutButton).setOnClickListener(this);
+        findViewById(R.id.goToCamera).setOnClickListener(this);
 
-        findViewById(R.id.read_barcode).setOnClickListener(this);
+        mAuth = FirebaseAuth.getInstance();
     }
 
-    /**
-     * Called when a view has been clicked.
-     *
-     * @param v The view that was clicked.
-     */
+    @Override
+    public void onStart() {
+        super.onStart();
+        // Check if user is signed in (non-null) and update UI accordingly.
+        FirebaseUser currentUser = mAuth.getCurrentUser();
+        updateUI(currentUser);
+    }
+
+    private void signIn() {
+        final String email = mEmailField.getText().toString().trim();
+        final String password = mPasswordField.getText().toString().trim();
+
+        Log.d(TAG, "signIn:" + email);
+        // checking if the email and password fields are not empty
+        if (!validateForm()) {
+            return;
+        }
+
+        mAuth.signInWithEmailAndPassword(email, password)
+                .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
+                    @Override
+                    public void onComplete(@NonNull Task<AuthResult> task) {
+                        if (task.isSuccessful()) {
+//                            // Sign in success, update UI with the signed-in user's information
+//                            Log.d(TAG, "signInWithEmail:success");
+//                            FirebaseUser user = mAuth.getCurrentUser();
+//                            updateUI(user);
+                            Intent intent = new Intent(MainActivity.this, SecondActivity.class);
+                            startActivity(intent);
+                        } else {
+                            try {
+                                throw task.getException();
+                            }
+                            // password with less that 6 characters
+                            catch (FirebaseAuthWeakPasswordException weakPassword) {
+                                Log.w(TAG, "createUserWithEmail:weakPassword");
+                                Toast.makeText(MainActivity.this, R.string.weakPassword,
+                                        Toast.LENGTH_SHORT).show();
+                            }
+                            // wrong email format
+                            catch (FirebaseAuthInvalidCredentialsException malformedEmail) {
+                                Log.w(TAG, "createUserWithEmail:malformedEmail");
+                                Toast.makeText(MainActivity.this, R.string.malformedEmail,
+                                        Toast.LENGTH_SHORT).show();
+                            }
+                            // email already exists
+                            catch (FirebaseAuthUserCollisionException existEmail) {
+                                Log.w(TAG, "createUserWithEmail:existEmail");
+                                Toast.makeText(MainActivity.this, R.string.existEmail,
+                                        Toast.LENGTH_SHORT).show();
+                            } catch (Exception e) {
+                                Log.w(TAG, "createUserWithEmail:failure", task.getException());
+                            }
+                        }
+                    }
+                });
+    }
+
+    private void signOut() {
+        mAuth.signOut();
+        updateUI(null);
+    }
+
+    private boolean validateForm() {
+        boolean valid = true;
+
+        String email = mEmailField.getText().toString();
+        if (TextUtils.isEmpty(email)) {
+            mEmailField.setError("Required.");
+            valid = false;
+        } else {
+            mEmailField.setError(null);
+        }
+
+        String password = mPasswordField.getText().toString();
+        if (TextUtils.isEmpty(password)) {
+            mPasswordField.setError("Required.");
+            valid = false;
+        } else {
+            mPasswordField.setError(null);
+        }
+
+        return valid;
+    }
+
+    // must get rid of it
+    private void updateUI(FirebaseUser user) {
+        if (user != null) {
+
+//            findViewById(R.id.emailPasswordButtons).setVisibility(View.GONE);
+//            findViewById(R.id.emailPasswordFields).setVisibility(View.GONE);
+//            findViewById(R.id.signedInButtons).setVisibility(View.VISIBLE);
+
+        } else {
+
+//            findViewById(R.id.emailPasswordButtons).setVisibility(View.VISIBLE);
+//            findViewById(R.id.emailPasswordFields).setVisibility(View.VISIBLE);
+//            findViewById(R.id.signedInButtons).setVisibility(View.GONE);
+        }
+    }
+
     @Override
     public void onClick(View v) {
-        if (v.getId() == R.id.read_barcode) {
-            // launch barcode activity.
-            Intent intent = new Intent(this, BarcodeCaptureActivity.class);
-//            intent.putExtra(BarcodeCaptureActivity.AutoFocus, autoFocus.isChecked());
-//            intent.putExtra(BarcodeCaptureActivity.UseFlash, useFlash.isChecked());
-
-            startActivityForResult(intent, RC_BARCODE_CAPTURE);
-        }
-
-    }
-
-    /**
-     * Called when an activity you launched exits, giving you the requestCode
-     * you started it with, the resultCode it returned, and any additional
-     * data from it.  The <var>resultCode</var> will be
-     * {@link #RESULT_CANCELED} if the activity explicitly returned that,
-     * didn't return any result, or crashed during its operation.
-     * <p/>
-     * <p>You will receive this call immediately before onResume() when your
-     * activity is re-starting.
-     * <p/>
-     *
-     * @param requestCode The integer request code originally supplied to
-     *                    startActivityForResult(), allowing you to identify who this
-     *                    result came from.
-     * @param resultCode  The integer result code returned by the child activity
-     *                    through its setResult().
-     * @param data        An Intent, which can return result data to the caller
-     *                    (various data can be attached to Intent "extras").
-     * @see #startActivityForResult
-     * @see #createPendingResult
-     * @see #setResult(int)
-     */
-    @Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        if (requestCode == RC_BARCODE_CAPTURE) {
-            if (resultCode == CommonStatusCodes.SUCCESS) {
-                if (data != null) {
-                    Barcode barcode = data.getParcelableExtra(BarcodeCaptureActivity.BarcodeObject);
-                    statusMessage.setText(R.string.barcode_success);
-                    barcodeValue.setText(barcode.displayValue);
-                    Log.d(TAG, "Barcode read: " + barcode.displayValue);
-                } else {
-                    statusMessage.setText(R.string.barcode_failure);
-                    Log.d(TAG, "No barcode captured, intent data is null");
-                }
-            } else {
-                statusMessage.setText(String.format(getString(R.string.barcode_error),
-                        CommonStatusCodes.getStatusCodeString(resultCode)));
-            }
-        }
-        else {
-            super.onActivityResult(requestCode, resultCode, data);
+        int i = v.getId();
+        if (i == R.id.emailCreateAccountButton) {
+//            singUp(mEmailField.getText().toString(), mPasswordField.getText().toString());
+            Intent intent = new Intent(this, SignUpActivity.class);
+            startActivity(intent);
+        } else if (i == R.id.emailSignInButton) {
+            signIn();
+        } else if (i == R.id.signOutButton) {
+            signOut();
+        } else if (i == R.id.goToCamera) {
+            Intent intent = new Intent(this, SecondActivity.class);
+            startActivity(intent);
         }
     }
 }

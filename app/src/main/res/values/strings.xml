@@ -12,4 +12,12 @@
     <string name="barcode_success">Barcode read successfully</string>
     <string name="barcode_failure">No barcode captured</string>
     <string name="barcode_error">"Error reading barcode: %1$s"</string>
+    <string name="auth_failed">Authentication failed</string>
+    <string name="signed_out">Signed out</string>
+    <string name="emailpassword_status_fmt">Email %s and Password fmt %b</string>
+    <string name="firebase_status_fmt">Firebase fmt %s</string>
+    <string name="weakPassword">Password must be at least 6 characters</string>
+    <string name="malformedEmail">A valid email is required</string>
+    <string name="existEmail">An account with this email already exists</string>
+    <string name="createdSuccsessful">The account was created successfully</string>
 </resources>
