@@ -1,1 +1,0 @@
-# Licenta-QR-Code-Scanner
