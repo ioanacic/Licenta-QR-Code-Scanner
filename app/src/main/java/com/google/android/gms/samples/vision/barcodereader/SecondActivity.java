@@ -41,6 +41,7 @@ public class SecondActivity extends Activity implements View.OnClickListener {
         findViewById(R.id.read_barcode).setOnClickListener(this);
         findViewById(R.id.generate_qr).setOnClickListener(this);
         findViewById(R.id.signOutButton).setOnClickListener(this);
+        findViewById(R.id.addQuestionButton).setOnClickListener(this);
 
         mAuth = FirebaseAuth.getInstance();
     }
@@ -75,6 +76,10 @@ public class SecondActivity extends Activity implements View.OnClickListener {
         if (v.getId() == R.id.signOutButton) {
             mAuth.signOut();
             Intent intent = new Intent(this, MainActivity.class);
+            startActivity(intent);
+        }
+        if (v.getId() == R.id.addQuestionButton) {
+            Intent intent = new Intent(this, AddQuestion.class);
             startActivity(intent);
         }
     }

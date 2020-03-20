@@ -49,6 +49,12 @@
 
         <activity android:name=".SignUpActivity"
             android:label="Create account"/>
+
+        <activity android:name=".AddQuestion"
+            android:label="Add new questions"/>
+
+        <activity android:name="QuestionCodeActivity"
+            android:label="See code from Firebase"/>
     </application>
 
 </manifest>

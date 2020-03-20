@@ -87,47 +87,10 @@ public class GenerateQRActivity extends Activity {
         save.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-//                boolean save;
-//                String result;
-//                try {
-//                    save = QRGSaver.save(savePath, edtValue.getText().toString().trim(), bitmap, QRGContents.ImageType.IMAGE_JPEG);
-//                    result = save ? "Image Saved" : "Image Not Saved";
-//                    Toast.makeText(getApplicationContext(), result, Toast.LENGTH_LONG).show();
-//                } catch (Exception e) {
-//                    e.printStackTrace();
-//                }
 
                 boolean save;
                 String result;
-////
-//////                BitmapDrawable drawable = (BitmapDrawable) qrImage.getDrawable();
-//////                Bitmap bitmap2 = drawable.getBitmap();
-////
-////
-////                // Here, thisActivity is the current activity
-////                if (ContextCompat.checkSelfPermission(GenerateQRActivity.this, Manifest.permission.WRITE_EXTERNAL_STORAGE)
-////                        != PackageManager.PERMISSION_GRANTED) {
-////
-////                    // Permission is not granted
-////                    // Should we show an explanation?
-////                    if (ActivityCompat.shouldShowRequestPermissionRationale(GenerateQRActivity.this, Manifest.permission.WRITE_EXTERNAL_STORAGE)) {
-////                        // Show an explanation to the user *asynchronously* -- don't block
-////                        // this thread waiting for the user's response! After the user
-////                        // sees the explanation, try again to request the permission.
-////                    } else {
-////                        // No explanation needed; request the permission
-////                        ActivityCompat.requestPermissions(GenerateQRActivity.this, new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE}, 1);
-////
-////                        // MY_PERMISSIONS_REQUEST_READ_CONTACTS is an
-////                        // app-defined int constant. The callback method gets the
-////                        // result of the request.
-////                    }
-////                } else {
-////                    // Permission has already been granted
-////                }
-////
 
-//                File filepath = Environment.getExternalStorageDirectory();
                 File filepath = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DCIM);
                 File dir = new File(filepath.getAbsoluteFile()+"/QRCodes/");
                 dir.mkdir();
