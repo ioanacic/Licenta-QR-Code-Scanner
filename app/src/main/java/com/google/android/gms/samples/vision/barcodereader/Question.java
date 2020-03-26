@@ -2,6 +2,7 @@ package com.google.android.gms.samples.vision.barcodereader;
 
 import com.google.firebase.database.Exclude;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -29,6 +30,14 @@ public class Question {
         this.answerB = answerB;
         this.answerC = answerC;
         this.answerD = answerD;
+    }
+
+    public Question(Question q) {
+        this.question = q.question;
+        this.answerA = q.answerA;
+        this.answerB = q.answerB;
+        this.answerC = q.answerC;
+        this.answerD = q.answerD;
     }
 
     public String getQuestion() { return question; }
@@ -72,4 +81,14 @@ public class Question {
     public String getKey() { return key; }
 
     public void setKey(String key) { this.key = key; }
+
+    public static ArrayList<Question> createQuestionsList(int numberOfQuestions, Question q) {
+        ArrayList<Question> questions = new ArrayList<Question>();
+
+        for (int i = 0; i < numberOfQuestions; i++) {
+            questions.add(new Question(q));
+        }
+
+        return questions;
+    }
 }

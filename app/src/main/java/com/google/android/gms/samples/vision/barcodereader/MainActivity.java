@@ -62,6 +62,7 @@ public class MainActivity extends Activity implements View.OnClickListener {
         findViewById(R.id.emailCreateAccountButton).setOnClickListener(this);
         findViewById(R.id.signOutButton).setOnClickListener(this);
         findViewById(R.id.goToCamera).setOnClickListener(this);
+        findViewById(R.id.seeQuestionsButton).setOnClickListener(this);
 
         mAuth = FirebaseAuth.getInstance();
     }
@@ -180,6 +181,9 @@ public class MainActivity extends Activity implements View.OnClickListener {
             signOut();
         } else if (i == R.id.goToCamera) {
             Intent intent = new Intent(this, SecondActivity.class);
+            startActivity(intent);
+        } else if (i == R.id.seeQuestionsButton) {
+            Intent intent = new Intent(this, SeeQuestionsActivity.class);
             startActivity(intent);
         }
     }

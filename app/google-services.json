@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "431830435085",
+    "firebase_url": "https://qr-code-scanner-a0962.firebaseio.com",
+    "project_id": "qr-code-scanner-a0962",
+    "storage_bucket": "qr-code-scanner-a0962.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:431830435085:android:0074e5923c2d80bdcbdc44",
+        "android_client_info": {
+          "package_name": "com.google.android.gms.samples.vision.barcodereader"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "431830435085-mko61u4kg8heb7jbhpeos80pjm8vpi56.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDft7m6u0PhmyDw4SP59vIpPlopxwaRSZo"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "431830435085-mko61u4kg8heb7jbhpeos80pjm8vpi56.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
