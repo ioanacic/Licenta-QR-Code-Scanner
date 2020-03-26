@@ -13,14 +13,13 @@ import java.util.List;
 public class QuestionsAdapter extends RecyclerView.Adapter<QuestionsAdapter.ViewHolder> {
 
     public static class ViewHolder extends RecyclerView.ViewHolder {
-        public TextView textView;
-        public Button button;
+        public TextView course, question;
 
         public ViewHolder(View v) {
             super(v);
 
-            textView = (TextView) itemView.findViewById(R.id.myText);
-            button = (Button) itemView.findViewById(R.id.myButton);
+            course = (TextView) itemView.findViewById(R.id.courseField);
+            question = (TextView) itemView.findViewById(R.id.questionField);
         }
     }
 
@@ -46,10 +45,10 @@ public class QuestionsAdapter extends RecyclerView.Adapter<QuestionsAdapter.View
     public void onBindViewHolder(ViewHolder viewHolder, int position) {
         Question question = myQuestios.get(position);
 
-        TextView t = viewHolder.textView;
-        t.setText(question.getQuestion());
-        Button b = viewHolder.button;
-        b.setText("Select");
+        TextView c = viewHolder.course;
+        TextView q = viewHolder.question;
+        c.setText(question.getCourse());
+        q.setText(question.getQuestion());
     }
 
     @Override

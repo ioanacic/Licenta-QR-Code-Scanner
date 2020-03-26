@@ -49,7 +49,7 @@ public class QuestionCodeActivity extends Activity {
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 for (DataSnapshot d : dataSnapshot.getChildren()) {
                     Question q = d.getValue(Question.class);
-                    q.setKey(d.getKey());
+                    q.setKey(d.getKey());       // add the key to the question
                     questions.add(q);
                 }
             }

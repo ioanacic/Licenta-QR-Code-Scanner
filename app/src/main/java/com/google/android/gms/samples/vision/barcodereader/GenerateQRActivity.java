@@ -34,12 +34,13 @@ import androidmads.library.qrgenearator.QRGSaver;
 
 public class GenerateQRActivity extends Activity {
     String TAG = "GenerateQRCode";
-    EditText edtValue;
+
     ImageView qrImage;
-    Button start, save;
+    Button save;
     String inputValue;
-    //    String savePath = Environment.getExternalStorageDirectory().getPath() + "/QRCode/";
-    String savePath = Environment.DIRECTORY_DCIM;
+
+    String keyOfSelectedQuestion;
+
     Bitmap bitmap;
     QRGEncoder qrgEncoder;
     OutputStream outputStream;
@@ -50,39 +51,32 @@ public class GenerateQRActivity extends Activity {
         setContentView(R.layout.generate_qr);
 
         qrImage = (ImageView) findViewById(R.id.QR_Image);
-        edtValue = (EditText) findViewById(R.id.edt_value);
-        start = (Button) findViewById(R.id.start);
         save = (Button) findViewById(R.id.save);
 
-        start.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                inputValue = edtValue.getText().toString().trim();
-                if (inputValue.length() > 0) {
-                    WindowManager manager = (WindowManager) getSystemService(WINDOW_SERVICE);
-                    Display display = manager.getDefaultDisplay();
-                    Point point = new Point();
-                    display.getSize(point);
-                    int width = point.x;
-                    int height = point.y;
-                    int smallerDimension = width < height ? width : height;
-                    smallerDimension = smallerDimension * 3 / 4;
+        keyOfSelectedQuestion = getIntent().getStringExtra("KEY");
 
-                    qrgEncoder = new QRGEncoder(
-                            inputValue, null,
-                            QRGContents.Type.TEXT,
-                            smallerDimension);
-                    try {
-                        bitmap = qrgEncoder.encodeAsBitmap();
-                        qrImage.setImageBitmap(bitmap);
-                    } catch (WriterException e) {
-                        Log.v(TAG, e.toString());
-                    }
-                } else {
-                    edtValue.setError("Required");
-                }
+        inputValue = keyOfSelectedQuestion.trim();
+        if (inputValue.length() > 0) {
+            WindowManager manager = (WindowManager) getSystemService(WINDOW_SERVICE);
+            Display display = manager.getDefaultDisplay();
+            Point point = new Point();
+            display.getSize(point);
+            int width = point.x;
+            int height = point.y;
+            int smallerDimension = width < height ? width : height;
+            smallerDimension = smallerDimension * 3 / 4;
+
+            qrgEncoder = new QRGEncoder(
+                    inputValue, null,
+                    QRGContents.Type.TEXT,
+                    smallerDimension);
+            try {
+                bitmap = qrgEncoder.encodeAsBitmap();
+                qrImage.setImageBitmap(bitmap);
+            } catch (WriterException e) {
+                Log.v(TAG, e.toString());
             }
-        });
+        }
 
         save.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -92,9 +86,9 @@ public class GenerateQRActivity extends Activity {
                 String result;
 
                 File filepath = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DCIM);
-                File dir = new File(filepath.getAbsoluteFile()+"/QRCodes/");
+                File dir = new File(filepath.getAbsoluteFile() + "/QRCodes/");
                 dir.mkdir();
-                File file = new File(dir, System.currentTimeMillis()+".jpg");
+                File file = new File(dir, System.currentTimeMillis() + ".jpg");
                 try {
                     outputStream = new FileOutputStream(file);
                 } catch (FileNotFoundException e) {
@@ -102,7 +96,7 @@ public class GenerateQRActivity extends Activity {
                 }
                 bitmap.compress(Bitmap.CompressFormat.JPEG, 100, outputStream);
                 try {
-                    save = QRGSaver.save(filepath.toString(), edtValue.getText().toString().trim(), bitmap, QRGContents.ImageType.IMAGE_JPEG);
+                    save = QRGSaver.save(filepath.toString(), keyOfSelectedQuestion.trim(), bitmap, QRGContents.ImageType.IMAGE_JPEG);
                     result = save ? "Image Saved" : "Image Not Saved";
                     Toast.makeText(getApplicationContext(), result, Toast.LENGTH_SHORT).show();
                 } catch (WriterException e) {

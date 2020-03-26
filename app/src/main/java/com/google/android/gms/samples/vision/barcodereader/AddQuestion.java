@@ -21,8 +21,9 @@ import java.util.UUID;
 public class AddQuestion extends Activity implements View.OnClickListener {
     private static final String TAG = "AddQuestion";
 
-    EditText questionField;
+    EditText questionField, courseField;
     EditText answerAField, answerBField, answerCField, answerDField;
+    boolean isEmpty = false;
 
     private FirebaseAuth mAuth;
     private DatabaseReference mDatabase;
@@ -38,6 +39,7 @@ public class AddQuestion extends Activity implements View.OnClickListener {
         answerBField = findViewById(R.id.secondAnswerField);
         answerCField = findViewById(R.id.thirdAnswerField);
         answerDField = findViewById(R.id.fourthAnswerField);
+        courseField = findViewById(R.id.courseField);
 
         // Buttons
         findViewById(R.id.saveButton).setOnClickListener(this);
@@ -53,14 +55,23 @@ public class AddQuestion extends Activity implements View.OnClickListener {
         final String answerB;
         final String answerC;
         final String answerD;
+        final String course;
 
         question = questionField.getText().toString().trim();
         answerA = answerAField.getText().toString().trim();
         answerB = answerBField.getText().toString().trim();
         answerC = answerCField.getText().toString().trim();
         answerD = answerDField.getText().toString().trim();
+        course = courseField.getText().toString().trim();
 
-        Question newQuestion = new Question(question, answerA, answerB, answerC, answerD);
+        if (question.isEmpty() || answerA.isEmpty() || answerB.isEmpty() || answerC.isEmpty() || answerD.isEmpty() || course.isEmpty()) {
+            Toast.makeText(AddQuestion.this, getString(R.string.noFieldEmpty), Toast.LENGTH_LONG).show();
+            isEmpty = true;
+            return;
+        }
+
+        isEmpty = false;
+        Question newQuestion = new Question(question, course, answerA, answerB, answerC, answerD);
         String uniqueId = UUID.randomUUID().toString();     // generate unique id for the entry
 
         mDatabase.child(uniqueId).setValue(newQuestion).addOnCompleteListener(new OnCompleteListener<Void>() {
@@ -80,11 +91,14 @@ public class AddQuestion extends Activity implements View.OnClickListener {
         int i = v.getId();
         if (i == R.id.saveButton) {
             addQuestion();
-            questionField.getText().clear();
-            answerAField.getText().clear();
-            answerBField.getText().clear();
-            answerCField.getText().clear();
-            answerDField.getText().clear();
+            if (!isEmpty) {
+                questionField.getText().clear();
+                courseField.getText().clear();
+                answerAField.getText().clear();
+                answerBField.getText().clear();
+                answerCField.getText().clear();
+                answerDField.getText().clear();
+            }
         } else if (i == R.id.seeQButton) {
             Intent intent = new Intent(this, QuestionCodeActivity.class);
             startActivity(intent);
