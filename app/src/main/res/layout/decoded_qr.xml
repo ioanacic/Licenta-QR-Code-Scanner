@@ -21,7 +21,7 @@
 
         <TableLayout
             android:layout_width="match_parent"
-            android:layout_height="400dp">
+            android:layout_height="300dp">
 
             <TableRow
                 android:layout_width="match_parent"
@@ -49,6 +49,7 @@
                     android:layout_height="wrap_content" />
 
                 <RadioGroup
+                    android:id="@+id/answersGroup"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content">
 
@@ -88,6 +89,34 @@
             </TableRow>
 
         </TableLayout>
+
+        <Space
+            android:layout_width="match_parent"
+            android:layout_height="30dp" />
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <Space
+                android:layout_width="160dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1" />
+
+            <Button
+                android:id="@+id/submit"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="#CE8081"
+                android:text="Submit"
+                android:visibility="invisible" />
+
+        </LinearLayout>
+
+        <Space
+            android:layout_width="match_parent"
+            android:layout_height="50dp" />
 
         <ProgressBar
             android:id="@+id/progressBar"

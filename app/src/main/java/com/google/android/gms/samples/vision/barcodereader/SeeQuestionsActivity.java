@@ -28,9 +28,32 @@ public class SeeQuestionsActivity extends Activity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.see_questions_activity);
-
         recyclerView = (RecyclerView) findViewById(R.id.my_recycler_view);
 
+        getData();
+
+        adapter = new QuestionsAdapter(questions);
+        recyclerView.setAdapter(adapter);
+        recyclerView.setLayoutManager(new LinearLayoutManager(this));
+
+        recyclerView.addOnItemTouchListener(
+                new RecyclerItemClickListener(this.getApplicationContext(), recyclerView ,new RecyclerItemClickListener.OnItemClickListener() {
+                    @Override public void onItemClick(View view, int position) {
+                        Question selectedQuestion = questions.get(position);
+                        String key = selectedQuestion.getKey();
+                        Intent intent = new Intent(SeeQuestionsActivity.this, GenerateQRActivity.class);
+                        intent.putExtra("KEY", key);
+                        startActivity(intent);
+                    }
+
+                    @Override public void onLongItemClick(View view, int position) {
+
+                    }
+                })
+        );
+    }
+
+    public void getData() {
         mDatabase = FirebaseDatabase.getInstance().getReference("questions");
         mDatabase.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
@@ -49,26 +72,5 @@ public class SeeQuestionsActivity extends Activity {
 
             }
         });
-
-        adapter = new QuestionsAdapter(questions);
-        recyclerView.setAdapter(adapter);
-        recyclerView.setLayoutManager(new LinearLayoutManager(this));
-
-
-        recyclerView.addOnItemTouchListener(
-                new RecyclerItemClickListener(this.getApplicationContext(), recyclerView ,new RecyclerItemClickListener.OnItemClickListener() {
-                    @Override public void onItemClick(View view, int position) {
-                        Question selectedQuestion = questions.get(position);
-                        String key = selectedQuestion.getKey();
-                        Intent intent = new Intent(SeeQuestionsActivity.this, GenerateQRActivity.class);
-                        intent.putExtra("KEY", key);
-                        startActivity(intent);
-                    }
-
-                    @Override public void onLongItemClick(View view, int position) {
-
-                    }
-                })
-        );
     }
 }

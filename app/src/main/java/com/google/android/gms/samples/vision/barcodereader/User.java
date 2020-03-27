@@ -1,7 +1,13 @@
 package com.google.android.gms.samples.vision.barcodereader;
 
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
+
 public class User {
     public String lastName, firstName, phone, group, yearOfStudy, email, password;
+    public List<Map<String, String>> answers = new ArrayList<Map<String, String>>();
+    public String score = "0";
 
     public User() {
 
@@ -17,9 +23,20 @@ public class User {
         this.password = password;
     }
 
-    public String getLastName() {
-        return lastName;
+    public User(String lastName, String firstName, String phone, String group, String yearOfStudy, String email,
+                String password, List<Map<String, String>> answers, String score) {
+        this.lastName = lastName;
+        this.firstName = firstName;
+        this.phone = phone;
+        this.group = group;
+        this.yearOfStudy = yearOfStudy;
+        this.email = email;
+        this.password = password;
+        this.answers = answers;
+        this.score = score;
     }
+
+    public String getLastName() { return lastName; }
 
     public void setLastName(String lastName) {
         this.lastName = lastName;
@@ -72,4 +89,19 @@ public class User {
     public void setPassword(String password) {
         this.password = password;
     }
+
+    public List<Map<String, String>> getAnswers() { return answers; }
+
+    public void setAnswers(List<Map<String, String>> answers) {
+        this.answers = answers;
+    }
+
+    public String getScore() {
+        return score;
+    }
+
+    public void setScore(String score) {
+        this.score = score;
+    }
+
 }

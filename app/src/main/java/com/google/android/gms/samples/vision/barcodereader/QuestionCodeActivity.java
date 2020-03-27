@@ -37,13 +37,12 @@ public class QuestionCodeActivity extends Activity {
         code2Field = findViewById(R.id.code2Field);
 
         mAuth = FirebaseAuth.getInstance();
-        mDatabase = FirebaseDatabase.getInstance().getReference("questions");
+
+        getData();
     }
 
-    @Override
-    public void onStart() {
-        super.onStart();
-
+    public void getData() {
+        mDatabase = FirebaseDatabase.getInstance().getReference("questions");
         mDatabase.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {

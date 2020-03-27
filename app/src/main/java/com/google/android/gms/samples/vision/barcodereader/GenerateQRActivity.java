@@ -37,6 +37,7 @@ public class GenerateQRActivity extends Activity {
 
     ImageView qrImage;
     Button save;
+    EditText renamePicture;
     String inputValue;
 
     String keyOfSelectedQuestion;
@@ -52,6 +53,7 @@ public class GenerateQRActivity extends Activity {
 
         qrImage = (ImageView) findViewById(R.id.QR_Image);
         save = (Button) findViewById(R.id.save);
+        renamePicture = (EditText) findViewById(R.id.pictureName);
 
         keyOfSelectedQuestion = getIntent().getStringExtra("KEY");
 
@@ -88,7 +90,15 @@ public class GenerateQRActivity extends Activity {
                 File filepath = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DCIM);
                 File dir = new File(filepath.getAbsoluteFile() + "/QRCodes/");
                 dir.mkdir();
-                File file = new File(dir, System.currentTimeMillis() + ".jpg");
+
+                String pictureName;
+                if (renamePicture.getText().toString().isEmpty()) {
+                    pictureName = keyOfSelectedQuestion;
+                } else {
+                    pictureName = renamePicture.getText().toString();
+                }
+                File file = new File(dir, pictureName + ".jpg");
+
                 try {
                     outputStream = new FileOutputStream(file);
                 } catch (FileNotFoundException e) {

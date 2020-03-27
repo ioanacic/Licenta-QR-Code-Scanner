@@ -21,6 +21,10 @@ import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
+
 import static android.content.ContentValues.TAG;
 
 public class SignUpActivity extends Activity implements View.OnClickListener {
@@ -64,6 +68,8 @@ public class SignUpActivity extends Activity implements View.OnClickListener {
         final String year;
         final String email;
         final String password;
+        final List<Map<String, String>> answers = new ArrayList<Map<String, String>>();
+        final String score = "0";
 
         if (!validateForm()) {
             return;
@@ -82,7 +88,7 @@ public class SignUpActivity extends Activity implements View.OnClickListener {
                     @Override
                     public void onComplete(@NonNull Task<AuthResult> task) {
                         if (task.isSuccessful()) {
-                            User user = new User(lastName, firstName, phone, group, year, email, password);
+                            User user = new User(lastName, firstName, phone, group, year, email, password, answers, score);
                             mDatabase.child(mAuth.getCurrentUser().getUid()).setValue(user).addOnCompleteListener(new OnCompleteListener<Void>() {
                                 @Override
                                 public void onComplete(@NonNull Task<Void> task) {

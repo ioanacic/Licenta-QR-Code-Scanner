@@ -9,7 +9,7 @@
 
     <TableLayout
         android:layout_width="match_parent"
-        android:layout_height="400dp">
+        android:layout_height="350dp">
 
         <TableRow
             android:layout_width="match_parent"
@@ -76,7 +76,7 @@
                 android:id="@+id/answer1TextView"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Answer 1"
+                android:text="Answer A"
                 android:textSize="18sp" />
 
             <Space
@@ -92,7 +92,6 @@
         </TableRow>
 
         <TableRow
-            android:id="@+id/answer2TextView"
             android:layout_width="match_parent"
             android:layout_height="match_parent">
 
@@ -101,10 +100,10 @@
                 android:layout_height="wrap_content" />
 
             <TextView
-                android:id="@+id/textView10"
+                android:id="@+id/answer2TextView"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Answer 2"
+                android:text="Answer B"
                 android:textSize="18sp" />
 
             <Space
@@ -132,7 +131,7 @@
                 android:id="@+id/answer3TextView"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Answer 3"
+                android:text="Answer C"
                 android:textSize="18sp" />
 
             <Space
@@ -159,7 +158,7 @@
                 android:id="@+id/answer4TextView"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Answer 4"
+                android:text="Answer D"
                 android:textSize="18sp" />
 
             <Space
@@ -172,6 +171,38 @@
                 android:layout_height="wrap_content"
                 android:ems="10"
                 android:inputType="textMultiLine" />
+        </TableRow>
+
+        <TableRow
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="10">
+
+
+            <Space
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+
+            <TextView
+                android:id="@+id/correctAnswerText"
+                android:layout_width="50dp"
+                android:layout_height="wrap_content"
+                android:text="Correct Answer"
+                android:textSize="18sp" />
+
+            <Space
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+
+            <Spinner
+                android:id="@+id/anwerOptions"
+                android:layout_width="match_parent"
+                android:layout_height="45dp"
+                android:layout_centerHorizontal="true"
+                android:layout_centerVertical="true"
+                android:ems="11"
+                android:gravity="center_horizontal|center_vertical" />
+
         </TableRow>
     </TableLayout>
 
