@@ -7,7 +7,6 @@ import android.support.annotation.NonNull;
 import android.util.Log;
 import android.view.View;
 import android.widget.ArrayAdapter;
-import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.Toast;
@@ -30,7 +29,6 @@ public class AddQuestion extends Activity implements View.OnClickListener {
     Spinner spinner;
     boolean isEmpty = false;
 
-    private FirebaseAuth mAuth;
     private DatabaseReference mDatabase;
 
     @Override
@@ -53,7 +51,6 @@ public class AddQuestion extends Activity implements View.OnClickListener {
         findViewById(R.id.saveButton).setOnClickListener(this);
         findViewById(R.id.seeQButton).setOnClickListener(this);
 
-        mAuth = FirebaseAuth.getInstance();
         mDatabase = FirebaseDatabase.getInstance().getReference("questions");
     }
 

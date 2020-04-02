@@ -24,7 +24,6 @@ import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -36,15 +35,11 @@ import com.google.firebase.auth.FirebaseAuthUserCollisionException;
 import com.google.firebase.auth.FirebaseAuthWeakPasswordException;
 import com.google.firebase.auth.FirebaseUser;
 
-/**
- * Main activity demonstrating how to pass extra parameters to an activity that
- * reads barcodes.
- */
 public class MainActivity extends Activity implements View.OnClickListener {
     private static final String TAG = "EmailPassword";
 
-    private EditText mEmailField;
-    private EditText mPasswordField;
+    EditText mEmailField;
+    EditText mPasswordField;
 
     private FirebaseAuth mAuth;
 
@@ -67,14 +62,6 @@ public class MainActivity extends Activity implements View.OnClickListener {
         mAuth = FirebaseAuth.getInstance();
     }
 
-    @Override
-    public void onStart() {
-        super.onStart();
-        // Check if user is signed in (non-null) and update UI accordingly.
-        FirebaseUser currentUser = mAuth.getCurrentUser();
-        updateUI(currentUser);
-    }
-
     private void signIn() {
         final String email = mEmailField.getText().toString().trim();
         final String password = mPasswordField.getText().toString().trim();
@@ -90,10 +77,6 @@ public class MainActivity extends Activity implements View.OnClickListener {
                     @Override
                     public void onComplete(@NonNull Task<AuthResult> task) {
                         if (task.isSuccessful()) {
-//                            // Sign in success, update UI with the signed-in user's information
-//                            Log.d(TAG, "signInWithEmail:success");
-//                            FirebaseUser user = mAuth.getCurrentUser();
-//                            updateUI(user);
                             Intent intent = new Intent(MainActivity.this, SecondActivity.class);
                             startActivity(intent);
                         } else {
@@ -127,7 +110,6 @@ public class MainActivity extends Activity implements View.OnClickListener {
 
     private void signOut() {
         mAuth.signOut();
-        updateUI(null);
     }
 
     private boolean validateForm() {
@@ -152,27 +134,10 @@ public class MainActivity extends Activity implements View.OnClickListener {
         return valid;
     }
 
-    // must get rid of it
-    private void updateUI(FirebaseUser user) {
-        if (user != null) {
-
-//            findViewById(R.id.emailPasswordButtons).setVisibility(View.GONE);
-//            findViewById(R.id.emailPasswordFields).setVisibility(View.GONE);
-//            findViewById(R.id.signedInButtons).setVisibility(View.VISIBLE);
-
-        } else {
-
-//            findViewById(R.id.emailPasswordButtons).setVisibility(View.VISIBLE);
-//            findViewById(R.id.emailPasswordFields).setVisibility(View.VISIBLE);
-//            findViewById(R.id.signedInButtons).setVisibility(View.GONE);
-        }
-    }
-
     @Override
     public void onClick(View v) {
         int i = v.getId();
         if (i == R.id.emailCreateAccountButton) {
-//            singUp(mEmailField.getText().toString(), mPasswordField.getText().toString());
             Intent intent = new Intent(this, SignUpActivity.class);
             startActivity(intent);
         } else if (i == R.id.emailSignInButton) {

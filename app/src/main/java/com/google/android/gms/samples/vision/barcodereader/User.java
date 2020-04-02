@@ -1,11 +1,7 @@
 package com.google.android.gms.samples.vision.barcodereader;
 
-import android.util.Log;
-
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 public class User {
     public String lastName, firstName, phone, group, yearOfStudy, email, password;
@@ -39,7 +35,9 @@ public class User {
         this.score = score;
     }
 
-    public String getLastName() { return lastName; }
+    public String getLastName() {
+        return lastName;
+    }
 
     public void setLastName(String lastName) {
         this.lastName = lastName;
@@ -93,7 +91,9 @@ public class User {
         this.password = password;
     }
 
-    public List<AnsweredQuestion> getAnswers() { return answers; }
+    public List<AnsweredQuestion> getAnswers() {
+        return answers;
+    }
 
     public void setAnswers(List<AnsweredQuestion> answers) {
         this.answers = answers;

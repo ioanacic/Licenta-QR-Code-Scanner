@@ -19,16 +19,15 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
 public class DecodedQRActivity extends Activity {
-    private TextView decodedMessage;
-
     private static final int RC_BARCODE_CAPTURE = 9001;
     public static final String BarcodeObject = "Barcode";
 
-    public TextView questionText;
-    public RadioButton answerAText, answerBText, answerCText, answerDText;
-    public RadioGroup answersGr;
-    public ProgressBar progressBar, progressBarHoriz;
-    public Button submitButton;
+    TextView decodedMessage;
+    TextView questionText;
+    RadioButton answerAText, answerBText, answerCText, answerDText;
+    RadioGroup answersGr;
+    ProgressBar progressBar, progressBarHoriz;
+    Button submitButton;
 
     private FirebaseAuth mAuth;
     private DatabaseReference mDatabase;

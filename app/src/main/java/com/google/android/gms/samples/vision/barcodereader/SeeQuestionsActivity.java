@@ -19,8 +19,8 @@ import java.util.List;
 
 public class SeeQuestionsActivity extends Activity {
     private RecyclerView recyclerView;
-    private DatabaseReference mDatabase;
     private QuestionsAdapter adapter;
+    private DatabaseReference mDatabase;
 
     List<Question> questions = new ArrayList<>();
 
@@ -37,8 +37,9 @@ public class SeeQuestionsActivity extends Activity {
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
 
         recyclerView.addOnItemTouchListener(
-                new RecyclerItemClickListener(this.getApplicationContext(), recyclerView ,new RecyclerItemClickListener.OnItemClickListener() {
-                    @Override public void onItemClick(View view, int position) {
+                new RecyclerItemClickListener(this.getApplicationContext(), recyclerView, new RecyclerItemClickListener.OnItemClickListener() {
+                    @Override
+                    public void onItemClick(View view, int position) {
                         Question selectedQuestion = questions.get(position);
                         String key = selectedQuestion.getKey();
                         Intent intent = new Intent(SeeQuestionsActivity.this, GenerateQRActivity.class);
@@ -46,7 +47,8 @@ public class SeeQuestionsActivity extends Activity {
                         startActivity(intent);
                     }
 
-                    @Override public void onLongItemClick(View view, int position) {
+                    @Override
+                    public void onLongItemClick(View view, int position) {
 
                     }
                 })

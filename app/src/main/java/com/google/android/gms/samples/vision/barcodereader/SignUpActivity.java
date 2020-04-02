@@ -17,26 +17,22 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseAuthInvalidCredentialsException;
 import com.google.firebase.auth.FirebaseAuthUserCollisionException;
 import com.google.firebase.auth.FirebaseAuthWeakPasswordException;
-import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
-
-import static android.content.ContentValues.TAG;
 
 public class SignUpActivity extends Activity implements View.OnClickListener {
     private static final String TAG = "SignUp";
 
-    private EditText emailField;
-    private EditText passwordField;
-    private EditText lastNameField;
-    private EditText firstNameField;
-    private EditText phoneField;
-    private EditText groupField;
-    private EditText yearOfStudyField;
+    EditText emailField;
+    EditText passwordField;
+    EditText lastNameField;
+    EditText firstNameField;
+    EditText phoneField;
+    EditText groupField;
+    EditText yearOfStudyField;
 
     private FirebaseAuth mAuth;
     private DatabaseReference mDatabase;

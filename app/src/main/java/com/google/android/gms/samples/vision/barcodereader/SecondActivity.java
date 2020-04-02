@@ -5,7 +5,6 @@ import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
-import android.util.Log;
 import android.view.View;
 import android.widget.TextView;
 
@@ -22,21 +21,17 @@ import java.util.List;
 import java.util.Map;
 
 public class SecondActivity extends Activity implements View.OnClickListener {
-
-    private TextView statusMessage;
-    private TextView barcodeValue;
-    private TextView yourScore;
-
-    private static final int RC_BARCODE_CAPTURE = 9001;
-    private static final String TAG = "BarcodeMain";
+    TextView statusMessage;
+    TextView barcodeValue;
+    TextView yourScore;
 
     private FirebaseAuth mAuth;
     private DatabaseReference mDatabaseQuestions, mDatabaseUsers, mDatabase;
 
-    public List<AnsweredQuestion> answers = new ArrayList<>();
-    public List<Question> allQuestions = new ArrayList<>();
-    public String score;
-    public double goodScore;
+    List<AnsweredQuestion> answers = new ArrayList<>();
+    List<Question> allQuestions = new ArrayList<>();
+    String score;
+    double goodScore;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
