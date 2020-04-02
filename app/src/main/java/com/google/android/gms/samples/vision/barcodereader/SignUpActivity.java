@@ -68,7 +68,7 @@ public class SignUpActivity extends Activity implements View.OnClickListener {
         final String year;
         final String email;
         final String password;
-        final List<Map<String, String>> answers = new ArrayList<Map<String, String>>();
+        final List<AnsweredQuestion> answers = new ArrayList<AnsweredQuestion>();
         final String score = "0";
 
         if (!validateForm()) {

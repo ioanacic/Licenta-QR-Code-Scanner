@@ -42,7 +42,8 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:ems="11"
-                    android:inputType="textPersonName" />
+                    android:inputType="textPersonName"
+                    android:text="eaeaea@gmail.com" />
             </TableRow>
 
             <TableRow
@@ -69,7 +70,8 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:ems="10"
-                    android:inputType="textPassword" />
+                    android:inputType="textPassword"
+                    android:text="pppppp" />
 
             </TableRow>
 

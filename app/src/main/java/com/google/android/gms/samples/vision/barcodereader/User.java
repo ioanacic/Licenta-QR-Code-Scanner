@@ -1,19 +1,22 @@
 package com.google.android.gms.samples.vision.barcodereader;
 
+import android.util.Log;
+
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 public class User {
     public String lastName, firstName, phone, group, yearOfStudy, email, password;
-    public List<Map<String, String>> answers = new ArrayList<Map<String, String>>();
+    public List<AnsweredQuestion> answers = new ArrayList<AnsweredQuestion>();
     public String score = "0";
 
     public User() {
 
     }
 
-    public User(String lastName, String firstName, String phone, String group, String yearOfStudy, String email, String password) {
+    public User(String lastName, String firstName, String phone, String group, String yearOfStudy, String email, String password, String score) {
         this.lastName = lastName;
         this.firstName = firstName;
         this.phone = phone;
@@ -24,7 +27,7 @@ public class User {
     }
 
     public User(String lastName, String firstName, String phone, String group, String yearOfStudy, String email,
-                String password, List<Map<String, String>> answers, String score) {
+                String password, List<AnsweredQuestion> answers, String score) {
         this.lastName = lastName;
         this.firstName = firstName;
         this.phone = phone;
@@ -90,10 +93,29 @@ public class User {
         this.password = password;
     }
 
-    public List<Map<String, String>> getAnswers() { return answers; }
+    public List<AnsweredQuestion> getAnswers() { return answers; }
 
-    public void setAnswers(List<Map<String, String>> answers) {
-        this.answers = answers;
+    public void setAnswers(HashMap<String, HashMap<String, HashMap<String, HashMap<String, String>>>> answers) {
+        HashMap<String, HashMap<String, HashMap<String, String>>> questions =  answers.get("answers");       // get all questions from key = answers
+        Log.d("", answers.toString() );
+        for (HashMap.Entry i : questions.entrySet()) {
+            AnsweredQuestion aQ = new AnsweredQuestion();
+            aQ.setqId(i.getKey().toString());
+            HashMap<String, HashMap<String, String>> valuesAQ = (HashMap<String, HashMap<String, String>>) i.getValue();
+            Log.d("", valuesAQ.toString() );
+
+            for (HashMap.Entry ii: valuesAQ.entrySet()) {
+                HashMap<String, String> test = (HashMap<String, String>) ii.getValue();
+                Log.d("", test.toString() );
+                aQ.setAnswer(test.get("answer"));
+                aQ.setCorrect(Boolean.parseBoolean(test.get("correct")));
+            }
+//            aQ.setAnswer(valuesAQ.get("answer"));
+//            aQ.setCorrect(Boolean.parseBoolean(valuesAQ.get("correct")));
+
+            this.answers.add(aQ);
+
+        }
     }
 
     public String getScore() {
