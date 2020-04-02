@@ -95,27 +95,8 @@ public class User {
 
     public List<AnsweredQuestion> getAnswers() { return answers; }
 
-    public void setAnswers(HashMap<String, HashMap<String, HashMap<String, HashMap<String, String>>>> answers) {
-        HashMap<String, HashMap<String, HashMap<String, String>>> questions =  answers.get("answers");       // get all questions from key = answers
-        Log.d("", answers.toString() );
-        for (HashMap.Entry i : questions.entrySet()) {
-            AnsweredQuestion aQ = new AnsweredQuestion();
-            aQ.setqId(i.getKey().toString());
-            HashMap<String, HashMap<String, String>> valuesAQ = (HashMap<String, HashMap<String, String>>) i.getValue();
-            Log.d("", valuesAQ.toString() );
-
-            for (HashMap.Entry ii: valuesAQ.entrySet()) {
-                HashMap<String, String> test = (HashMap<String, String>) ii.getValue();
-                Log.d("", test.toString() );
-                aQ.setAnswer(test.get("answer"));
-                aQ.setCorrect(Boolean.parseBoolean(test.get("correct")));
-            }
-//            aQ.setAnswer(valuesAQ.get("answer"));
-//            aQ.setCorrect(Boolean.parseBoolean(valuesAQ.get("correct")));
-
-            this.answers.add(aQ);
-
-        }
+    public void setAnswers(List<AnsweredQuestion> answers) {
+        this.answers = answers;
     }
 
     public String getScore() {

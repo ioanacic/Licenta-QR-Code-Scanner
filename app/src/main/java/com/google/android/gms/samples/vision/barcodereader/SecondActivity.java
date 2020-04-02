@@ -5,6 +5,7 @@ import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
+import android.util.Log;
 import android.view.View;
 import android.widget.TextView;
 
@@ -16,12 +17,15 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class SecondActivity extends Activity implements View.OnClickListener {
 
     private TextView statusMessage;
     private TextView barcodeValue;
+    private TextView yourScore;
 
     private static final int RC_BARCODE_CAPTURE = 9001;
     private static final String TAG = "BarcodeMain";
@@ -41,6 +45,7 @@ public class SecondActivity extends Activity implements View.OnClickListener {
 
         statusMessage = (TextView) findViewById(R.id.status_message);
         barcodeValue = (TextView) findViewById(R.id.barcode_value);
+        yourScore = (TextView) findViewById(R.id.scoreField);
 
         findViewById(R.id.read_barcode).setOnClickListener(this);
         findViewById(R.id.signOutButton).setOnClickListener(this);
@@ -49,108 +54,39 @@ public class SecondActivity extends Activity implements View.OnClickListener {
         mAuth = FirebaseAuth.getInstance();
 
         getFirebaseData();
-//        getAnswers();
-//        getQuestions();
-//        getScore();
-
     }
-
-//    // the questions the user answered to
-//    public void getAnswers() {
-//        mDatabaseUsers = FirebaseDatabase.getInstance().getReference("users");
-////        mDatabaseUsers.child(mAuth.getCurrentUser().getUid()).child("answers").addListenerForSingleValueEvent(new ValueEventListener() {
-////            @Override
-////            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-////                for (DataSnapshot d : dataSnapshot.getChildren()) {
-////                    AnsweredQuestion aQ = d.getValue(AnsweredQuestion.class);
-////                    String qId = d.getKey();
-////                    aQ.setqId(qId);
-////                    answers.add(aQ);
-////                }
-////            }
-////
-////            @Override
-////            public void onCancelled(@NonNull DatabaseError databaseError) {
-////
-////            }
-////        });
-//
-//        mDatabaseUsers.child(mAuth.getCurrentUser().getUid()).addListenerForSingleValueEvent(new ValueEventListener() {
-//            @Override
-//            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-//                for (DataSnapshot d : dataSnapshot.getChildren()) {
-//                    User u = d.getValue(User.class);
-//                    score = u.getScore();
-//
-////                    for(DataSnapshot dd : d.child("answers").getChildren()) {
-////                        AnsweredQuestion aQ = dd.getValue(AnsweredQuestion.class);
-////                        String qId = dd.getKey();
-////                        aQ.setqId(qId);
-////                        answers.add(aQ);
-////                    }
-//                }
-//                double testScore = calculateScore();
-//
-//
-//            }
-//
-//            @Override
-//            public void onCancelled(@NonNull DatabaseError databaseError) {
-//
-//            }
-//        });
-//    }
-//
-//    // all the questions
-//    public void getQuestions() {
-//        mDatabaseQuestions = FirebaseDatabase.getInstance().getReference("questions");
-//        mDatabaseQuestions.addListenerForSingleValueEvent(new ValueEventListener() {
-//            @Override
-//            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-//                for (DataSnapshot d : dataSnapshot.getChildren()) {
-//                    Question q = d.getValue(Question.class);
-//                    String key = d.getKey();
-//                    q.setKey(key);
-//                    allQuestions.add(q);
-//                }
-//            }
-//
-//            @Override
-//            public void onCancelled(@NonNull DatabaseError databaseError) {
-//
-//            }
-//        });
-//    }
-//
-//    public void getScore() {
-//        mDatabaseUsers = FirebaseDatabase.getInstance().getReference("users");
-//        mDatabaseUsers.child(mAuth.getCurrentUser().getUid()).addListenerForSingleValueEvent(new ValueEventListener() {
-//            @Override
-//            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-//                for (DataSnapshot d : dataSnapshot.getChildren()) {
-////                    User u = d.getValue(User.class);
-////                    score = u.getScore();
-//                }
-//                double testScore = calculateScore();
-//            }
-//
-//            @Override
-//            public void onCancelled(@NonNull DatabaseError databaseError) {
-//
-//            }
-//        });
-//    }
 
     public void getFirebaseData() {
         mDatabase = mDatabaseUsers = FirebaseDatabase.getInstance().getReference("users");
         mDatabase.child(mAuth.getCurrentUser().getUid()).addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                User user = dataSnapshot.getValue(User.class);
-                score = user.score;
-//                    answers = user.getAnswers();
-
+                Map<String, Object> map = (HashMap<String, Object>) dataSnapshot.getValue();
+                for (HashMap.Entry i : map.entrySet()) {
+                    if (i.getKey().equals("answers")) {
+                        Map<String, Object> answersHM = (Map<String, Object>) i.getValue();
+                        for (HashMap.Entry ii : answersHM.entrySet()) {
+                            Map<String, Map<String, Object>> oneAnswer = (Map<String, Map<String, Object>>) ii.getValue();
+                            String answer = "";
+                            boolean correct = false;
+                            for (HashMap.Entry oneField : oneAnswer.entrySet()) {
+                                if (oneField.getKey().equals("answer")) {
+                                    answer = (String) oneField.getValue();
+                                }
+                                if (oneField.getKey().equals("correct")) {
+                                    correct = (boolean) oneField.getValue();
+                                }
+                            }
+                            AnsweredQuestion aQ = new AnsweredQuestion(answer, correct);
+                            answers.add(aQ);
+                        }
+                    }
+                    if (i.getKey().equals("score")) {
+                        score = (String) i.getValue();
+                    }
+                }
                 goodScore = calculateScore();
+                yourScore.setText(Double.toString(goodScore));
             }
 
             @Override
