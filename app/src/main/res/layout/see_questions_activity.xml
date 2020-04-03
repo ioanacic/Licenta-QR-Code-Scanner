@@ -4,6 +4,11 @@
     android:layout_height="match_parent">
     tools:context="com.google.android.gms.samples.vision.barcodereader.QuestionCodeActivity
 
+    <Spinner
+        android:id="@+id/coursesOptions"
+        android:layout_width="match_parent"
+        android:layout_height="50dp" />
+
     <android.support.v7.widget.RecyclerView
         android:id="@+id/my_recycler_view"
         android:layout_width="match_parent"

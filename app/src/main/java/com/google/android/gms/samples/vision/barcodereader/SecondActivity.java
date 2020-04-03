@@ -118,7 +118,7 @@ public class SecondActivity extends Activity implements View.OnClickListener {
             startActivity(intent);
         }
         if (v.getId() == R.id.addQuestionButton) {
-            Intent intent = new Intent(this, AddQuestion.class);
+            Intent intent = new Intent(this, AddQuestionActivity.class);
             startActivity(intent);
         }
     }

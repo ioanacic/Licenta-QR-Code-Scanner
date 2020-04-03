@@ -7,6 +7,9 @@ import android.support.annotation.NonNull;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
+import android.widget.Spinner;
 
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -15,12 +18,15 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 public class SeeQuestionsActivity extends Activity {
     private RecyclerView recyclerView;
     private QuestionsAdapter adapter;
     private DatabaseReference mDatabase;
+
+    Spinner spinner;
 
     List<Question> questions = new ArrayList<>();
 
@@ -30,9 +36,27 @@ public class SeeQuestionsActivity extends Activity {
         setContentView(R.layout.see_questions_activity);
         recyclerView = (RecyclerView) findViewById(R.id.my_recycler_view);
 
-        getData();
+        spinner = (Spinner) findViewById(R.id.coursesOptions);
+        spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
+                onOptionSelected();
+            }
 
-        adapter = new QuestionsAdapter(questions);
+            @Override
+            public void onNothingSelected(AdapterView<?> adapterView) {
+
+            }
+        });
+
+        getData();
+        populateRecyclerView(questions);
+    }
+
+    // add new param for the field for comparison
+    public void populateRecyclerView(final List<Question> q) {
+        Collections.sort(q, (o1, o2) -> o1.getCourse().compareTo(o2.getCourse()));
+        adapter = new QuestionsAdapter(q);
         recyclerView.setAdapter(adapter);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
 
@@ -40,7 +64,7 @@ public class SeeQuestionsActivity extends Activity {
                 new RecyclerItemClickListener(this.getApplicationContext(), recyclerView, new RecyclerItemClickListener.OnItemClickListener() {
                     @Override
                     public void onItemClick(View view, int position) {
-                        Question selectedQuestion = questions.get(position);
+                        Question selectedQuestion = q.get(position);
                         String key = selectedQuestion.getKey();
                         Intent intent = new Intent(SeeQuestionsActivity.this, GenerateQRActivity.class);
                         intent.putExtra("KEY", key);
@@ -67,6 +91,7 @@ public class SeeQuestionsActivity extends Activity {
                     questions.add(q);
                 }
                 adapter.notifyDataSetChanged();
+                addItemOnSpinner();
             }
 
             @Override
@@ -74,5 +99,45 @@ public class SeeQuestionsActivity extends Activity {
 
             }
         });
+    }
+
+    public void addItemOnSpinner() {
+        List<String> options = new ArrayList<String>();
+        options.add("All courses");
+
+        for (Question q : questions) {
+            boolean contains = false;
+            for (String o : options) {
+                if (q.getCourse().equals(o)) {
+                    contains = true;
+                }
+            }
+            if (contains == false) {
+                options.add(q.getCourse());
+            }
+        }
+
+        ArrayAdapter<String> dataAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, options);
+        dataAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+
+        spinner.setAdapter(dataAdapter);
+    }
+
+    public void onOptionSelected() {
+        String selectedOption = spinner.getSelectedItem().toString().trim();
+        List<Question> selectedQuestions = new ArrayList<>();
+
+        for (Question q : questions) {
+            if (q.getCourse().equals(selectedOption)) {
+                selectedQuestions.add(q);
+            }
+        }
+
+
+        if (spinner.getSelectedItem().toString().trim().equals("All courses")) {
+            populateRecyclerView(questions);
+        } else {
+            populateRecyclerView(selectedQuestions);
+        }
     }
 }

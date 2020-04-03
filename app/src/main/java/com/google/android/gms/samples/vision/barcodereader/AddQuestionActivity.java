@@ -13,7 +13,6 @@ import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
-import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
@@ -21,8 +20,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
-public class AddQuestion extends Activity implements View.OnClickListener {
-    private static final String TAG = "AddQuestion";
+public class AddQuestionActivity extends Activity implements View.OnClickListener {
+    private static final String TAG = "AddQuestionActivity";
 
     EditText questionField, courseField;
     EditText answerAField, answerBField, answerCField, answerDField;
@@ -87,7 +86,7 @@ public class AddQuestion extends Activity implements View.OnClickListener {
 
         if (question.isEmpty() || course.isEmpty() || answerA.isEmpty() || answerB.isEmpty() || answerC.isEmpty() ||
                 answerD.isEmpty() || correctAnswer.isEmpty()) {
-            Toast.makeText(AddQuestion.this, getString(R.string.noFieldEmpty), Toast.LENGTH_LONG).show();
+            Toast.makeText(AddQuestionActivity.this, getString(R.string.noFieldEmpty), Toast.LENGTH_LONG).show();
             isEmpty = true;
             return;
         }
@@ -100,7 +99,7 @@ public class AddQuestion extends Activity implements View.OnClickListener {
             @Override
             public void onComplete(@NonNull Task<Void> task) {
                 if (task.isSuccessful()) {
-                    Toast.makeText(AddQuestion.this, getString(R.string.questionAddedSuccsessfully), Toast.LENGTH_LONG).show();
+                    Toast.makeText(AddQuestionActivity.this, getString(R.string.questionAddedSuccsessfully), Toast.LENGTH_LONG).show();
                 } else {
                     Log.w(TAG, "FAILED");
                 }

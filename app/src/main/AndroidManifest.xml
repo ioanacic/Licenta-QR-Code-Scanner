@@ -50,7 +50,7 @@
         <activity android:name=".SignUpActivity"
             android:label="Create account"/>
 
-        <activity android:name=".AddQuestion"
+        <activity android:name=".AddQuestionActivity"
             android:label="Add new questions"/>
 
         <activity android:name="QuestionCodeActivity"
