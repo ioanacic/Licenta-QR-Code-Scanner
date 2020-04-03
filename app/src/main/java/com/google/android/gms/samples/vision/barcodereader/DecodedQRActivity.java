@@ -10,6 +10,7 @@ import android.widget.ProgressBar;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
@@ -17,6 +18,9 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+
+import java.util.HashMap;
+import java.util.Map;
 
 public class DecodedQRActivity extends Activity {
     private static final int RC_BARCODE_CAPTURE = 9001;
@@ -30,9 +34,11 @@ public class DecodedQRActivity extends Activity {
     Button submitButton;
 
     private FirebaseAuth mAuth;
-    private DatabaseReference mDatabase;
+    private DatabaseReference mDatabase, mDatabaseUpdate;
 
-    String questionId, correctAnswer;
+    String questionId, correctAnswer, score;
+    boolean isCorrect;
+    Question q;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -58,9 +64,15 @@ public class DecodedQRActivity extends Activity {
         submitButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                sendData();
-                Intent intent = new Intent(DecodedQRActivity.this, SecondActivity.class);
-                startActivity(intent);
+                // if the student didn't choose an option
+                if (answersGr.getCheckedRadioButtonId() == -1) {
+                    Toast.makeText(DecodedQRActivity.this, R.string.haveToSelectOption, Toast.LENGTH_SHORT).show();
+                } else {
+                    sendData();
+                    updateScore();
+                    Intent intent = new Intent(DecodedQRActivity.this, SecondActivity.class);
+                    startActivity(intent);
+                }
             }
         });
     }
@@ -76,7 +88,7 @@ public class DecodedQRActivity extends Activity {
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 for (DataSnapshot d : dataSnapshot.getChildren()) {
                     if (d.getKey().equals(questionId)) {
-                        Question q = d.getValue(Question.class);
+                        q = d.getValue(Question.class);
                         questionText.setText(q.question);
                         answerAText.setText(q.answerA);
                         answerBText.setText(q.answerB);
@@ -109,7 +121,7 @@ public class DecodedQRActivity extends Activity {
         int checkedAnswerId = answersGr.indexOfChild(v);
         String answerChecked = null;
 
-        boolean isCorrect = false;
+        isCorrect = false;
 
         switch (checkedAnswerId) {
             case 0:
@@ -135,6 +147,39 @@ public class DecodedQRActivity extends Activity {
 
         mDatabase = FirebaseDatabase.getInstance().getReference("users");
         mDatabase.child(mAuth.getCurrentUser().getUid()).child("answers").child(questionId).setValue(aQ);
+    }
+
+    public void updateScore() {
+        mDatabaseUpdate = FirebaseDatabase.getInstance().getReference("users");
+        mDatabaseUpdate.child(mAuth.getCurrentUser().getUid()).addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                Map<String, Object> map = (HashMap<String, Object>) dataSnapshot.getValue();
+                for (HashMap.Entry i : map.entrySet()) {
+                    if (i.getKey().equals("score")) {
+                        score = (String) i.getValue();
+                    }
+                }
+                if (isCorrect == true) {
+                    double scoreD;
+                    scoreD = Double.parseDouble(score);
+                    scoreD = scoreD + 0.1;
+                    score = (Double.toString(scoreD)).substring(0, 3);
+                }
+
+                mDatabaseUpdate.child(mAuth.getCurrentUser().getUid()).child("score").setValue(score);
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        });
+
+//        Map<String, Object> updateScore = new HashMap<>();
+//        updateScore.put("score", score);
+//        mDatabase.child(mAuth.getCurrentUser().getUid()).updateChildren(updateScore);
+
     }
 
     public String format(String s) {

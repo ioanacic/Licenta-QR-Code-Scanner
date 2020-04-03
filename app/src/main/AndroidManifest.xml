@@ -58,6 +58,9 @@
 
         <activity android:name="SeeQuestionsActivity"
             android:label="Get all the questions from Firebase"/>
+
+        <activity android:name=".SeeStudentsActivity"
+            android:label="Get all the students from Firebase"/>
     </application>
 
 </manifest>

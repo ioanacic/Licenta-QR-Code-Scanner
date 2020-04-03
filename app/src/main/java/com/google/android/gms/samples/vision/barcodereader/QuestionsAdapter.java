@@ -12,6 +12,7 @@ import java.util.List;
 public class QuestionsAdapter extends RecyclerView.Adapter<QuestionsAdapter.ViewHolder> {
 
     public static class ViewHolder extends RecyclerView.ViewHolder {
+        // the info I want to see for an entry
         public TextView course, question;
 
         public ViewHolder(View v) {

@@ -4,12 +4,21 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class User {
+    String key;
     public String lastName, firstName, phone, group, yearOfStudy, email, password;
     public List<AnsweredQuestion> answers = new ArrayList<AnsweredQuestion>();
-    public String score = "0";
+    public String score = "0.0";
 
     public User() {
 
+    }
+
+    public User(String lastName, String firstName, String group, String yearOfStudy, String score) {
+        this.lastName = lastName;
+        this.firstName = firstName;
+        this.group = group;
+        this.yearOfStudy = yearOfStudy;
+        this.score = score;
     }
 
     public User(String lastName, String firstName, String phone, String group, String yearOfStudy, String email, String password, String score) {
@@ -33,6 +42,14 @@ public class User {
         this.password = password;
         this.answers = answers;
         this.score = score;
+    }
+
+    public String getKey() {
+        return key;
+    }
+
+    public void setKey(String key) {
+        this.key = key;
     }
 
     public String getLastName() {

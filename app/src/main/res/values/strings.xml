@@ -22,4 +22,5 @@
     <string name="createdSuccsessful">The account was created successfully</string>
     <string name="questionAddedSuccsessfully">The question was added successfully</string>
     <string name="noFieldEmpty">No field can be empty</string>
+    <string name="haveToSelectOption">You have to choose an answer before submitting</string>
 </resources>

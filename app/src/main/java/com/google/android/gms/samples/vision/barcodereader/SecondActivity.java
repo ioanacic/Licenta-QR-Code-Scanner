@@ -52,7 +52,7 @@ public class SecondActivity extends Activity implements View.OnClickListener {
     }
 
     public void getFirebaseData() {
-        mDatabase = mDatabaseUsers = FirebaseDatabase.getInstance().getReference("users");
+        mDatabase = FirebaseDatabase.getInstance().getReference("users");
         mDatabase.child(mAuth.getCurrentUser().getUid()).addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
@@ -80,8 +80,8 @@ public class SecondActivity extends Activity implements View.OnClickListener {
                         score = (String) i.getValue();
                     }
                 }
-                goodScore = calculateScore();
-                yourScore.setText(Double.toString(goodScore));
+//                goodScore = calculateScore();
+                yourScore.setText(score);
             }
 
             @Override
@@ -91,20 +91,20 @@ public class SecondActivity extends Activity implements View.OnClickListener {
         });
     }
 
-    public double calculateScore() {
-        double scoreD;
-        if (score == null) {
-            scoreD = 0.0;
-        } else {
-            scoreD = Double.parseDouble(score);
-        }
-        for (AnsweredQuestion aQ : answers) {
-            if (aQ.isCorrect) {
-                scoreD = scoreD + 0.1;
-            }
-        }
-        return scoreD;
-    }
+//    public double calculateScore() {
+//        double scoreD;
+//        if (score == null) {
+//            scoreD = 0.0;
+//        } else {
+//            scoreD = Double.parseDouble(score);
+//        }
+//        for (AnsweredQuestion aQ : answers) {
+//            if (aQ.isCorrect) {
+//                scoreD = scoreD + 0.1;
+//            }
+//        }
+//        return scoreD;
+//    }
 
     @Override
     public void onClick(View v) {
