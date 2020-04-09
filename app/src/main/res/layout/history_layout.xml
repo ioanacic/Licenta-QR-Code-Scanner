@@ -12,18 +12,23 @@
         android:orientation="vertical">
 
         <TextView
-            android:id="@+id/courseField"
+            android:id="@+id/courseQSField"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:textSize="18sp" />
+            android:textSize="18sp"/>
 
         <TextView
-            android:id="@+id/questionField"
+            android:id="@+id/questionQSField"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+
+        <TextView
+            android:id="@+id/isCorrectQS"
             android:layout_width="match_parent"
             android:layout_height="wrap_content" />
 
         <View
-            android:id="@+id/dividerQuestion"
+            android:id="@+id/dividerQuestionsStudent"
             android:layout_width="match_parent"
             android:layout_height="2dp"
             android:background="#C73565" />

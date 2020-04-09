@@ -4,6 +4,7 @@ public class Question {
 
     String key;
     String course, question, answerA, answerB, answerC, answerD, correctAnswer;
+    String isCorrect;
 
     public Question() {
 
@@ -89,4 +90,12 @@ public class Question {
     public String getKey() { return key; }
 
     public void setKey(String key) { this.key = key; }
+
+    public String isCorrect() {
+        return isCorrect;
+    }
+
+    public void setCorrect(String isCorrect) {
+        this.isCorrect = isCorrect;
+    }
 }

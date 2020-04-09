@@ -24,7 +24,7 @@
             android:textSize="18sp" />
 
         <View
-            android:id="@+id/divider"
+            android:id="@+id/dividerStudent"
             android:layout_width="match_parent"
             android:layout_height="2dp"
             android:background="#C73565" />

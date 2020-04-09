@@ -78,12 +78,13 @@ public class DecodedQRActivity extends Activity {
                         for (HashMap.Entry ii : answersHM.entrySet()) {
                             String key = (String) ii.getKey();
                             if (key.equals(questionId)) {
-                                qAnswered = true;       // the question was already answered, the student cannot submit a nea answer
+                                qAnswered = true;       // the question was already answered, the student cannot submit a new answer
 
                                 Map<String, Map<String, Object>> oneAnswer = (Map<String, Map<String, Object>>) ii.getValue();
                                 for (HashMap.Entry oneField : oneAnswer.entrySet()) {
                                     if (oneField.getKey().equals("answer")) {
                                         selectedAnswer = (String) oneField.getValue();
+                                        setSelectedAnswer();
                                     }
                                 }
                             }
@@ -91,7 +92,6 @@ public class DecodedQRActivity extends Activity {
                     }
                 }
                 activateHistoryButton();
-                setSelectedAnswer();
             }
 
             @Override

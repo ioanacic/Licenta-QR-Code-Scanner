@@ -64,6 +64,9 @@
 
         <activity android:name=".HistoryActivity"
             android:label="The student's history"/>
+
+        <activity android:name=".SeeAQActivity"
+            android:label="See the information about an answered question"/>
     </application>
 
 </manifest>

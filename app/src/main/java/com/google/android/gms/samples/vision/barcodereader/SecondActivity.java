@@ -26,7 +26,7 @@ public class SecondActivity extends Activity implements View.OnClickListener {
     TextView yourScore;
 
     private FirebaseAuth mAuth;
-    private DatabaseReference mDatabaseQuestions, mDatabaseUsers, mDatabase;
+    private DatabaseReference mDatabase;
 
     List<AnsweredQuestion> answers = new ArrayList<>();
     List<Question> allQuestions = new ArrayList<>();
@@ -45,6 +45,7 @@ public class SecondActivity extends Activity implements View.OnClickListener {
         findViewById(R.id.read_barcode).setOnClickListener(this);
         findViewById(R.id.signOutButton).setOnClickListener(this);
         findViewById(R.id.addQuestionButton).setOnClickListener(this);
+        findViewById(R.id.historyButton).setOnClickListener(this);
 
         mAuth = FirebaseAuth.getInstance();
 
@@ -104,6 +105,11 @@ public class SecondActivity extends Activity implements View.OnClickListener {
         }
         if (v.getId() == R.id.addQuestionButton) {
             Intent intent = new Intent(this, AddQuestionActivity.class);
+            startActivity(intent);
+        }
+
+        if (v.getId() == R.id.historyButton) {
+            Intent intent = new Intent(this, HistoryActivity.class);
             startActivity(intent);
         }
     }

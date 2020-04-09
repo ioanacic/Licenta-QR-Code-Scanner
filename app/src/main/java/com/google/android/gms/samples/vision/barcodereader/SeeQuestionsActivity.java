@@ -133,7 +133,6 @@ public class SeeQuestionsActivity extends Activity {
             }
         }
 
-
         if (spinner.getSelectedItem().toString().trim().equals("All courses")) {
             populateRecyclerView(questions);
         } else {
