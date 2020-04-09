@@ -61,6 +61,9 @@
 
         <activity android:name=".SeeStudentsActivity"
             android:label="Get all the students from Firebase"/>
+
+        <activity android:name=".HistoryActivity"
+            android:label="The student's history"/>
     </application>
 
 </manifest>

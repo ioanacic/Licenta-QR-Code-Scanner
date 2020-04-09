@@ -91,21 +91,6 @@ public class SecondActivity extends Activity implements View.OnClickListener {
         });
     }
 
-//    public double calculateScore() {
-//        double scoreD;
-//        if (score == null) {
-//            scoreD = 0.0;
-//        } else {
-//            scoreD = Double.parseDouble(score);
-//        }
-//        for (AnsweredQuestion aQ : answers) {
-//            if (aQ.isCorrect) {
-//                scoreD = scoreD + 0.1;
-//            }
-//        }
-//        return scoreD;
-//    }
-
     @Override
     public void onClick(View v) {
         if (v.getId() == R.id.read_barcode) {

@@ -14,7 +14,9 @@ import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
 import java.util.List;
-
+/*
+ * TO BE DELETED ASAP
+ */
 public class QuestionCodeActivity extends Activity {
 
     EditText code1Field, code2Field;
