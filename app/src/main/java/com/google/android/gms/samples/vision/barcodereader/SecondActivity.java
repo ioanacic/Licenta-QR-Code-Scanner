@@ -23,7 +23,6 @@ import java.util.Map;
 public class SecondActivity extends Activity implements View.OnClickListener {
     TextView statusMessage;
     TextView barcodeValue;
-    TextView yourScore;
 
     private FirebaseAuth mAuth;
     private DatabaseReference mDatabase;
@@ -31,7 +30,6 @@ public class SecondActivity extends Activity implements View.OnClickListener {
     List<AnsweredQuestion> answers = new ArrayList<>();
     List<Question> allQuestions = new ArrayList<>();
     String score;
-    double goodScore;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -40,7 +38,6 @@ public class SecondActivity extends Activity implements View.OnClickListener {
 
         statusMessage = (TextView) findViewById(R.id.status_message);
         barcodeValue = (TextView) findViewById(R.id.barcode_value);
-        yourScore = (TextView) findViewById(R.id.scoreField);
 
         findViewById(R.id.read_barcode).setOnClickListener(this);
         findViewById(R.id.signOutButton).setOnClickListener(this);
@@ -77,12 +74,7 @@ public class SecondActivity extends Activity implements View.OnClickListener {
                             answers.add(aQ);
                         }
                     }
-                    if (i.getKey().equals("score")) {
-                        score = (String) i.getValue();
-                    }
                 }
-//                goodScore = calculateScore();
-                yourScore.setText(score);
             }
 
             @Override

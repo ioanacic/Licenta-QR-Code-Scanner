@@ -1,7 +1,10 @@
 package com.google.android.gms.samples.vision.barcodereader;
 
 import android.app.Activity;
+import android.graphics.Color;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
+import android.view.View;
 import android.widget.Button;
 import android.widget.ProgressBar;
 import android.widget.RadioButton;
@@ -9,16 +12,26 @@ import android.widget.RadioGroup;
 import android.widget.TextView;
 
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
+
+import java.util.HashMap;
+import java.util.Map;
 
 public class SeeAQActivity extends Activity {
+    private FirebaseAuth mAuth;
+    private DatabaseReference mDatabase;
+
     TextView questionText;
     RadioButton answerA, answerB, answerC, answerD;
     RadioGroup answersGr;
 
-    String keyOfSelectedQuestion;
-
-    private DatabaseReference mDatabase, mDatabaseUpdate;
+    String keyOfSelectedQuestion, selectedAnswer, correctAnswer;
+    Question question;
+    AnsweredQuestion answeredQuestion;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -32,7 +45,147 @@ public class SeeAQActivity extends Activity {
         answerD = (RadioButton) findViewById(R.id.answerD);
         answersGr = (RadioGroup) findViewById(R.id.answersGroup);
 
+        mAuth = FirebaseAuth.getInstance();
         // the id of the current question
         keyOfSelectedQuestion = getIntent().getStringExtra("KEY");
+
+        getInfoAboutAQ();
+    }
+
+    public void getAnsweredQuestion() {
+        mDatabase = FirebaseDatabase.getInstance().getReference("users");
+        mDatabase.child(mAuth.getCurrentUser().getUid()).addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                Map<String, Object> map = (HashMap<String, Object>) dataSnapshot.getValue();
+                for (HashMap.Entry i : map.entrySet()) {
+                    if (i.getKey().equals("answers")) {
+                        Map<String, Object> answersHM = (Map<String, Object>) i.getValue();
+                        for (HashMap.Entry ii : answersHM.entrySet()) {
+                            if (ii.getKey().equals(keyOfSelectedQuestion)) {
+                                Map<String, Map<String, Object>> oneAnswer = (Map<String, Map<String, Object>>) ii.getValue();
+                                String answer = "";
+                                boolean correct = false;
+                                for (HashMap.Entry oneField : oneAnswer.entrySet()) {
+                                    if (oneField.getKey().equals("answer")) {
+                                        answer = (String) oneField.getValue();
+                                    }
+                                    if (oneField.getKey().equals("correct")) {
+                                        correct = (boolean) oneField.getValue();
+                                    }
+                                }
+                                selectedAnswer = answer;
+                                answeredQuestion = new AnsweredQuestion(answer, correct);
+
+                                setSelectedAnswer();
+
+                                answerA.setVisibility(View.VISIBLE);
+                                answerB.setVisibility(View.VISIBLE);
+                                answerC.setVisibility(View.VISIBLE);
+                                answerD.setVisibility(View.VISIBLE);
+
+                                changeColors(answerA);
+                                changeColors(answerB);
+                                changeColors(answerC);
+                                changeColors(answerD);
+                            }
+                        }
+                    }
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        });
+    }
+
+    public void getInfoAboutAQ() {
+        mDatabase = FirebaseDatabase.getInstance().getReference("questions");
+        mDatabase.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                for (DataSnapshot d : dataSnapshot.getChildren()) {
+                    if (d.getKey().equals(keyOfSelectedQuestion)) {
+                        question = d.getValue(Question.class);
+                        questionText.setText(question.question);
+                        answerA.setText(question.answerA);
+                        answerB.setText(question.answerB);
+                        answerC.setText(question.answerC);
+                        answerD.setText(question.answerD);
+                        correctAnswer = question.getCorrectAnswer();
+                        correctAnswer = format(correctAnswer);
+                    }
+                }
+                getAnsweredQuestion();
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        });
+    }
+
+    public void changeColors(RadioButton button) {
+        if (selectedAnswer.equals(button.getTag().toString()) && selectedAnswer.equals(correctAnswer)) {
+            button.setTextColor(Color.parseColor("#008f00"));
+        }
+        if (selectedAnswer.equals(button.getTag().toString()) && !selectedAnswer.equals(correctAnswer)) {
+            button.setTextColor(Color.parseColor("#E8000D"));
+        }
+        if (correctAnswer.equals(button.getTag().toString()) && !selectedAnswer.equals(correctAnswer)) {
+            button.setTextColor(Color.parseColor("#008f00"));
+        }
+    }
+
+    public void setSelectedAnswer() {
+        switch (selectedAnswer) {
+            case "answerA":
+                answersGr.check(R.id.answerA);
+                answerB.setEnabled(false);
+                answerC.setEnabled(false);
+                answerD.setEnabled(false);
+                break;
+            case "answerB":
+                answersGr.check(R.id.answerB);
+                answerA.setEnabled(false);
+                answerC.setEnabled(false);
+                answerD.setEnabled(false);
+                break;
+            case "answerC":
+                answersGr.check(R.id.answerC);
+                answerA.setEnabled(false);
+                answerB.setEnabled(false);
+                answerD.setEnabled(false);
+                break;
+            case "answerD":
+                answersGr.check(R.id.answerD);
+                answerA.setEnabled(false);
+                answerB.setEnabled(false);
+                answerC.setEnabled(false);
+                break;
+        }
+    }
+
+    public String format(String s) {
+        String sFormatted = null;
+        switch (s) {
+            case "Answer A":
+                sFormatted = "answerA";
+                break;
+            case "Answer B":
+                sFormatted = "answerB";
+                break;
+            case "Answer C":
+                sFormatted = "answerC";
+                break;
+            case "Answer D":
+                sFormatted = "answerD";
+                break;
+        }
+
+        return sFormatted;
     }
 }

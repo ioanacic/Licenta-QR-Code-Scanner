@@ -48,7 +48,6 @@ public class AddQuestionActivity extends Activity implements View.OnClickListene
 
         // Buttons
         findViewById(R.id.saveButton).setOnClickListener(this);
-        findViewById(R.id.seeQButton).setOnClickListener(this);
 
         mDatabase = FirebaseDatabase.getInstance().getReference("questions");
     }
@@ -120,9 +119,6 @@ public class AddQuestionActivity extends Activity implements View.OnClickListene
                 answerCField.getText().clear();
                 answerDField.getText().clear();
             }
-        } else if (i == R.id.seeQButton) {
-            Intent intent = new Intent(this, QuestionCodeActivity.class);
-            startActivity(intent);
         }
     }
 }

@@ -225,15 +225,27 @@ public class DecodedQRActivity extends Activity {
         switch (selectedAnswer) {
             case "answerA":
                 answersGr.check(R.id.answerA);
+                answerB.setEnabled(false);
+                answerC.setEnabled(false);
+                answerD.setEnabled(false);
                 break;
             case "answerB":
                 answersGr.check(R.id.answerB);
+                answerA.setEnabled(false);
+                answerC.setEnabled(false);
+                answerD.setEnabled(false);
                 break;
             case "answerC":
                 answersGr.check(R.id.answerC);
+                answerA.setEnabled(false);
+                answerB.setEnabled(false);
+                answerD.setEnabled(false);
                 break;
             case "answerD":
                 answersGr.check(R.id.answerD);
+                answerA.setEnabled(false);
+                answerB.setEnabled(false);
+                answerC.setEnabled(false);
                 break;
         }
     }

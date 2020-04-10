@@ -9,6 +9,7 @@ import android.support.annotation.Nullable;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
+import android.widget.TextView;
 
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
@@ -29,6 +30,8 @@ public class HistoryActivity extends Activity {
     private FirebaseAuth mAuth;
     private DatabaseReference mDatabase;
 
+    TextView yourScore;
+    String score;
     List<AnsweredQuestion> answeredQuestions = new ArrayList<>();
     List<Question> questionsAQ = new ArrayList<>();
 
@@ -37,11 +40,11 @@ public class HistoryActivity extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.history_activity);
         recyclerView = (RecyclerView) findViewById(R.id.my_recycler_view_QS);
+        yourScore = (TextView) findViewById(R.id.yourScore);
 
         mAuth = FirebaseAuth.getInstance();
 
         getAnsweredQuestions();
-        populateRecyclerView(questionsAQ);
     }
 
     public void populateRecyclerView(final List<Question> q) {
@@ -96,8 +99,12 @@ public class HistoryActivity extends Activity {
                             answeredQuestions.add(aQ);
                         }
                     }
+                    if (i.getKey().equals("score")) {
+                        score = (String) i.getValue();
+                    }
                 }
                 getInfoAboutAQ();
+                yourScore.setText(score);
             }
 
             @Override
@@ -129,6 +136,7 @@ public class HistoryActivity extends Activity {
                         }
                     }
                 }
+                populateRecyclerView(questionsAQ);
                 adapter.notifyDataSetChanged();
             }
 

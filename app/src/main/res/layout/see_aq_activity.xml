@@ -43,6 +43,7 @@
 
                 <RadioButton
                     android:id="@+id/answerA"
+                    android:tag="answerA"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:ems="11"
@@ -51,6 +52,7 @@
 
                 <RadioButton
                     android:id="@+id/answerB"
+                    android:tag="answerB"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:ems="11"
@@ -59,6 +61,7 @@
 
                 <RadioButton
                     android:id="@+id/answerC"
+                    android:tag="answerC"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:ems="11"
@@ -67,6 +70,7 @@
 
                 <RadioButton
                     android:id="@+id/answerD"
+                    android:tag="answerD"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:ems="11"

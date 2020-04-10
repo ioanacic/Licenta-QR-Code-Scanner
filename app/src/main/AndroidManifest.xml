@@ -53,9 +53,6 @@
         <activity android:name=".AddQuestionActivity"
             android:label="Add new questions"/>
 
-        <activity android:name="QuestionCodeActivity"
-            android:label="See code from Firebase"/>
-
         <activity android:name="SeeQuestionsActivity"
             android:label="Get all the questions from Firebase"/>
 
