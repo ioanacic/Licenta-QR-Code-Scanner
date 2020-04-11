@@ -28,10 +28,11 @@ public class HistoryActivity extends Activity {
     private RecyclerView recyclerView;
     private HistoryAdapter adapter;
     private FirebaseAuth mAuth;
-    private DatabaseReference mDatabase;
+    private DatabaseReference mDatabase, historyAsProfessor, historyAsStudent;
 
     TextView yourScore;
     String score;
+    String keyOfSelectedStudent;
     List<AnsweredQuestion> answeredQuestions = new ArrayList<>();
     List<Question> questionsAQ = new ArrayList<>();
 
@@ -43,6 +44,12 @@ public class HistoryActivity extends Activity {
         yourScore = (TextView) findViewById(R.id.yourScore);
 
         mAuth = FirebaseAuth.getInstance();
+
+        // it s a professor that s accessing student's history
+        if (getIntent().getStringExtra("KEY") != null) {
+            keyOfSelectedStudent = getIntent().getStringExtra("KEY");
+        }
+
 
         getAnsweredQuestions();
     }
@@ -74,7 +81,20 @@ public class HistoryActivity extends Activity {
 
     public void getAnsweredQuestions() {
         mDatabase = FirebaseDatabase.getInstance().getReference("users");
-        mDatabase.child(mAuth.getCurrentUser().getUid()).addListenerForSingleValueEvent(new ValueEventListener() {
+        if (keyOfSelectedStudent != null) {
+            // the professor
+            historyAsProfessor = mDatabase.child(keyOfSelectedStudent);
+            seeHistoryAs(historyAsProfessor);
+        } else {
+            // the student
+            historyAsStudent = mDatabase.child(mAuth.getCurrentUser().getUid());
+            seeHistoryAs(historyAsStudent);
+        }
+
+    }
+
+    public void seeHistoryAs (DatabaseReference dbR) {
+        dbR.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 Map<String, Object> map = (HashMap<String, Object>) dataSnapshot.getValue();

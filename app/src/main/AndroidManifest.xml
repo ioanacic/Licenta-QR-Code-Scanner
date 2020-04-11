@@ -14,7 +14,7 @@
         android:allowBackup="true"
         android:fullBackupContent="false"
         android:hardwareAccelerated="true"
-        android:icon="@drawable/icon"
+        android:icon="@drawable/icon2"
         android:label="MultiTrackerApp"
         android:supportsRtl = "true"
         android:theme="@style/Theme.AppCompat" >

@@ -68,10 +68,10 @@ public class SeeStudentsActivity extends Activity {
                     @Override
                     public void onItemClick(View view, int position) {
                         User selectedStudent = students.get(position);
-//                        String key = selectedStudent.getKey();
-//                        Intent intent = new Intent(SeeStudentsActivity.this, GenerateQRActivity.class);
-//                        intent.putExtra("KEY", key);
-//                        startActivity(intent);
+                        String key = selectedStudent.getKey();
+                        Intent intent = new Intent(SeeStudentsActivity.this, HistoryActivity.class);
+                        intent.putExtra("KEY", key);
+                        startActivity(intent);
                     }
 
                     @Override
