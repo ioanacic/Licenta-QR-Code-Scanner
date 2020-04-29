@@ -47,8 +47,11 @@
         <activity android:name="SecondActivity"
             android:label="After you logged in"/>
 
-        <activity android:name=".SignUpActivity"
-            android:label="Create account"/>
+        <activity android:name=".SignUpStudentActivity"
+            android:label="Create student account"/>
+
+        <activity android:name=".SignUpProfessorActivity"
+            android:label="Create professor account"/>
 
         <activity android:name=".AddQuestionActivity"
             android:label="Add new questions"/>
