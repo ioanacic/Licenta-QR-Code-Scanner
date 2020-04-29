@@ -47,6 +47,12 @@
         <activity android:name="SecondActivity"
             android:label="After you logged in"/>
 
+        <activity android:name="StudentAccountActivity"
+            android:label="After you logged in as a student"/>
+
+        <activity android:name="ProfessorAccountActivity"
+            android:label="After you logged in as a professor"/>
+
         <activity android:name=".SignUpStudentActivity"
             android:label="Create student account"/>
 

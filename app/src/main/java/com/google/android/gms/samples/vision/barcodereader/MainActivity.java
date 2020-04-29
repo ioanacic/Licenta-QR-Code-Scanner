@@ -33,6 +33,14 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseAuthInvalidCredentialsException;
 import com.google.firebase.auth.FirebaseAuthUserCollisionException;
 import com.google.firebase.auth.FirebaseAuthWeakPasswordException;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
+
+import java.util.HashMap;
+import java.util.Map;
 
 public class MainActivity extends Activity implements View.OnClickListener {
     private static final String TAG = "EmailPassword";
@@ -40,7 +48,10 @@ public class MainActivity extends Activity implements View.OnClickListener {
     EditText mEmailField;
     EditText mPasswordField;
 
+    String typeOfUser;
+
     private FirebaseAuth mAuth;
+    private DatabaseReference mDatabase;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -55,9 +66,6 @@ public class MainActivity extends Activity implements View.OnClickListener {
         findViewById(R.id.emailSignInButton).setOnClickListener(this);
         findViewById(R.id.createStudentAccountButton).setOnClickListener(this);
         findViewById(R.id.createProfessorAccountButton).setOnClickListener(this);
-        findViewById(R.id.signOutButton).setOnClickListener(this);
-        findViewById(R.id.seeQuestionsButton).setOnClickListener(this);
-        findViewById(R.id.seeStudentsButton).setOnClickListener(this);
 
         mAuth = FirebaseAuth.getInstance();
     }
@@ -77,8 +85,7 @@ public class MainActivity extends Activity implements View.OnClickListener {
                     @Override
                     public void onComplete(@NonNull Task<AuthResult> task) {
                         if (task.isSuccessful()) {
-                            Intent intent = new Intent(MainActivity.this, SecondActivity.class);
-                            startActivity(intent);
+                            getTypeOfUser();
                         } else {
                             try {
                                 throw task.getException();
@@ -110,6 +117,34 @@ public class MainActivity extends Activity implements View.OnClickListener {
 
     private void signOut() {
         mAuth.signOut();
+    }
+
+    public void getTypeOfUser() {
+        mDatabase = FirebaseDatabase.getInstance().getReference("users");
+        mDatabase.child(mAuth.getCurrentUser().getUid()).addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                Map<String, Object> map = (HashMap<String, Object>) dataSnapshot.getValue();
+                for (HashMap.Entry i : map.entrySet()) {
+                    if (i.getKey().equals("typeOfUser")) {
+                        typeOfUser = i.getValue().toString();
+                    }
+                }
+
+                Intent intent;
+                if (typeOfUser.equals("S")) {       // is student
+                    intent = new Intent(MainActivity.this, StudentAccountActivity.class);
+                } else {        // is professor
+                    intent = new Intent(MainActivity.this, ProfessorAccountActivity.class);
+                }
+                startActivity(intent);
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        });
     }
 
     private boolean validateForm() {
@@ -147,14 +182,6 @@ public class MainActivity extends Activity implements View.OnClickListener {
             startActivity(intent);
         } else if (i == R.id.emailSignInButton) {
             signIn();
-        } else if (i == R.id.signOutButton) {
-            signOut();
-        } else if (i == R.id.seeQuestionsButton) {
-            Intent intent = new Intent(this, SeeQuestionsActivity.class);
-            startActivity(intent);
-        } else if (i == R.id.seeStudentsButton) {
-            Intent intent = new Intent(this, SeeStudentsActivity.class);
-            startActivity(intent);
         }
     }
 }

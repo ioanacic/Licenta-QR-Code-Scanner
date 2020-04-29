@@ -28,8 +28,6 @@ public class SecondActivity extends Activity implements View.OnClickListener {
     private DatabaseReference mDatabase;
 
     List<AnsweredQuestion> answers = new ArrayList<>();
-    List<Question> allQuestions = new ArrayList<>();
-    String score;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -99,7 +97,6 @@ public class SecondActivity extends Activity implements View.OnClickListener {
             Intent intent = new Intent(this, AddQuestionActivity.class);
             startActivity(intent);
         }
-
         if (v.getId() == R.id.historyButton) {
             Intent intent = new Intent(this, HistoryActivity.class);
             startActivity(intent);

@@ -95,7 +95,7 @@ public class SignUpStudentActivity extends Activity implements View.OnClickListe
                                     }
                                 }
                             });
-                            Intent intent = new Intent(SignUpStudentActivity.this, SecondActivity.class);
+                            Intent intent = new Intent(SignUpStudentActivity.this, StudentAccountActivity.class);
                             startActivity(intent);
                         } else {
                             try {

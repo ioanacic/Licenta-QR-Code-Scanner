@@ -93,7 +93,7 @@ public class HistoryActivity extends Activity {
 
     }
 
-    public void seeHistoryAs (DatabaseReference dbR) {
+    public void seeHistoryAs(DatabaseReference dbR) {
         dbR.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {

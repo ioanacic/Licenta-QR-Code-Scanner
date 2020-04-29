@@ -91,7 +91,7 @@ public class SignUpProfessorActivity extends Activity implements View.OnClickLis
                                     }
                                 }
                             });
-                            Intent intent = new Intent(SignUpProfessorActivity.this, SecondActivity.class);
+                            Intent intent = new Intent(SignUpProfessorActivity.this, ProfessorAccountActivity.class);
                             startActivity(intent);
                         } else {
                             try {
