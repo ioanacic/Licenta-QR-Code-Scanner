@@ -153,7 +153,7 @@ public class SignUpActivity extends Activity implements View.OnClickListener {
             phoneField.setError(null);
         }
 
-        if (phone.length() < 10) {
+        if (phone.length() < 10 || phone.length() > 10) {
             phoneField.setError("Phone number must have 10 characters.");
             valid = false;
         } else {

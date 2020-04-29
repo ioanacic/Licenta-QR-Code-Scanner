@@ -284,4 +284,11 @@ public class DecodedQRActivity extends Activity {
             });
         }
     }
+
+    // all the back buttons must be overriden else wont work properly
+//    @Override
+//    public void onBackPressed() {
+//        Intent setIntent = new Intent(DecodedQRActivity.this, SecondActivity.class);
+//        startActivity(setIntent);
+//    }
 }

@@ -117,6 +117,8 @@ public class SeeQuestionsActivity extends Activity {
             }
         }
 
+        Collections.sort(options, (o1, o2) -> o1.compareTo(o2));
+
         ArrayAdapter<String> dataAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, options);
         dataAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
 
