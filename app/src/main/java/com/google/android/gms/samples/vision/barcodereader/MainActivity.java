@@ -33,7 +33,6 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseAuthInvalidCredentialsException;
 import com.google.firebase.auth.FirebaseAuthUserCollisionException;
 import com.google.firebase.auth.FirebaseAuthWeakPasswordException;
-import com.google.firebase.auth.FirebaseUser;
 
 public class MainActivity extends Activity implements View.OnClickListener {
     private static final String TAG = "EmailPassword";
@@ -54,7 +53,8 @@ public class MainActivity extends Activity implements View.OnClickListener {
 
         // Buttons
         findViewById(R.id.emailSignInButton).setOnClickListener(this);
-        findViewById(R.id.emailCreateAccountButton).setOnClickListener(this);
+        findViewById(R.id.createStudentAccountButton).setOnClickListener(this);
+        findViewById(R.id.createProfessorAccountButton).setOnClickListener(this);
         findViewById(R.id.signOutButton).setOnClickListener(this);
         findViewById(R.id.seeQuestionsButton).setOnClickListener(this);
         findViewById(R.id.seeStudentsButton).setOnClickListener(this);
@@ -137,8 +137,13 @@ public class MainActivity extends Activity implements View.OnClickListener {
     @Override
     public void onClick(View v) {
         int i = v.getId();
-        if (i == R.id.emailCreateAccountButton) {
-            Intent intent = new Intent(this, SignUpActivity.class);
+        if (i == R.id.createStudentAccountButton) {
+            Intent intent = new Intent(this, SignUpStudentActivity.class);
+            intent.putExtra("TYPE OF USER", "S");
+            startActivity(intent);
+        } else if (i == R.id.createProfessorAccountButton) {
+            Intent intent = new Intent(this, SignUpProfessorActivity.class);
+            intent.putExtra("TYPE OF USER", "P");
             startActivity(intent);
         } else if (i == R.id.emailSignInButton) {
             signIn();

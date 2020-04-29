@@ -4,44 +4,32 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class User {
-    String key;
-    public String lastName, firstName, phone, group, yearOfStudy, email, password;
-    public List<AnsweredQuestion> answers = new ArrayList<AnsweredQuestion>();
-    public String score = "0.0";
+    public String key;
+    public String lastName, firstName, phone, email, password;
+    public String typeOfUser;       // S = Student, P = Professor
 
     public User() {
 
     }
 
-    public User(String lastName, String firstName, String group, String yearOfStudy, String score) {
+    public User(String lastName, String firstName) {
         this.lastName = lastName;
         this.firstName = firstName;
-        this.group = group;
-        this.yearOfStudy = yearOfStudy;
-        this.score = score;
     }
 
-    public User(String lastName, String firstName, String phone, String group, String yearOfStudy, String email, String password, String score) {
+    public User(String lastName, String firstName, String typeOfUser) {
+        this.lastName = lastName;
+        this.firstName = firstName;
+        this.typeOfUser = typeOfUser;
+    }
+
+    public User(String lastName, String firstName, String phone, String email, String password, String typeOfUser) {
         this.lastName = lastName;
         this.firstName = firstName;
         this.phone = phone;
-        this.group = group;
-        this.yearOfStudy = yearOfStudy;
         this.email = email;
         this.password = password;
-    }
-
-    public User(String lastName, String firstName, String phone, String group, String yearOfStudy, String email,
-                String password, List<AnsweredQuestion> answers, String score) {
-        this.lastName = lastName;
-        this.firstName = firstName;
-        this.phone = phone;
-        this.group = group;
-        this.yearOfStudy = yearOfStudy;
-        this.email = email;
-        this.password = password;
-        this.answers = answers;
-        this.score = score;
+        this.typeOfUser = typeOfUser;
     }
 
     public String getKey() {
@@ -76,22 +64,6 @@ public class User {
         this.phone = phone;
     }
 
-    public String getGroup() {
-        return group;
-    }
-
-    public void setGroup(String group) {
-        this.group = group;
-    }
-
-    public String getYearOfStudy() {
-        return yearOfStudy;
-    }
-
-    public void setYearOfStudy(String yearOfStudy) {
-        this.yearOfStudy = yearOfStudy;
-    }
-
     public String getEmail() {
         return email;
     }
@@ -108,20 +80,11 @@ public class User {
         this.password = password;
     }
 
-    public List<AnsweredQuestion> getAnswers() {
-        return answers;
+    public String getTypeOfUser() {
+        return typeOfUser;
     }
 
-    public void setAnswers(List<AnsweredQuestion> answers) {
-        this.answers = answers;
+    public void setTypeOfUser(String typeOfUser) {
+        this.typeOfUser = typeOfUser;
     }
-
-    public String getScore() {
-        return score;
-    }
-
-    public void setScore(String score) {
-        this.score = score;
-    }
-
 }

@@ -2,7 +2,7 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical" android:layout_width="match_parent"
     android:layout_height="match_parent">
-    tools:context="com.google.android.gms.samples.vision.barcodereader.SignUpActivity
+    tools:context="com.google.android.gms.samples.vision.barcodereader.SignUpStudentActivity
 
     <Space
         android:layout_width="match_parent"
@@ -217,11 +217,11 @@
             android:layout_weight="1" />
 
         <Button
-            android:id="@+id/emailCreateAccountButton"
+            android:id="@+id/createStudAccount"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:text="Create Account" />
+            android:text="create account" />
 
         <Space
             android:layout_width="150dp"

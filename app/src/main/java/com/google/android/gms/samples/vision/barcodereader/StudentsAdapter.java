@@ -23,9 +23,9 @@ public class StudentsAdapter extends RecyclerView.Adapter<StudentsAdapter.ViewHo
         }
     }
 
-    private List<User> myStudents;
+    private List<Student> myStudents;
 
-    public StudentsAdapter(List<User> students) {
+    public StudentsAdapter(List<Student> students) {
         myStudents = students;
     }
 
@@ -43,7 +43,7 @@ public class StudentsAdapter extends RecyclerView.Adapter<StudentsAdapter.ViewHo
 
     @Override
     public void onBindViewHolder(StudentsAdapter.ViewHolder viewHolder, int position) {
-        User student = myStudents.get(position);
+        Student student = myStudents.get(position);
 
         TextView n = viewHolder.name;
         TextView g = viewHolder.group;

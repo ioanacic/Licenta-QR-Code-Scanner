@@ -23,7 +23,7 @@ import com.google.firebase.database.FirebaseDatabase;
 import java.util.ArrayList;
 import java.util.List;
 
-public class SignUpActivity extends Activity implements View.OnClickListener {
+public class SignUpStudentActivity extends Activity implements View.OnClickListener {
     private static final String TAG = "SignUp";
 
     EditText emailField;
@@ -40,7 +40,7 @@ public class SignUpActivity extends Activity implements View.OnClickListener {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.sign_up_activity);
+        setContentView(R.layout.sign_up_student_activity);
 
         emailField = findViewById(R.id.fieldEmail);
         passwordField = findViewById(R.id.fieldPassword);
@@ -50,7 +50,7 @@ public class SignUpActivity extends Activity implements View.OnClickListener {
         groupField = findViewById(R.id.fieldGroup);
         yearOfStudyField = findViewById(R.id.fieldYearOfStudy);
 
-        findViewById(R.id.emailCreateAccountButton).setOnClickListener(this);
+        findViewById(R.id.createStudAccount).setOnClickListener(this);
 
         mAuth = FirebaseAuth.getInstance();
         mDatabase = FirebaseDatabase.getInstance().getReference("users");
@@ -60,12 +60,12 @@ public class SignUpActivity extends Activity implements View.OnClickListener {
         final String lastName;
         final String firstName;
         final String phone;
+        final String typeOfUser = getIntent().getStringExtra("TYPE OF USER");
         final String group;
         final String year;
         final String email;
         final String password;
         final List<AnsweredQuestion> answers = new ArrayList<AnsweredQuestion>();
-        final String score = "0.0";
 
         if (!validateForm()) {
             return;
@@ -84,18 +84,18 @@ public class SignUpActivity extends Activity implements View.OnClickListener {
                     @Override
                     public void onComplete(@NonNull Task<AuthResult> task) {
                         if (task.isSuccessful()) {
-                            User user = new User(lastName, firstName, phone, group, year, email, password, answers, score);
-                            mDatabase.child(mAuth.getCurrentUser().getUid()).setValue(user).addOnCompleteListener(new OnCompleteListener<Void>() {
+                            Student student = new Student(lastName, firstName, phone,  email, password, typeOfUser, group, year, answers);
+                            mDatabase.child(mAuth.getCurrentUser().getUid()).setValue(student).addOnCompleteListener(new OnCompleteListener<Void>() {
                                 @Override
                                 public void onComplete(@NonNull Task<Void> task) {
                                     if (task.isSuccessful()) {
-                                        Toast.makeText(SignUpActivity.this, getString(R.string.createdSuccsessful), Toast.LENGTH_LONG).show();
+                                        Toast.makeText(SignUpStudentActivity.this, getString(R.string.createdSuccsessful), Toast.LENGTH_LONG).show();
                                     } else {
                                         Log.w(TAG, "FAILED");
                                     }
                                 }
                             });
-                            Intent intent = new Intent(SignUpActivity.this, SecondActivity.class);
+                            Intent intent = new Intent(SignUpStudentActivity.this, SecondActivity.class);
                             startActivity(intent);
                         } else {
                             try {
@@ -104,19 +104,19 @@ public class SignUpActivity extends Activity implements View.OnClickListener {
                             // password with less that 6 characters
                             catch (FirebaseAuthWeakPasswordException weakPassword) {
                                 Log.w(TAG, "createUserWithEmail:weakPassword");
-                                Toast.makeText(SignUpActivity.this, R.string.weakPassword,
+                                Toast.makeText(SignUpStudentActivity.this, R.string.weakPassword,
                                         Toast.LENGTH_SHORT).show();
                             }
                             // wrong email format
                             catch (FirebaseAuthInvalidCredentialsException malformedEmail) {
                                 Log.w(TAG, "createUserWithEmail:malformedEmail");
-                                Toast.makeText(SignUpActivity.this, R.string.malformedEmail,
+                                Toast.makeText(SignUpStudentActivity.this, R.string.malformedEmail,
                                         Toast.LENGTH_SHORT).show();
                             }
                             // email already exists
                             catch (FirebaseAuthUserCollisionException existEmail) {
                                 Log.w(TAG, "createUserWithEmail:existEmail");
-                                Toast.makeText(SignUpActivity.this, R.string.existEmail,
+                                Toast.makeText(SignUpStudentActivity.this, R.string.existEmail,
                                         Toast.LENGTH_SHORT).show();
                             } catch (Exception e) {
                                 Log.w(TAG, "createUserWithEmail:failure", task.getException());
@@ -198,7 +198,7 @@ public class SignUpActivity extends Activity implements View.OnClickListener {
     @Override
     public void onClick(View v) {
         int i = v.getId();
-        if (i == R.id.emailCreateAccountButton) {
+        if (i == R.id.createStudAccount) {
             singUp();
         }
     }

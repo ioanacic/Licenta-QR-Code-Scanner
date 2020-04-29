@@ -30,7 +30,7 @@ public class SeeStudentsActivity extends Activity {
 
     Spinner spinner;
 
-    List<User> students = new ArrayList<>();
+    List<Student> students = new ArrayList<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -56,7 +56,7 @@ public class SeeStudentsActivity extends Activity {
 
     }
 
-    public void populateRecyclerView(final List<User> s) {
+    public void populateRecyclerView(final List<Student> s) {
         // sort alfabetically
         Collections.sort(s, (o1, o2) -> o1.getLastName().compareTo(o2.getLastName()));
         adapter = new StudentsAdapter(s);
@@ -67,7 +67,7 @@ public class SeeStudentsActivity extends Activity {
                 new RecyclerItemClickListener(this.getApplicationContext(), recyclerView, new RecyclerItemClickListener.OnItemClickListener() {
                     @Override
                     public void onItemClick(View view, int position) {
-                        User selectedStudent = students.get(position);
+                        Student selectedStudent = students.get(position);
                         String key = selectedStudent.getKey();
                         Intent intent = new Intent(SeeStudentsActivity.this, HistoryActivity.class);
                         intent.putExtra("KEY", key);
@@ -89,14 +89,14 @@ public class SeeStudentsActivity extends Activity {
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 for (DataSnapshot d : dataSnapshot.getChildren()) {
                     String key = d.getKey();
-                    Map<String, User> userValue = (HashMap<String, User>) d.getValue();
+                    Map<String, Student> studentValue = (HashMap<String, Student>) d.getValue();
                     String lastName = "";
                     String firstName = "";
                     String group = "";
                     String year = "";
                     String score = "";
 
-                    for (HashMap.Entry i : userValue.entrySet()) {
+                    for (HashMap.Entry i : studentValue.entrySet()) {
                         if (i.getKey().equals("lastName")) {
                             lastName = (String) i.getValue();
                         }
@@ -113,9 +113,9 @@ public class SeeStudentsActivity extends Activity {
                             score = (String) i.getValue();
                         }
                     }
-                    User u = new User(lastName, firstName, group, year, score);
-                    u.setKey(key);
-                    students.add(u);
+                    Student s = new Student(lastName, firstName, group, year);
+                    s.setKey(key);
+                    students.add(s);
                 }
                 adapter.notifyDataSetChanged();
                 addItemOnSpinner();
@@ -132,15 +132,15 @@ public class SeeStudentsActivity extends Activity {
         List<String> options = new ArrayList<String>();
         options.add("All groups");
 
-        for (User u : students) {
+        for (Student s : students) {
             boolean contains = false;
             for (String o : options) {
-                if (u.getGroup().equals(o)) {
+                if (s.getGroup().equals(o)) {
                     contains = true;
                 }
             }
             if (contains == false) {
-                options.add(u.getGroup());
+                options.add(s.getGroup());
             }
         }
 
@@ -152,11 +152,11 @@ public class SeeStudentsActivity extends Activity {
 
     public void onOptionSelected() {
         String selectedOption = spinner.getSelectedItem().toString().trim();
-        List<User> selectedStudents = new ArrayList<>();
+        List<Student> selectedStudents = new ArrayList<>();
 
-        for (User u : students) {
-            if (u.getGroup().equals(selectedOption)) {
-                selectedStudents.add(u);
+        for (Student s : students) {
+            if (s.getGroup().equals(selectedOption)) {
+                selectedStudents.add(s);
             }
         }
 
