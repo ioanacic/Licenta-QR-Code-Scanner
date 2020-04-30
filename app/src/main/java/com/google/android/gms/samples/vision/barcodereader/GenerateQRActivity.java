@@ -1,6 +1,7 @@
 package com.google.android.gms.samples.vision.barcodereader;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.Point;
 import android.os.Bundle;
@@ -103,6 +104,8 @@ public class GenerateQRActivity extends Activity {
                     save = QRGSaver.save(filepath.toString(), keyOfSelectedQuestion.trim(), bitmap, QRGContents.ImageType.IMAGE_JPEG);
                     result = save ? "Image Saved" : "Image Not Saved";
                     Toast.makeText(getApplicationContext(), result, Toast.LENGTH_SHORT).show();
+                    Intent intent = new Intent(GenerateQRActivity.this, SeeQuestionsActivity.class);
+                    startActivity(intent);
                 } catch (WriterException e) {
                     e.printStackTrace();
                 }

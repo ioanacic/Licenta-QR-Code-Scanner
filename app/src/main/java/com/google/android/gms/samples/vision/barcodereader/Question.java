@@ -5,12 +5,14 @@ public class Question {
     String key;
     String course, question, answerA, answerB, answerC, answerD, correctAnswer;
     String isCorrect;
+    String idProfessor;
 
     public Question() {
 
     }
 
-    public Question(String question, String course, String answerA, String answerB, String answerC, String answerD, String correctAnswer) {
+    public Question(String question, String course, String answerA, String answerB, String answerC, String answerD,
+                    String correctAnswer, String idProfessor) {
         this.question = question;
         this.course = course;
         this.answerA = answerA;
@@ -18,9 +20,11 @@ public class Question {
         this.answerC = answerC;
         this.answerD = answerD;
         this.correctAnswer = correctAnswer;
+        this.idProfessor = idProfessor;
     }
 
-    public Question(String key, String question, String course, String answerA, String answerB, String answerC, String answerD, String correctAnswer) {
+    public Question(String key, String question, String course, String answerA, String answerB, String answerC, String answerD,
+                    String correctAnswer, String idProfessor) {
         this.key = key;
         this.question = question;
         this.course = course;
@@ -29,6 +33,7 @@ public class Question {
         this.answerC = answerC;
         this.answerD = answerD;
         this.correctAnswer = correctAnswer;
+        this.idProfessor = idProfessor;
     }
 
     public Question(Question q) {
@@ -41,15 +46,21 @@ public class Question {
         this.correctAnswer = q.correctAnswer;
     }
 
-    public String getQuestion() { return question; }
+    public String getQuestion() {
+        return question;
+    }
 
     public void setQuestion(String question) {
         this.question = question;
     }
 
-    public String getCourse() { return course; }
+    public String getCourse() {
+        return course;
+    }
 
-    public void setCourse(String course) { this.course = course; }
+    public void setCourse(String course) {
+        this.course = course;
+    }
 
     public String getAnswerA() {
         return answerA;
@@ -83,13 +94,21 @@ public class Question {
         this.answerD = answerD;
     }
 
-    public String getCorrectAnswer() { return correctAnswer; }
+    public String getCorrectAnswer() {
+        return correctAnswer;
+    }
 
-    public void setCorrectAnswer(String correctAnswer) { this.correctAnswer = correctAnswer; }
+    public void setCorrectAnswer(String correctAnswer) {
+        this.correctAnswer = correctAnswer;
+    }
 
-    public String getKey() { return key; }
+    public String getKey() {
+        return key;
+    }
 
-    public void setKey(String key) { this.key = key; }
+    public void setKey(String key) {
+        this.key = key;
+    }
 
     public String isCorrect() {
         return isCorrect;
@@ -97,5 +116,21 @@ public class Question {
 
     public void setCorrect(String isCorrect) {
         this.isCorrect = isCorrect;
+    }
+
+    public String getIsCorrect() {
+        return isCorrect;
+    }
+
+    public void setIsCorrect(String isCorrect) {
+        this.isCorrect = isCorrect;
+    }
+
+    public String getIdProfessor() {
+        return idProfessor;
+    }
+
+    public void setIdProfessor(String idProfessor) {
+        this.idProfessor = idProfessor;
     }
 }

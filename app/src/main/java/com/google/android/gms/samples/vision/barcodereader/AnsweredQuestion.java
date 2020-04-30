@@ -8,9 +8,25 @@ public class AnsweredQuestion {
 
     }
 
+    public AnsweredQuestion(String qId) {
+        this.qId = qId;
+    }
+
     public AnsweredQuestion(String answer, boolean isCorrect) {
         this.answer = answer;
         this.isCorrect = isCorrect;
+    }
+
+    public AnsweredQuestion(String qId, String answer, boolean isCorrect) {
+        this.qId = qId;
+        this.answer = answer;
+        this.isCorrect = isCorrect;
+    }
+
+    public AnsweredQuestion(AnsweredQuestion aq) {
+        this.qId = aq.qId;
+        this.answer = aq.answer;
+        this.isCorrect = aq.isCorrect;
     }
 
     public String getqId() {

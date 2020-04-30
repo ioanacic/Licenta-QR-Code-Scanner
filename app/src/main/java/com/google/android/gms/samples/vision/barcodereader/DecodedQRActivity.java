@@ -261,8 +261,8 @@ public class DecodedQRActivity extends Activity {
                         Toast.makeText(DecodedQRActivity.this, R.string.haveToSelectOption, Toast.LENGTH_SHORT).show();
                     } else {
                         sendData();
-                        updateScore();
-                        Intent intent = new Intent(DecodedQRActivity.this, SecondActivity.class);
+//                        updateScore();
+                        Intent intent = new Intent(DecodedQRActivity.this, StudentAccountActivity.class);
                         startActivity(intent);
                     }
                 }

@@ -13,6 +13,7 @@ import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
+import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
@@ -29,6 +30,7 @@ public class AddQuestionActivity extends Activity implements View.OnClickListene
     boolean isEmpty = false;
 
     private DatabaseReference mDatabase;
+    private FirebaseAuth mAuth;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -50,6 +52,7 @@ public class AddQuestionActivity extends Activity implements View.OnClickListene
         findViewById(R.id.saveButton).setOnClickListener(this);
 
         mDatabase = FirebaseDatabase.getInstance().getReference("questions");
+        mAuth = FirebaseAuth.getInstance();
     }
 
     public void addItemOnSpinner() {
@@ -68,30 +71,35 @@ public class AddQuestionActivity extends Activity implements View.OnClickListene
 
     public void addQuestion() {
         final String question;
-        final String course;
+        final String courseNr;
         final String answerA;
         final String answerB;
         final String answerC;
         final String answerD;
         final String correctAnswer;
+        final String idProfessor;
+        String course = "";
 
         question = questionField.getText().toString().trim();
-        course = courseField.getText().toString().trim();
+        courseNr = courseField.getText().toString().trim();
         answerA = answerAField.getText().toString().trim();
         answerB = answerBField.getText().toString().trim();
         answerC = answerCField.getText().toString().trim();
         answerD = answerDField.getText().toString().trim();
         correctAnswer = spinner.getSelectedItem().toString().trim();
+        idProfessor = mAuth.getCurrentUser().getUid();
 
-        if (question.isEmpty() || course.isEmpty() || answerA.isEmpty() || answerB.isEmpty() || answerC.isEmpty() ||
+        if (question.isEmpty() || courseNr.isEmpty() || answerA.isEmpty() || answerB.isEmpty() || answerC.isEmpty() ||
                 answerD.isEmpty() || correctAnswer.isEmpty()) {
             Toast.makeText(AddQuestionActivity.this, getString(R.string.noFieldEmpty), Toast.LENGTH_LONG).show();
             isEmpty = true;
             return;
+        } else {
+            course = "Course " + courseNr;
         }
 
         isEmpty = false;
-        Question newQuestion = new Question(question, course, answerA, answerB, answerC, answerD, correctAnswer);
+        Question newQuestion = new Question(question, course, answerA, answerB, answerC, answerD, correctAnswer, idProfessor);
         String uniqueId = UUID.randomUUID().toString();     // generate unique id for the entry
 
         mDatabase.child(uniqueId).setValue(newQuestion).addOnCompleteListener(new OnCompleteListener<Void>() {
@@ -99,6 +107,14 @@ public class AddQuestionActivity extends Activity implements View.OnClickListene
             public void onComplete(@NonNull Task<Void> task) {
                 if (task.isSuccessful()) {
                     Toast.makeText(AddQuestionActivity.this, getString(R.string.questionAddedSuccsessfully), Toast.LENGTH_LONG).show();
+                    if (!isEmpty) {
+                        questionField.getText().clear();
+                        courseField.getText().clear();
+                        answerAField.getText().clear();
+                        answerBField.getText().clear();
+                        answerCField.getText().clear();
+                        answerDField.getText().clear();
+                    }
                 } else {
                     Log.w(TAG, "FAILED");
                 }
@@ -111,14 +127,6 @@ public class AddQuestionActivity extends Activity implements View.OnClickListene
         int i = v.getId();
         if (i == R.id.saveButton) {
             addQuestion();
-            if (!isEmpty) {
-                questionField.getText().clear();
-                courseField.getText().clear();
-                answerAField.getText().clear();
-                answerBField.getText().clear();
-                answerCField.getText().clear();
-                answerDField.getText().clear();
-            }
         }
     }
 }

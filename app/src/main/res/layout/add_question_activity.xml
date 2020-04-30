@@ -35,7 +35,8 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:ems="11"
-                android:inputType="textMultiLine" />
+                android:inputType="textMultiLine"
+                android:text="Q?"/>
         </TableRow>
 
         <TableRow
@@ -61,7 +62,9 @@
                 android:id="@+id/courseField"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:ems="10" />
+                android:ems="10"
+                android:hint="Insert a numeric value"/>
+<!--                android:text="C2"-->
         </TableRow>
 
         <TableRow
@@ -88,7 +91,8 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:ems="10"
-                android:inputType="textMultiLine" />
+                android:inputType="textMultiLine"
+                android:text="Aaa"/>
         </TableRow>
 
         <TableRow
@@ -115,7 +119,8 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:ems="10"
-                android:inputType="textMultiLine" />
+                android:inputType="textMultiLine"
+                android:text="Bbb"/>
 
         </TableRow>
 
@@ -143,7 +148,8 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:ems="10"
-                android:inputType="textMultiLine" />
+                android:inputType="textMultiLine"
+                android:text="Ccc"/>
         </TableRow>
 
         <TableRow
@@ -170,7 +176,8 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:ems="10"
-                android:inputType="textMultiLine" />
+                android:inputType="textMultiLine"
+                android:text="Ddd"/>
         </TableRow>
 
         <TableRow

@@ -43,7 +43,7 @@
                     android:layout_height="wrap_content"
                     android:ems="11"
                     android:inputType="textPersonName"
-                    android:text="eaeaea@gmail.com" />
+                    android:text="professor@gmail.com" />
             </TableRow>
 
             <TableRow

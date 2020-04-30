@@ -11,6 +11,7 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Spinner;
 
+import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -25,6 +26,7 @@ public class SeeQuestionsActivity extends Activity {
     private RecyclerView recyclerView;
     private QuestionsAdapter adapter;
     private DatabaseReference mDatabase;
+    private FirebaseAuth mAuth;
 
     Spinner spinner;
 
@@ -48,6 +50,8 @@ public class SeeQuestionsActivity extends Activity {
 
             }
         });
+
+        mAuth = FirebaseAuth.getInstance();
 
         getData();
         populateRecyclerView(questions);
@@ -86,9 +90,12 @@ public class SeeQuestionsActivity extends Activity {
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 for (DataSnapshot d : dataSnapshot.getChildren()) {
                     Question q = d.getValue(Question.class);
-                    String key = d.getKey();
-                    q.setKey(key);
-                    questions.add(q);
+                    // TODO - remode the not null condition (it s just for now, when i have Qs without profId)
+                    if (q.getIdProfessor() != null && q.getIdProfessor().equals(mAuth.getCurrentUser().getUid())) {
+                        String key = d.getKey();
+                        q.setKey(key);
+                        questions.add(q);
+                    }
                 }
                 adapter.notifyDataSetChanged();
                 addItemOnSpinner();

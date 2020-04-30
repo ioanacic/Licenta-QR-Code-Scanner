@@ -13,13 +13,15 @@ public class QuestionsAdapter extends RecyclerView.Adapter<QuestionsAdapter.View
 
     public static class ViewHolder extends RecyclerView.ViewHolder {
         // the info I want to see for an entry
-        public TextView course, question;
+        public TextView course, question, info;
 
         public ViewHolder(View v) {
             super(v);
 
             course = (TextView) itemView.findViewById(R.id.courseField);
             question = (TextView) itemView.findViewById(R.id.questionField);
+            info = (TextView) itemView.findViewById(R.id.infoMsgField);
+            info.setVisibility(View.INVISIBLE);
         }
     }
 
