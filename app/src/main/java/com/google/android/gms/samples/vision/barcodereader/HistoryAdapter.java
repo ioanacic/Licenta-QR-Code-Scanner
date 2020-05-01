@@ -7,6 +7,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 public class HistoryAdapter extends RecyclerView.Adapter<HistoryAdapter.ViewHolder> {
@@ -26,8 +28,8 @@ public class HistoryAdapter extends RecyclerView.Adapter<HistoryAdapter.ViewHold
 
     private List<Question> myQuestios;
 
-    public HistoryAdapter(List<Question> questions) {
-        myQuestios = questions;
+    public HistoryAdapter() {
+        myQuestios = new ArrayList<>();
     }
 
     @Override
@@ -57,5 +59,16 @@ public class HistoryAdapter extends RecyclerView.Adapter<HistoryAdapter.ViewHold
     @Override
     public int getItemCount() {
         return myQuestios.size();
+    }
+
+    public void updateQ(List<Question> newQList) {
+        myQuestios.clear();
+        myQuestios.addAll(newQList);
+        Collections.sort(myQuestios, (o1, o2) -> o1.getCourse().compareTo(o2.getCourse()));
+        this.notifyDataSetChanged();
+    }
+
+    public List<Question> getMyQuestions() {
+        return myQuestios;
     }
 }

@@ -23,13 +23,13 @@ import java.util.Map;
 
 public class SeeAQActivity extends Activity {
     private FirebaseAuth mAuth;
-    private DatabaseReference mDatabase;
+    private DatabaseReference mDatabase, questionsAsProfessor, getQuestionsAsStudent;
 
     TextView questionText;
     RadioButton answerA, answerB, answerC, answerD;
     RadioGroup answersGr;
 
-    String keyOfSelectedQuestion, selectedAnswer, correctAnswer;
+    String keyOfSelectedQuestion, keyOfSelectedStudent, selectedAnswer, correctAnswer;
     Question question;
     AnsweredQuestion answeredQuestion;
 
@@ -48,13 +48,26 @@ public class SeeAQActivity extends Activity {
         mAuth = FirebaseAuth.getInstance();
         // the id of the current question
         keyOfSelectedQuestion = getIntent().getStringExtra("KEY");
+        keyOfSelectedStudent = getIntent().getStringExtra("STUDENT_KEY");
 
         getInfoAboutAQ();
     }
 
     public void getAnsweredQuestion() {
         mDatabase = FirebaseDatabase.getInstance().getReference("users");
-        mDatabase.child(mAuth.getCurrentUser().getUid()).addListenerForSingleValueEvent(new ValueEventListener() {
+        if (keyOfSelectedStudent != null) {
+            // the professor wants to see the student
+            questionsAsProfessor = mDatabase.child(keyOfSelectedStudent);
+            seeAnsweredQuestion(questionsAsProfessor);
+        } else {
+            // the student wants to see himself
+            getQuestionsAsStudent = mDatabase.child(mAuth.getCurrentUser().getUid());
+            seeAnsweredQuestion(getQuestionsAsStudent);
+        }
+    }
+
+    public void seeAnsweredQuestion(DatabaseReference dbR) {
+        dbR.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 Map<String, Object> map = (HashMap<String, Object>) dataSnapshot.getValue();
@@ -109,11 +122,11 @@ public class SeeAQActivity extends Activity {
                 for (DataSnapshot d : dataSnapshot.getChildren()) {
                     if (d.getKey().equals(keyOfSelectedQuestion)) {
                         question = d.getValue(Question.class);
-                        questionText.setText(question.question);
-                        answerA.setText(question.answerA);
-                        answerB.setText(question.answerB);
-                        answerC.setText(question.answerC);
-                        answerD.setText(question.answerD);
+                        questionText.setText(question.getQuestion());
+                        answerA.setText(question.getAnswerA());
+                        answerB.setText(question.getAnswerB());
+                        answerC.setText(question.getAnswerC());
+                        answerD.setText(question.getAnswerD());
                         correctAnswer = question.getCorrectAnswer();
                         correctAnswer = format(correctAnswer);
                     }

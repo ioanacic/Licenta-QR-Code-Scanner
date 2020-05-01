@@ -33,10 +33,6 @@
             android:textAppearance="@style/TextAppearance.AppCompat.Medium" />
     </LinearLayout>
 
-    <Space
-        android:layout_width="match_parent"
-        android:layout_height="10dp" />
-
     <android.support.v7.widget.RecyclerView
         android:id="@+id/my_recycler_view_QS"
         android:layout_width="match_parent"

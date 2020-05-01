@@ -69,13 +69,12 @@ public class HistoryActivity extends Activity {
             keyOfSelectedStudent = getIntent().getStringExtra("KEY");
         }
 
-
         getAnsweredQuestions();
+        populateRecyclerView();
     }
 
-    public void populateRecyclerView(final List<Question> q) {
-        Collections.sort(q, (o1, o2) -> o1.getCourse().compareTo(o2.getCourse()));
-        adapter = new HistoryAdapter(q);
+    public void populateRecyclerView() {
+        adapter = new HistoryAdapter();
         recyclerView.setAdapter(adapter);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
 
@@ -83,10 +82,11 @@ public class HistoryActivity extends Activity {
                 new RecyclerItemClickListener(this.getApplicationContext(), recyclerView, new RecyclerItemClickListener.OnItemClickListener() {
                     @Override
                     public void onItemClick(View view, int position) {
-                        Question selectedQuestion = q.get(position);
+                        Question selectedQuestion = adapter.getMyQuestions().get(position);
                         String key = selectedQuestion.getKey();
                         Intent intent = new Intent(HistoryActivity.this, SeeAQActivity.class);
-                        intent.putExtra("KEY", key);
+                        intent.putExtra("KEY", key);        // selected question id
+                        intent.putExtra("STUDENT_KEY", keyOfSelectedStudent);       // selected student id
                         startActivity(intent);
                     }
 
@@ -110,7 +110,6 @@ public class HistoryActivity extends Activity {
             historyAsStudent = mDatabase.child(mAuth.getCurrentUser().getUid());
             seeHistoryAs(historyAsStudent);
         }
-
     }
 
     public void seeHistoryAs(DatabaseReference dbR) {
@@ -238,11 +237,11 @@ public class HistoryActivity extends Activity {
                     }
                 }
                 if (!professorQuestionsAQ.isEmpty()) {
-                    populateRecyclerView(professorQuestionsAQ);
+                    adapter.updateQ(professorQuestionsAQ);
+
                 } else {
-                    populateRecyclerView(questionsAQ);
+                    adapter.updateQ(questionsAQ);
                 }
-                adapter.notifyDataSetChanged();
                 addItemsOnSpinner();
             }
 
@@ -284,7 +283,7 @@ public class HistoryActivity extends Activity {
         // is the student wanna access history
         if (professorQuestionsAQ.isEmpty()) {
             if (selectedOption.equals("All subjects")) {
-                populateRecyclerView(questionsAQ);
+                adapter.updateQ(questionsAQ);
             } else {
                 String idProfessor = "";
                 // get professor id for option selected
@@ -299,9 +298,7 @@ public class HistoryActivity extends Activity {
                         selectedQuestions.add(q);
                     }
                 }
-
-
-                populateRecyclerView(selectedQuestions);
+                adapter.updateQ(selectedQuestions);
             }
         }
     }
