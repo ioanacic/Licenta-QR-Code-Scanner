@@ -29,6 +29,8 @@ public class AddQuestionActivity extends Activity implements View.OnClickListene
     Spinner spinner;
     boolean isEmpty = false;
 
+    List<String> options = new ArrayList<String>();
+
     private DatabaseReference mDatabase;
     private FirebaseAuth mAuth;
 
@@ -56,7 +58,6 @@ public class AddQuestionActivity extends Activity implements View.OnClickListene
     }
 
     public void addItemOnSpinner() {
-        List<String> options = new ArrayList<String>();
         options.add(" ");
         options.add("Answer A");
         options.add("Answer B");
@@ -114,6 +115,7 @@ public class AddQuestionActivity extends Activity implements View.OnClickListene
                         answerBField.getText().clear();
                         answerCField.getText().clear();
                         answerDField.getText().clear();
+                        spinner.setSelection(0);
                     }
                 } else {
                     Log.w(TAG, "FAILED");

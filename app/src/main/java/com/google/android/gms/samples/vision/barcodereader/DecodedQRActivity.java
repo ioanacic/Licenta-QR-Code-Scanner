@@ -1,10 +1,17 @@
 package com.google.android.gms.samples.vision.barcodereader;
 
+import android.animation.Animator;
+import android.animation.AnimatorListenerAdapter;
+import android.animation.ObjectAnimator;
+import android.animation.ValueAnimator;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.CountDownTimer;
+import android.os.Handler;
 import android.support.annotation.NonNull;
 import android.view.View;
+import android.view.animation.LinearInterpolator;
 import android.widget.Button;
 import android.widget.ProgressBar;
 import android.widget.RadioButton;
@@ -41,6 +48,8 @@ public class DecodedQRActivity extends Activity {
     boolean qAnswered = false;
     Question q;
 
+    CountDownTimer countDownTimer;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -56,6 +65,7 @@ public class DecodedQRActivity extends Activity {
         progressBar = (ProgressBar) findViewById(R.id.progressBar);
         progressBarHoriz = (ProgressBar) findViewById(R.id.progressBarHoriz);
         submitButton = (Button) findViewById(R.id.submit);
+
 
         mAuth = FirebaseAuth.getInstance();
 
@@ -92,6 +102,9 @@ public class DecodedQRActivity extends Activity {
                     }
                 }
                 activateHistoryButton();
+
+//                createCountDownTimer();
+                startAnimation();
             }
 
             @Override
@@ -275,6 +288,7 @@ public class DecodedQRActivity extends Activity {
             submitButton.setText("History");
             submitButton.setVisibility(View.VISIBLE);
             infoMessage.setVisibility(View.VISIBLE);
+            progressBarHoriz.setVisibility(View.INVISIBLE);
             submitButton.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
@@ -283,6 +297,52 @@ public class DecodedQRActivity extends Activity {
                 }
             });
         }
+    }
+
+    public void createCountDownTimer() {
+        countDownTimer = new CountDownTimer(10000,1000) {
+            int numberOfSeconds = 10000/1000;
+            int factor = 100/numberOfSeconds;
+
+            @Override
+            public void onTick(long millisUntilFinished) {
+                int secondsRemaining = (int) (millisUntilFinished / 1000);
+                int progressPercentage = (numberOfSeconds-secondsRemaining) * factor ;
+                progressBarHoriz.setProgress(100 - progressPercentage);
+            }
+
+            @Override
+            public void onFinish() {
+                // set intent to activity
+            }
+        }.start();
+    }
+
+    private void startAnimation() {
+
+        ValueAnimator animator = ValueAnimator.ofInt(0, 100);
+        animator.setInterpolator(new LinearInterpolator());
+        animator.setStartDelay(0);
+        animator.setDuration(10000);
+//        int numberOfSeconds = 10;
+//        int factor = 100/numberOfSeconds;
+
+        animator.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
+            @Override
+            public void onAnimationUpdate(ValueAnimator valueAnimator) {
+                int value = (int) valueAnimator.getAnimatedValue();
+                progressBarHoriz.setProgress(100 - value);
+            }
+        });
+
+        animator.addListener(new AnimatorListenerAdapter() {
+            @Override
+            public void onAnimationEnd(Animator animation) {
+                super.onAnimationEnd(animation);
+            }
+        });
+
+        animator.start();
     }
 
     // all the back buttons must be overriden else wont work properly

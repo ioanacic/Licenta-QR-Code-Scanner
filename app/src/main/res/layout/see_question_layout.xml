@@ -26,7 +26,7 @@
             android:id="@+id/infoMsgField"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="The QR for this question hav been saved!" />
+            android:text="The QR for this question has been saved!" />
 
         <View
             android:id="@+id/dividerQuestion"
