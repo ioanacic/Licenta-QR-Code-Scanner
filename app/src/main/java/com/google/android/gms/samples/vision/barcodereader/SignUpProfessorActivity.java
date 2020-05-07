@@ -22,6 +22,7 @@ import com.google.firebase.database.FirebaseDatabase;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.UUID;
 
 public class SignUpProfessorActivity extends Activity implements View.OnClickListener {
     private static final String TAG = "SignUp";
@@ -59,10 +60,10 @@ public class SignUpProfessorActivity extends Activity implements View.OnClickLis
         final String firstName;
         final String phone;
         final String typeOfUser = getIntent().getStringExtra("TYPE OF USER");
-        final String subject;
         final String email;
         final String password;
         final List<AnsweredQuestion> answers = new ArrayList<AnsweredQuestion>();
+        final List<String> subjects = new ArrayList<>();
 
         if (!validateForm()) {
             return;
@@ -70,7 +71,6 @@ public class SignUpProfessorActivity extends Activity implements View.OnClickLis
             lastName = lastNameField.getText().toString().trim();
             firstName = firstNameField.getText().toString().trim();
             phone = phoneField.getText().toString().trim();
-            subject = subjectField.getText().toString().trim();
             email = emailField.getText().toString().trim();
             password = passwordField.getText().toString().trim();
         }
@@ -80,7 +80,7 @@ public class SignUpProfessorActivity extends Activity implements View.OnClickLis
                     @Override
                     public void onComplete(@NonNull Task<AuthResult> task) {
                         if (task.isSuccessful()) {
-                            Professor professor = new Professor(lastName, firstName, phone, email, password, typeOfUser, subject);
+                            Professor professor = new Professor(lastName, firstName, phone, email, password, typeOfUser, subjects);
                             mDatabase.child(mAuth.getCurrentUser().getUid()).setValue(professor).addOnCompleteListener(new OnCompleteListener<Void>() {
                                 @Override
                                 public void onComplete(@NonNull Task<Void> task) {
@@ -91,6 +91,8 @@ public class SignUpProfessorActivity extends Activity implements View.OnClickLis
                                     }
                                 }
                             });
+                            setSubject();
+
                             Intent intent = new Intent(SignUpProfessorActivity.this, ProfessorAccountActivity.class);
                             startActivity(intent);
                         } else {
@@ -120,6 +122,14 @@ public class SignUpProfessorActivity extends Activity implements View.OnClickLis
                         }
                     }
                 });
+    }
+
+    public void setSubject() {
+        final String subject;
+        subject = subjectField.getText().toString().trim();
+
+        String uniqueId = UUID.randomUUID().toString();
+        mDatabase.child(mAuth.getCurrentUser().getUid()).child("subjects").child(uniqueId).setValue(subject);
     }
 
     private boolean validateForm() {

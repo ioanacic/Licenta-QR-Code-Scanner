@@ -14,11 +14,16 @@ import android.widget.Toast;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.UUID;
 
 public class AddQuestionActivity extends Activity implements View.OnClickListener {
@@ -26,12 +31,13 @@ public class AddQuestionActivity extends Activity implements View.OnClickListene
 
     EditText questionField, courseField;
     EditText answerAField, answerBField, answerCField, answerDField;
-    Spinner spinner;
+    Spinner spinner, spinnerSubject;
     boolean isEmpty = false;
 
     List<String> options = new ArrayList<String>();
+    List<String> optionsSubjects = new ArrayList<String>();
 
-    private DatabaseReference mDatabase;
+    private DatabaseReference mDatabase, mDatabaseUsers;
     private FirebaseAuth mAuth;
 
     @Override
@@ -47,14 +53,17 @@ public class AddQuestionActivity extends Activity implements View.OnClickListene
         answerDField = findViewById(R.id.fourthAnswerField);
         courseField = findViewById(R.id.courseField);
         spinner = findViewById(R.id.anwerOptions);
-
-        addItemOnSpinner();
+        spinnerSubject = findViewById(R.id.spinnerSubject);
 
         // Buttons
         findViewById(R.id.saveButton).setOnClickListener(this);
 
-        mDatabase = FirebaseDatabase.getInstance().getReference("questions");
         mAuth = FirebaseAuth.getInstance();
+        mDatabase = FirebaseDatabase.getInstance().getReference("questions");
+        mDatabaseUsers = FirebaseDatabase.getInstance().getReference("users");
+
+        addItemOnSpinner();
+        addItemOnSpinnerSubject();
     }
 
     public void addItemOnSpinner() {
@@ -70,6 +79,38 @@ public class AddQuestionActivity extends Activity implements View.OnClickListene
         spinner.setAdapter(dataAdapter);
     }
 
+    public void addItemOnSpinnerSubject() {
+        optionsSubjects.add(" ");
+        getAllSubjects();
+
+        ArrayAdapter<String> dataAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, optionsSubjects);
+        dataAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+
+        spinnerSubject.setAdapter(dataAdapter);
+    }
+
+    public void getAllSubjects() {
+        mDatabaseUsers.child(mAuth.getCurrentUser().getUid()).addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                Map<String, Object> map = (HashMap<String, Object>) dataSnapshot.getValue();
+                for (HashMap.Entry i : map.entrySet()) {
+                    if (i.getKey().equals("subjects")) {
+                        Map<String, Object> subjectsHM = (Map<String, Object>) i.getValue();
+                        for (HashMap.Entry ii : subjectsHM.entrySet()) {
+                            optionsSubjects.add(ii.getValue().toString());
+                        }
+                    }
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        });
+    }
+
     public void addQuestion() {
         final String question;
         final String courseNr;
@@ -79,6 +120,7 @@ public class AddQuestionActivity extends Activity implements View.OnClickListene
         final String answerD;
         final String correctAnswer;
         final String idProfessor;
+        final String subject;
         String course = "";
 
         question = questionField.getText().toString().trim();
@@ -89,9 +131,10 @@ public class AddQuestionActivity extends Activity implements View.OnClickListene
         answerD = answerDField.getText().toString().trim();
         correctAnswer = spinner.getSelectedItem().toString().trim();
         idProfessor = mAuth.getCurrentUser().getUid();
+        subject = spinnerSubject.getSelectedItem().toString().trim();
 
         if (question.isEmpty() || courseNr.isEmpty() || answerA.isEmpty() || answerB.isEmpty() || answerC.isEmpty() ||
-                answerD.isEmpty() || correctAnswer.isEmpty()) {
+                answerD.isEmpty() || correctAnswer.isEmpty() || subject.isEmpty()) {
             Toast.makeText(AddQuestionActivity.this, getString(R.string.noFieldEmpty), Toast.LENGTH_LONG).show();
             isEmpty = true;
             return;
@@ -100,7 +143,7 @@ public class AddQuestionActivity extends Activity implements View.OnClickListene
         }
 
         isEmpty = false;
-        Question newQuestion = new Question(question, course, answerA, answerB, answerC, answerD, correctAnswer, idProfessor);
+        Question newQuestion = new Question(question, course, answerA, answerB, answerC, answerD, correctAnswer, idProfessor, subject);
         String uniqueId = UUID.randomUUID().toString();     // generate unique id for the entry
 
         mDatabase.child(uniqueId).setValue(newQuestion).addOnCompleteListener(new OnCompleteListener<Void>() {
@@ -116,6 +159,7 @@ public class AddQuestionActivity extends Activity implements View.OnClickListene
                         answerCField.getText().clear();
                         answerDField.getText().clear();
                         spinner.setSelection(0);
+                        spinnerSubject.setSelection(0);
                     }
                 } else {
                     Log.w(TAG, "FAILED");

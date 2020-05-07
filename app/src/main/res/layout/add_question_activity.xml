@@ -9,7 +9,32 @@
 
     <TableLayout
         android:layout_width="match_parent"
-        android:layout_height="350dp">
+        android:layout_height="400dp">
+
+        <TableRow
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <Space
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+
+            <TextView
+                android:id="@+id/subjectTextView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Subject"
+                android:textSize="18sp" />
+
+            <Space
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+
+            <Spinner
+                android:id="@+id/spinnerSubject"
+                android:layout_width="match_parent"
+                android:layout_height="45dp" />
+        </TableRow>
 
         <TableRow
             android:layout_width="match_parent"
@@ -36,7 +61,7 @@
                 android:layout_height="wrap_content"
                 android:ems="11"
                 android:inputType="textMultiLine"
-                android:text="Q?"/>
+                android:text="Q?" />
         </TableRow>
 
         <TableRow
@@ -63,8 +88,8 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:ems="10"
-                android:hint="Insert a numeric value"/>
-<!--                android:text="C2"-->
+                android:hint="Insert a numeric value" />
+            <!--                android:text="C2"-->
         </TableRow>
 
         <TableRow
@@ -92,7 +117,7 @@
                 android:layout_height="wrap_content"
                 android:ems="10"
                 android:inputType="textMultiLine"
-                android:text="Aaa"/>
+                android:text="Aaa" />
         </TableRow>
 
         <TableRow
@@ -120,7 +145,7 @@
                 android:layout_height="wrap_content"
                 android:ems="10"
                 android:inputType="textMultiLine"
-                android:text="Bbb"/>
+                android:text="Bbb" />
 
         </TableRow>
 
@@ -149,7 +174,7 @@
                 android:layout_height="wrap_content"
                 android:ems="10"
                 android:inputType="textMultiLine"
-                android:text="Ccc"/>
+                android:text="Ccc" />
         </TableRow>
 
         <TableRow
@@ -177,7 +202,7 @@
                 android:layout_height="wrap_content"
                 android:ems="10"
                 android:inputType="textMultiLine"
-                android:text="Ddd"/>
+                android:text="Ddd" />
         </TableRow>
 
         <TableRow

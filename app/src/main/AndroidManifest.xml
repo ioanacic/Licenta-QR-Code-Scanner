@@ -73,6 +73,9 @@
 
         <activity android:name=".SeeAQActivity"
             android:label="See the information about an answered question"/>
+
+        <activity android:name=".AddSubjectActivity"
+            android:label="Add new subject to professor"/>
     </application>
 
 </manifest>

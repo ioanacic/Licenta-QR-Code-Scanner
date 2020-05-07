@@ -6,13 +6,14 @@ public class Question {
     String course, question, answerA, answerB, answerC, answerD, correctAnswer;
     String isCorrect;
     String idProfessor;
+    String subject;
 
     public Question() {
 
     }
 
     public Question(String question, String course, String answerA, String answerB, String answerC, String answerD,
-                    String correctAnswer, String idProfessor) {
+                    String correctAnswer, String idProfessor, String subject) {
         this.question = question;
         this.course = course;
         this.answerA = answerA;
@@ -21,10 +22,11 @@ public class Question {
         this.answerD = answerD;
         this.correctAnswer = correctAnswer;
         this.idProfessor = idProfessor;
+        this.subject = subject;
     }
 
     public Question(String key, String question, String course, String answerA, String answerB, String answerC, String answerD,
-                    String correctAnswer, String idProfessor) {
+                    String correctAnswer, String idProfessor, String subject) {
         this.key = key;
         this.question = question;
         this.course = course;
@@ -34,6 +36,7 @@ public class Question {
         this.answerD = answerD;
         this.correctAnswer = correctAnswer;
         this.idProfessor = idProfessor;
+        this.subject = subject;
     }
 
     public Question(Question q) {
@@ -44,6 +47,7 @@ public class Question {
         this.answerC = q.answerC;
         this.answerD = q.answerD;
         this.correctAnswer = q.correctAnswer;
+        this.subject = q.subject;
     }
 
     public String getQuestion() {
@@ -132,5 +136,13 @@ public class Question {
 
     public void setIdProfessor(String idProfessor) {
         this.idProfessor = idProfessor;
+    }
+
+    public String getSubject() {
+        return subject;
+    }
+
+    public void setSubject(String subject) {
+        this.subject = subject;
     }
 }
