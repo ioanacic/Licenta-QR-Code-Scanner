@@ -96,7 +96,9 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="#00009688"
-            android:progress="100"/>
+            android:progress="100"
+            android:progressTint="#480D21"
+            android:progressBackgroundTint="#A23359"/>
 
         <LinearLayout
             android:layout_width="wrap_content"
