@@ -25,4 +25,6 @@
     <string name="subjectAddedSuccsessfully">The subject was added successfully</string>
     <string name="noFieldEmpty">No field can be empty</string>
     <string name="haveToSelectOption">You have to choose an answer before submitting</string>
+    <string name="timeExpired">The time for the question has expired! You can no longer answer to this quiz!</string>
+    <string name="noSubmission">You did not answer this question and you can no longer submit an answer for it. Be more careful next time!</string>
 </resources>

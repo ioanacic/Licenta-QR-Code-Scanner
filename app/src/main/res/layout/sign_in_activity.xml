@@ -43,7 +43,7 @@
                     android:layout_height="wrap_content"
                     android:ems="11"
                     android:inputType="textEmailAddress"
-                    android:text="profpp@gmail.com" />
+                    android:text="student@gmail.com" />
             </TableRow>
 
             <TableRow

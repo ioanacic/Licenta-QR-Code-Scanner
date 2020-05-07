@@ -10,6 +10,7 @@ import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.os.Handler;
 import android.support.annotation.NonNull;
+import android.util.Log;
 import android.view.View;
 import android.view.animation.LinearInterpolator;
 import android.widget.Button;
@@ -32,6 +33,7 @@ import java.util.Map;
 public class DecodedQRActivity extends Activity {
     private static final int RC_BARCODE_CAPTURE = 9001;
     public static final String BarcodeObject = "Barcode";
+    private static final String TAG = "DecoderQRActivity";
 
     TextView questionText;
     TextView infoMessage;
@@ -39,6 +41,7 @@ public class DecodedQRActivity extends Activity {
     RadioGroup answersGr;
     ProgressBar progressBar, progressBarHoriz;
     Button submitButton;
+    ValueAnimator animator = new ValueAnimator();
 
     private FirebaseAuth mAuth;
     private DatabaseReference mDatabase, mDatabaseUpdate;
@@ -74,6 +77,23 @@ public class DecodedQRActivity extends Activity {
 
         getData();
         checkAnsweredQuestions();
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+
+        Log.w(TAG, "-------------------PAUSED");
+
+        submitButton.setEnabled(false);
+        progressBarHoriz.setVisibility(View.INVISIBLE);
+        progressBarHoriz.setEnabled(false);
+
+        String answer = "-1";
+        boolean isCorrect = false;
+        AnsweredQuestion aQ = new AnsweredQuestion(answer, isCorrect);
+        mDatabase = FirebaseDatabase.getInstance().getReference("users");
+        mDatabase.child(mAuth.getCurrentUser().getUid()).child("answers").child(questionId).setValue(aQ);
     }
 
     public void checkAnsweredQuestions() {
@@ -236,6 +256,12 @@ public class DecodedQRActivity extends Activity {
 
     public void setSelectedAnswer() {
         switch (selectedAnswer) {
+            case "-1":
+                answerA.setEnabled(false);
+                answerB.setEnabled(false);
+                answerC.setEnabled(false);
+                answerD.setEnabled(false);
+                break;
             case "answerA":
                 answersGr.check(R.id.answerA);
                 answerB.setEnabled(false);
@@ -289,6 +315,8 @@ public class DecodedQRActivity extends Activity {
             submitButton.setVisibility(View.VISIBLE);
             infoMessage.setVisibility(View.VISIBLE);
             progressBarHoriz.setVisibility(View.INVISIBLE);
+            progressBarHoriz.setEnabled(false);
+
             submitButton.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
@@ -300,14 +328,14 @@ public class DecodedQRActivity extends Activity {
     }
 
     public void createCountDownTimer() {
-        countDownTimer = new CountDownTimer(10000,1000) {
-            int numberOfSeconds = 10000/1000;
-            int factor = 100/numberOfSeconds;
+        countDownTimer = new CountDownTimer(10000, 1000) {
+            int numberOfSeconds = 10000 / 1000;
+            int factor = 100 / numberOfSeconds;
 
             @Override
             public void onTick(long millisUntilFinished) {
                 int secondsRemaining = (int) (millisUntilFinished / 1000);
-                int progressPercentage = (numberOfSeconds-secondsRemaining) * factor ;
+                int progressPercentage = (numberOfSeconds - secondsRemaining) * factor;
                 progressBarHoriz.setProgress(100 - progressPercentage);
             }
 
@@ -319,13 +347,10 @@ public class DecodedQRActivity extends Activity {
     }
 
     private void startAnimation() {
-
-        ValueAnimator animator = ValueAnimator.ofInt(0, 100);
+        animator = ValueAnimator.ofInt(0, 100);
         animator.setInterpolator(new LinearInterpolator());
         animator.setStartDelay(0);
-        animator.setDuration(10000);
-//        int numberOfSeconds = 10;
-//        int factor = 100/numberOfSeconds;
+        animator.setDuration(5000);         // default = 60000
 
         animator.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
             @Override
@@ -339,6 +364,22 @@ public class DecodedQRActivity extends Activity {
             @Override
             public void onAnimationEnd(Animator animation) {
                 super.onAnimationEnd(animation);
+
+                if (answersGr.getCheckedRadioButtonId() == -1) {
+                    submitButton.setEnabled(false);
+                    answerA.setEnabled(false);
+                    answerB.setEnabled(false);
+                    answerC.setEnabled(false);
+                    answerD.setEnabled(false);
+                    Toast.makeText(DecodedQRActivity.this, R.string.timeExpired, Toast.LENGTH_SHORT).show();
+
+                    String answer = "-1";
+                    boolean isCorrect = false;
+                    AnsweredQuestion aQ = new AnsweredQuestion(answer, isCorrect);
+                    mDatabase = FirebaseDatabase.getInstance().getReference("users");
+                    mDatabase.child(mAuth.getCurrentUser().getUid()).child("answers").child(questionId).setValue(aQ);
+                }
+
             }
         });
 

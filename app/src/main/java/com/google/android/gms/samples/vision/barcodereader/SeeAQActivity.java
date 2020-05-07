@@ -25,7 +25,7 @@ public class SeeAQActivity extends Activity {
     private FirebaseAuth mAuth;
     private DatabaseReference mDatabase, questionsAsProfessor, getQuestionsAsStudent;
 
-    TextView questionText;
+    TextView questionText, infoMessage;
     RadioButton answerA, answerB, answerC, answerD;
     RadioGroup answersGr;
 
@@ -44,6 +44,7 @@ public class SeeAQActivity extends Activity {
         answerC = (RadioButton) findViewById(R.id.answerC);
         answerD = (RadioButton) findViewById(R.id.answerD);
         answersGr = (RadioGroup) findViewById(R.id.answersGroup);
+        infoMessage = (TextView) findViewById(R.id.infoMessage);
 
         mAuth = FirebaseAuth.getInstance();
         // the id of the current question
@@ -155,6 +156,13 @@ public class SeeAQActivity extends Activity {
 
     public void setSelectedAnswer() {
         switch (selectedAnswer) {
+            case "-1":
+                answerA.setEnabled(false);
+                answerB.setEnabled(false);
+                answerC.setEnabled(false);
+                answerD.setEnabled(false);
+                infoMessage.setText(R.string.noSubmission);
+                break;
             case "answerA":
                 answersGr.check(R.id.answerA);
                 answerB.setEnabled(false);
