@@ -28,15 +28,20 @@ public class SeeQuestionsActivity extends Activity {
     private DatabaseReference mDatabase;
     private FirebaseAuth mAuth;
 
-    Spinner spinner;
+    Spinner spinner, spinnerSubject;
 
     List<Question> questions = new ArrayList<>();
+    List<Question> questionsBySubject = new ArrayList<>();
+
+    ArrayAdapter<String> dataAdapterSpinner;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.see_questions_activity);
         recyclerView = (RecyclerView) findViewById(R.id.my_recycler_view);
+
+        mAuth = FirebaseAuth.getInstance();
 
         spinner = (Spinner) findViewById(R.id.coursesOptions);
         spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
@@ -51,16 +56,28 @@ public class SeeQuestionsActivity extends Activity {
             }
         });
 
-        mAuth = FirebaseAuth.getInstance();
+        spinnerSubject = (Spinner) findViewById(R.id.subjectsOptions);
+        spinnerSubject.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
+                questionsBySubject.clear();
+                onOptionSelectedSubject();
+            }
 
+            @Override
+            public void onNothingSelected(AdapterView<?> adapterView) {
+
+            }
+        });
+
+
+        populateRecyclerView();
         getData();
-        populateRecyclerView(questions);
     }
 
     // add new param for the field for comparison
-    public void populateRecyclerView(final List<Question> q) {
-        Collections.sort(q, (o1, o2) -> o1.getCourse().compareTo(o2.getCourse()));
-        adapter = new QuestionsAdapter(q);
+    public void populateRecyclerView() {
+        adapter = new QuestionsAdapter();
         recyclerView.setAdapter(adapter);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
 
@@ -68,7 +85,7 @@ public class SeeQuestionsActivity extends Activity {
                 new RecyclerItemClickListener(this.getApplicationContext(), recyclerView, new RecyclerItemClickListener.OnItemClickListener() {
                     @Override
                     public void onItemClick(View view, int position) {
-                        Question selectedQuestion = q.get(position);
+                        Question selectedQuestion = adapter.getMyQuestions().get(position);
                         String key = selectedQuestion.getKey();
                         Intent intent = new Intent(SeeQuestionsActivity.this, GenerateQRActivity.class);
                         intent.putExtra("KEY", key);
@@ -90,7 +107,8 @@ public class SeeQuestionsActivity extends Activity {
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 for (DataSnapshot d : dataSnapshot.getChildren()) {
                     Question q = d.getValue(Question.class);
-                    // TODO - remode the not null condition (it s just for now, when i have Qs without profId)
+                    // takes the questions created by the logged in professor
+                    // TODO - remove the not null condition (it s just for now, when i have Qs without profId)
                     if (q.getIdProfessor() != null && q.getIdProfessor().equals(mAuth.getCurrentUser().getUid())) {
                         String key = d.getKey();
                         q.setKey(key);
@@ -98,7 +116,8 @@ public class SeeQuestionsActivity extends Activity {
                     }
                 }
                 adapter.notifyDataSetChanged();
-                addItemOnSpinner();
+//                addItemOnSpinner();
+                addItemOnSpinnerSubject();
             }
 
             @Override
@@ -108,19 +127,53 @@ public class SeeQuestionsActivity extends Activity {
         });
     }
 
+    public void getDataBySubject() {
+        for (Question q : questions) {
+            if (q.getSubject().equals(spinnerSubject.getSelectedItem().toString().trim())) {
+                questionsBySubject.add(q);
+            }
+        }
+        addItemOnSpinner();
+    }
+
     public void addItemOnSpinner() {
-        List<String> options = new ArrayList<String>();
+       List<String> options = new ArrayList<String>();
         options.add("All courses");
+
+        if (!questionsBySubject.isEmpty()) {
+            for (Question q : questionsBySubject) {
+                boolean contains = false;
+                for (String o : options) {
+                    if (q.getCourse().equals(o)) {
+                        contains = true;
+                    }
+                }
+                if (contains == false) {
+                    options.add(q.getCourse());
+                }
+            }
+        }
+
+        Collections.sort(options, (o1, o2) -> o1.compareTo(o2));
+
+        dataAdapterSpinner = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, options);
+        dataAdapterSpinner.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        spinner.setAdapter(dataAdapterSpinner);
+    }
+
+    public void addItemOnSpinnerSubject() {
+        List<String> options = new ArrayList<String>();
+        options.add("All subjects");
 
         for (Question q : questions) {
             boolean contains = false;
             for (String o : options) {
-                if (q.getCourse().equals(o)) {
+                if (q.getSubject().equals(o)) {
                     contains = true;
                 }
             }
             if (contains == false) {
-                options.add(q.getCourse());
+                options.add(q.getSubject());
             }
         }
 
@@ -129,23 +182,47 @@ public class SeeQuestionsActivity extends Activity {
         ArrayAdapter<String> dataAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, options);
         dataAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
 
-        spinner.setAdapter(dataAdapter);
+        spinnerSubject.setAdapter(dataAdapter);
     }
 
     public void onOptionSelected() {
         String selectedOption = spinner.getSelectedItem().toString().trim();
         List<Question> selectedQuestions = new ArrayList<>();
 
-        for (Question q : questions) {
+        for (Question q : questionsBySubject) {
             if (q.getCourse().equals(selectedOption)) {
                 selectedQuestions.add(q);
             }
         }
 
         if (spinner.getSelectedItem().toString().trim().equals("All courses")) {
-            populateRecyclerView(questions);
+            if (questionsBySubject.isEmpty()) {
+                return;
+            } else {
+                adapter.updateQ(questionsBySubject);
+            }
         } else {
-            populateRecyclerView(selectedQuestions);
+            adapter.updateQ(selectedQuestions);
         }
+    }
+
+    public void onOptionSelectedSubject() {
+        String selectedOption = spinnerSubject.getSelectedItem().toString().trim();
+        List<Question> selectedQuestions = new ArrayList<>();
+
+        for (Question q : questions) {
+            if (q.getSubject().equals(selectedOption)) {
+                selectedQuestions.add(q);
+            }
+        }
+
+        if (spinnerSubject.getSelectedItem().toString().trim().equals("All subjects")) {
+            adapter.updateQ(questions);
+        } else {
+            adapter.updateQ(selectedQuestions);
+
+        }
+
+        getDataBySubject();
     }
 }

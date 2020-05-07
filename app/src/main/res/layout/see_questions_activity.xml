@@ -4,6 +4,11 @@
     android:layout_height="match_parent">
 
     <Spinner
+        android:id="@+id/subjectsOptions"
+        android:layout_width="match_parent"
+        android:layout_height="50dp" />
+
+    <Spinner
         android:id="@+id/coursesOptions"
         android:layout_width="match_parent"
         android:layout_height="50dp" />

@@ -7,6 +7,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 public class QuestionsAdapter extends RecyclerView.Adapter<QuestionsAdapter.ViewHolder> {
@@ -27,8 +29,8 @@ public class QuestionsAdapter extends RecyclerView.Adapter<QuestionsAdapter.View
 
     private List<Question> myQuestios;
 
-    public QuestionsAdapter(List<Question> questions) {
-        myQuestios = questions;
+    public QuestionsAdapter() {
+        myQuestios = new ArrayList<>();
     }
 
     @Override
@@ -56,5 +58,16 @@ public class QuestionsAdapter extends RecyclerView.Adapter<QuestionsAdapter.View
     @Override
     public int getItemCount() {
         return myQuestios.size();
+    }
+
+    public void updateQ(List<Question> newQList) {
+        myQuestios.clear();
+        myQuestios.addAll(newQList);
+        Collections.sort(myQuestios, (o1, o2) -> o1.getCourse().compareTo(o2.getCourse()));
+        this.notifyDataSetChanged();
+    }
+
+    public List<Question> getMyQuestions() {
+        return myQuestios;
     }
 }

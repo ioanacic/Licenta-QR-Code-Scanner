@@ -21,6 +21,7 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -82,6 +83,9 @@ public class AddQuestionActivity extends Activity implements View.OnClickListene
     public void addItemOnSpinnerSubject() {
         optionsSubjects.add(" ");
         getAllSubjects();
+
+        // dont know if necessary
+//        Collections.sort(options, (o1, o2) -> o1.compareTo(o2));
 
         ArrayAdapter<String> dataAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, optionsSubjects);
         dataAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);

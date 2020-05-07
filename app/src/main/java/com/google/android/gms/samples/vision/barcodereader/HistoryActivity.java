@@ -40,7 +40,7 @@ public class HistoryActivity extends Activity {
     List<AnsweredQuestion> answeredQuestions = new ArrayList<>();
     List<Question> questionsAQ = new ArrayList<>();
     List<Question> professorQuestionsAQ = new ArrayList<>();        // if not empty, then the professor wanna access history
-    Map<String, String> professorsSubjects = new HashMap<>();
+    Map<String, List<String>> professorsSubjects = new HashMap<>();
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -104,7 +104,7 @@ public class HistoryActivity extends Activity {
             // the professor
             historyAsProfessor = mDatabase.child(keyOfSelectedStudent);
             seeHistoryAs(historyAsProfessor);
-            spinner.setVisibility(View.INVISIBLE);
+//            spinner.setVisibility(View.INVISIBLE);
         } else {
             // the student
             historyAsStudent = mDatabase.child(mAuth.getCurrentUser().getUid());
@@ -177,6 +177,9 @@ public class HistoryActivity extends Activity {
                             String idProfessor = q.getIdProfessor();
                             q.setIdProfessor(idProfessor);
 
+                            String subject = q.getSubject();
+                            q.setSubject(subject);
+
                             if (mAuth.getCurrentUser().getUid().equals(idProfessor)) {
                                 professorQuestionsAQ.add(q);
                             }
@@ -212,12 +215,13 @@ public class HistoryActivity extends Activity {
                     // we only get the professors
                     if (typeOfUser.equals("P")) {
                         for (Question q : questionsAQ) {
+                            String subject = q.getSubject();
+
                             if (d.getKey().equals(q.getIdProfessor())) {
                                 Map<String, Professor> professorValue = (HashMap<String, Professor>) d.getValue();
                                 String key = d.getKey();
                                 String lastName = "";
                                 String firstName = "";
-                                String subject = "";
 
                                 for (HashMap.Entry i : professorValue.entrySet()) {
                                     if (i.getKey().equals("lastName")) {
@@ -226,23 +230,34 @@ public class HistoryActivity extends Activity {
                                     if (i.getKey().equals("firstName")) {
                                         firstName = (String) i.getValue();
                                     }
-                                    if (i.getKey().equals("subject")) {
-                                        subject = (String) i.getValue();
+                                }
+
+                                boolean found = false;
+                                for (Map.Entry entry : professorsSubjects.entrySet()) {
+                                    if (entry.getKey().equals(key)) {
+                                        List<String> entryValue = (List<String>) entry.getValue();
+                                        entryValue.add(subject + " - " + lastName + " " + firstName);
+                                        found = true;
                                     }
                                 }
 
-                                professorsSubjects.put(key, subject + " - " + lastName + " " + firstName);
+                                if (!found) {
+                                    List<String> value = new ArrayList<>();
+                                    value.add(subject + " - " + lastName + " " + firstName);
+                                    professorsSubjects.put(key, value);
+                                }
                             }
                         }
                     }
                 }
                 if (!professorQuestionsAQ.isEmpty()) {
                     adapter.updateQ(professorQuestionsAQ);
+                    addItemsOnSpinnerProfessor();
 
                 } else {
                     adapter.updateQ(questionsAQ);
+                    addItemsOnSpinnerStudent();
                 }
-                addItemsOnSpinner();
             }
 
             @Override
@@ -252,19 +267,22 @@ public class HistoryActivity extends Activity {
         });
     }
 
-    public void addItemsOnSpinner() {
+    public void addItemsOnSpinnerStudent() {
         List<String> options = new ArrayList<String>();
         options.add("All subjects");
 
         for (Map.Entry entry : professorsSubjects.entrySet()) {
             boolean contains = false;
-            for (String o : options) {
-                if (entry.getValue().equals(o)) {
-                    contains = true;
+            List<String> entryValue = (List<String>) entry.getValue();
+            for (String ev : entryValue) {
+                for (String o : options) {
+                    if (ev.equals(o)) {
+                        contains = true;
+                    }
                 }
-            }
-            if (contains == false) {
-                options.add(entry.getValue().toString());
+                if (contains == false) {
+                    options.add(ev);
+                }
             }
         }
 
@@ -276,30 +294,63 @@ public class HistoryActivity extends Activity {
         spinner.setAdapter(dataAdapter);
     }
 
+    public void addItemsOnSpinnerProfessor() {
+        List<String> options = new ArrayList<String>();
+        options.add("All subjects");
+
+        for (Map.Entry entry : professorsSubjects.entrySet()) {
+            boolean contains = false;
+            if (mAuth.getCurrentUser().getUid().equals(entry.getKey())) {
+                List<String> entryValue = (List<String>) entry.getValue();
+                for (String ev : entryValue) {
+                    for (String o : options) {
+                        if (ev.substring(0, ev.indexOf(' ')).equals(o)) {
+                            contains = true;
+                        }
+                    }
+                    if (contains == false) {
+                        options.add(ev.substring(0, ev.indexOf(' ')));
+                    }
+                }
+            }
+        }
+        Collections.sort(options, (o1, o2) -> o1.compareTo(o2));
+
+        ArrayAdapter<String> dataAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, options);
+        dataAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+
+        spinner.setAdapter(dataAdapter);
+    }
+
     public void onOptionSelected() {
         String selectedOption = spinner.getSelectedItem().toString().trim();
         List<Question> selectedQuestions = new ArrayList<>();
+        String selectedSubject = "";
 
         // is the student wanna access history
-        if (professorQuestionsAQ.isEmpty()) {
-            if (selectedOption.equals("All subjects")) {
-                adapter.updateQ(questionsAQ);
-            } else {
-                String idProfessor = "";
-                // get professor id for option selected
-                for (Map.Entry entry : professorsSubjects.entrySet()) {
-                    if (entry.getValue().equals(selectedOption)) {
+//        if (professorQuestionsAQ.isEmpty()) {
+        if (selectedOption.equals("All subjects")) {
+            adapter.updateQ(questionsAQ);
+        } else {
+            String idProfessor = "";
+            // get professor id for option selected
+            for (Map.Entry entry : professorsSubjects.entrySet()) {
+                List<String> entryValue = (List<String>) entry.getValue();
+                for (String ev : entryValue) {
+                    if (ev.substring(0, ev.indexOf(' ')).equals(selectedOption)) {
                         idProfessor = entry.getKey().toString();
+                        selectedSubject = ev.substring(0, ev.indexOf(' '));
                     }
                 }
-
-                for (Question q : questionsAQ) {
-                    if (q.getIdProfessor().equals(idProfessor)) {
-                        selectedQuestions.add(q);
-                    }
-                }
-                adapter.updateQ(selectedQuestions);
             }
+
+            for (Question q : questionsAQ) {
+                if (q.getIdProfessor().equals(idProfessor) && q.getSubject().equals(selectedSubject)) {
+                    selectedQuestions.add(q);
+                }
+            }
+            adapter.updateQ(selectedQuestions);
         }
+//        }
     }
 }
