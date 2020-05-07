@@ -98,7 +98,7 @@
             android:background="#00009688"
             android:progress="100"
             android:progressTint="#480D21"
-            android:progressBackgroundTint="#A23359"/>
+            android:progressBackgroundTint="#A23359" />
 
         <LinearLayout
             android:layout_width="wrap_content"

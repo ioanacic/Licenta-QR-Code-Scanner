@@ -107,8 +107,11 @@ public class MainActivity extends Activity implements View.OnClickListener {
                                 Log.w(TAG, "createUserWithEmail:existEmail");
                                 Toast.makeText(MainActivity.this, R.string.existEmail,
                                         Toast.LENGTH_SHORT).show();
-                            } catch (Exception e) {
+                            }
+                            catch (Exception e) {
                                 Log.w(TAG, "createUserWithEmail:failure", task.getException());
+                                Toast.makeText(MainActivity.this, R.string.incorrectCredentials,
+                                        Toast.LENGTH_SHORT).show();
                             }
                         }
                     }
