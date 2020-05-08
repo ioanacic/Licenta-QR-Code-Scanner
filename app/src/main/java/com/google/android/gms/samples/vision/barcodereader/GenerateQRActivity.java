@@ -35,7 +35,7 @@ public class GenerateQRActivity extends Activity {
     EditText renamePicture;
     String inputValue;
 
-    String keyOfSelectedQuestion;
+    String keyOfSelectedQuestion, subjectOfSelectedQuestion, courseOfSelectedQuestion;
 
     Bitmap bitmap;
     QRGEncoder qrgEncoder;
@@ -51,6 +51,8 @@ public class GenerateQRActivity extends Activity {
         renamePicture = (EditText) findViewById(R.id.pictureName);
 
         keyOfSelectedQuestion = getIntent().getStringExtra("KEY");
+        subjectOfSelectedQuestion = getIntent().getStringExtra("SUBJECT");
+        courseOfSelectedQuestion = getIntent().getStringExtra("COURSE");
 
         inputValue = keyOfSelectedQuestion.trim();
         if (inputValue.length() > 0) {
@@ -83,8 +85,15 @@ public class GenerateQRActivity extends Activity {
                 String result;
 
                 File filepath = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DCIM);
-                File dir = new File(filepath.getAbsoluteFile() + "/QRCodes/");
+                File dir;
+                String addToPath1 = "/QRCodes/" + subjectOfSelectedQuestion + "/";
+                dir = new File(filepath.getAbsoluteFile() + addToPath1);
                 dir.mkdir();
+
+                String addToPath2 = addToPath1 + courseOfSelectedQuestion + "/";
+                dir = new File(filepath.getAbsoluteFile() + addToPath2);
+                dir.mkdir();
+
 
                 String pictureName;
                 if (renamePicture.getText().toString().isEmpty()) {

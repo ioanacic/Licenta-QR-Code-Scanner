@@ -10,6 +10,7 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Spinner;
+import android.widget.Toast;
 
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
@@ -87,9 +88,19 @@ public class SeeQuestionsActivity extends Activity {
                     public void onItemClick(View view, int position) {
                         Question selectedQuestion = adapter.getMyQuestions().get(position);
                         String key = selectedQuestion.getKey();
+                        String subject = spinnerSubject.getSelectedItem().toString().trim();
+                        String course = selectedQuestion.getCourse();
+
                         Intent intent = new Intent(SeeQuestionsActivity.this, GenerateQRActivity.class);
                         intent.putExtra("KEY", key);
-                        startActivity(intent);
+                        intent.putExtra("COURSE", course);
+                        intent.putExtra("SUBJECT", subject);
+
+                        if (spinnerSubject.getSelectedItem().toString().trim().equals("All subjects")) {
+                            Toast.makeText(getApplicationContext(), R.string.selectASubject, Toast.LENGTH_SHORT).show();
+                        } else {
+                            startActivity(intent);
+                        }
                     }
 
                     @Override
