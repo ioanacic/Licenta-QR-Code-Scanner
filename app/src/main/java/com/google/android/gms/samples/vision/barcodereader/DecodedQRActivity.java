@@ -27,7 +27,11 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Collections;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 public class DecodedQRActivity extends Activity {
@@ -42,17 +46,20 @@ public class DecodedQRActivity extends Activity {
     ProgressBar progressBar, progressBarHoriz;
     Button submitButton;
     ObjectAnimator animator = new ObjectAnimator();
+    List<String> radioButtonsList = new ArrayList<>();
 
     private FirebaseAuth mAuth;
     private DatabaseReference mDatabase, mDatabaseUpdate;
 
-    String questionId, correctAnswer, score, selectedAnswer;
+    String questionId, correctAnswer, score, selectedAnswer, selectedAnswerText;
+    String correctAnswerText;
     boolean isCorrect;
     boolean qAnswered = false;
     boolean submitted = false;
     boolean paused = false;
     boolean history = false;
     Question q;
+    Map<String, String> answersAndText = new HashMap<>();
 
     CountDownTimer countDownTimer;
 
@@ -83,16 +90,16 @@ public class DecodedQRActivity extends Activity {
     }
 
     @Override
-    protected void onPause() {
+    protected void onPause() {          // it s also called when you press back or start button
         super.onPause();
 
         paused = true;
 
-        if (!submitted) {       // button pressed
-            if (history) {      // history pressed
+        if (!submitted) {                             // submit not pressed
+            if (history || qAnswered) {              // history pressed or just see the activity
                 return;
             }
-            disableAndWriteDB();
+            disableAndWriteDB();        // time expired or exited application
         }
     }
 
@@ -113,7 +120,13 @@ public class DecodedQRActivity extends Activity {
                                 Map<String, Map<String, Object>> oneAnswer = (Map<String, Map<String, Object>>) ii.getValue();
                                 for (HashMap.Entry oneField : oneAnswer.entrySet()) {
                                     if (oneField.getKey().equals("answer")) {
-                                        selectedAnswer = (String) oneField.getValue();
+                                        selectedAnswer = (String) oneField.getValue();          // from db
+                                        for (Map.Entry entry : answersAndText.entrySet()) {
+                                            if (selectedAnswer.equals(entry.getKey())) {
+                                                selectedAnswerText = entry.getValue().toString();       // text of answer, have to find id
+                                                break;
+                                            }
+                                        }
                                         setSelectedAnswer();
                                     }
                                 }
@@ -144,12 +157,28 @@ public class DecodedQRActivity extends Activity {
                     if (d.getKey().equals(questionId)) {
                         q = d.getValue(Question.class);
                         questionText.setText(q.question);
-                        answerA.setText(q.answerA);
-                        answerB.setText(q.answerB);
-                        answerC.setText(q.answerC);
-                        answerD.setText(q.answerD);
+
+                        // create the list of answers to shuffle
+                        radioButtonsList.add(q.getAnswerA());
+                        radioButtonsList.add(q.getAnswerB());
+                        radioButtonsList.add(q.getAnswerC());
+                        radioButtonsList.add(q.getAnswerD());
+                        Collections.shuffle(radioButtonsList);
+
+                        // set answers shuffled
+                        answerA.setText(radioButtonsList.get(0));
+                        answerB.setText(radioButtonsList.get(1));
+                        answerC.setText(radioButtonsList.get(2));
+                        answerD.setText(radioButtonsList.get(3));
+
                         correctAnswer = q.getCorrectAnswer();
                         correctAnswer = format(correctAnswer);
+
+                        // answers with correct id from db
+                        answersAndText.put("answerA", q.getAnswerA());
+                        answersAndText.put("answerB", q.getAnswerB());
+                        answersAndText.put("answerC", q.getAnswerC());
+                        answersAndText.put("answerD", q.getAnswerD());
                     }
                 }
                 // stop loading
@@ -175,22 +204,30 @@ public class DecodedQRActivity extends Activity {
         View v = answersGr.findViewById(id);
         int checkedAnswerId = answersGr.indexOfChild(v);
         String answerChecked = null;
+        String answerText = null;
 
         isCorrect = false;
 
+        // radio button chosen by student
         switch (checkedAnswerId) {
             case 0:
-                answerChecked = "answerA";
+                answerText = radioButtonsList.get(0);
                 break;
             case 1:
-                answerChecked = "answerB";
+                answerText = radioButtonsList.get(1);
                 break;
             case 2:
-                answerChecked = "answerC";
+                answerText = radioButtonsList.get(2);
                 break;
             case 3:
-                answerChecked = "answerD";
+                answerText = radioButtonsList.get(3);
                 break;
+        }
+
+        for (Map.Entry entry : answersAndText.entrySet()) {
+            if (entry.getValue().equals(answerText)) {
+                answerChecked = entry.getKey().toString();
+            }
         }
 
         // check if the answer is correct or not
@@ -238,15 +275,19 @@ public class DecodedQRActivity extends Activity {
         switch (s) {
             case "Answer A":
                 sFormatted = "answerA";
+                correctAnswerText = q.getAnswerA();
                 break;
             case "Answer B":
                 sFormatted = "answerB";
+                correctAnswerText = q.getAnswerB();
                 break;
             case "Answer C":
                 sFormatted = "answerC";
+                correctAnswerText = q.getAnswerC();
                 break;
             case "Answer D":
                 sFormatted = "answerD";
+                correctAnswerText = q.getAnswerD();
                 break;
         }
 
@@ -254,6 +295,9 @@ public class DecodedQRActivity extends Activity {
     }
 
     public void setSelectedAnswer() {
+        if (!selectedAnswer.equals("-1")) {
+            searchIdButton();
+        }
         switch (selectedAnswer) {
             case "-1":
                 answerA.setEnabled(false);
@@ -262,6 +306,7 @@ public class DecodedQRActivity extends Activity {
                 answerD.setEnabled(false);
                 break;
             case "answerA":
+
                 answersGr.check(R.id.answerA);
                 answerB.setEnabled(false);
                 answerC.setEnabled(false);
@@ -285,6 +330,29 @@ public class DecodedQRActivity extends Activity {
                 answerB.setEnabled(false);
                 answerC.setEnabled(false);
                 break;
+        }
+    }
+
+    public void searchIdButton() {
+        for (String s : radioButtonsList) {
+            if (selectedAnswerText.equals(s)) {
+                int id = radioButtonsList.indexOf(s);
+                switch(id) {
+                    case 0:
+                        selectedAnswer = "answerA";
+                        break;
+                    case 1:
+                        selectedAnswer = "answerB";
+                        break;
+                    case 2:
+                        selectedAnswer = "answerC";
+                        break;
+                    case 3:
+                        selectedAnswer = "answerD";
+                        break;
+                }
+                break;
+            }
         }
     }
 
