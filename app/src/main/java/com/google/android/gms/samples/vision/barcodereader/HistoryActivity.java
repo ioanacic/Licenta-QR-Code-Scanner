@@ -33,9 +33,9 @@ public class HistoryActivity extends Activity {
     private FirebaseAuth mAuth;
     private DatabaseReference mDatabase, historyAsProfessor, historyAsStudent;
 
-    TextView yourScore;
+    TextView yourScore, infoScore;
     Spinner spinner;
-    String score;
+    Double score = 0.0;
     String keyOfSelectedStudent;
     List<AnsweredQuestion> answeredQuestions = new ArrayList<>();
     List<Question> questionsAQ = new ArrayList<>();
@@ -48,6 +48,8 @@ public class HistoryActivity extends Activity {
         setContentView(R.layout.history_activity);
         recyclerView = (RecyclerView) findViewById(R.id.my_recycler_view_QS);
         yourScore = (TextView) findViewById(R.id.yourScore);
+        infoScore = (TextView) findViewById(R.id.scoreTextView);
+        infoScore.setVisibility(View.INVISIBLE);
 
         spinner = (Spinner) findViewById(R.id.subjectsOptions);
         spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
@@ -138,12 +140,8 @@ public class HistoryActivity extends Activity {
                             answeredQuestions.add(aQ);
                         }
                     }
-                    if (i.getKey().equals("score")) {
-                        score = (String) i.getValue();
-                    }
                 }
                 getInfoAboutAQ();
-                yourScore.setText(score);
             }
 
             @Override
@@ -267,6 +265,21 @@ public class HistoryActivity extends Activity {
         });
     }
 
+    public void calculateScore(List<Question> qs) {
+        score = 0.0;        // reinitialize each time
+
+        for (Question q : qs) {
+            if (q.getIsCorrect().equals("correct")) {
+                score += 0.1;
+            }
+        }
+
+        String scoreStr = score.toString();
+        scoreStr = scoreStr.substring(0, 3);
+        infoScore.setVisibility(View.VISIBLE);
+        yourScore.setText(scoreStr);
+    }
+
     public void addItemsOnSpinnerStudent() {
         List<String> options = new ArrayList<String>();
         options.add("All subjects");
@@ -363,6 +376,7 @@ public class HistoryActivity extends Activity {
                 }
             }
             adapter.updateQ(selectedQuestions);
+            calculateScore(selectedQuestions);
         }
     }
 }

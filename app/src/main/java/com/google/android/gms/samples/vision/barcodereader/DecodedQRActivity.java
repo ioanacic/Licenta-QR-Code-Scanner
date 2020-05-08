@@ -51,7 +51,7 @@ public class DecodedQRActivity extends Activity {
     private FirebaseAuth mAuth;
     private DatabaseReference mDatabase, mDatabaseUpdate;
 
-    String questionId, correctAnswer, score, selectedAnswer, selectedAnswerText;
+    String questionId, correctAnswer, selectedAnswer, selectedAnswerText;
     String correctAnswerText;
     boolean isCorrect;
     boolean qAnswered = false;
@@ -79,6 +79,7 @@ public class DecodedQRActivity extends Activity {
         progressBarHoriz = (ProgressBar) findViewById(R.id.progressBarHoriz);
         submitButton = (Button) findViewById(R.id.submit);
 
+        progressBarHoriz.setVisibility(View.INVISIBLE);
 
         mAuth = FirebaseAuth.getInstance();
 
@@ -241,35 +242,6 @@ public class DecodedQRActivity extends Activity {
         mDatabase.child(mAuth.getCurrentUser().getUid()).child("answers").child(questionId).setValue(aQ);
     }
 
-    public void updateScore() {
-        mDatabaseUpdate = FirebaseDatabase.getInstance().getReference("users");
-        mDatabaseUpdate.child(mAuth.getCurrentUser().getUid()).addListenerForSingleValueEvent(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                Map<String, Object> map = (HashMap<String, Object>) dataSnapshot.getValue();
-                for (HashMap.Entry i : map.entrySet()) {
-                    if (i.getKey().equals("score")) {
-                        score = (String) i.getValue();
-                    }
-                }
-                if (isCorrect == true) {
-                    double scoreD;
-                    scoreD = Double.parseDouble(score);
-                    scoreD = scoreD + 0.1;
-                    score = (Double.toString(scoreD)).substring(0, 3);
-                }
-
-                mDatabaseUpdate.child(mAuth.getCurrentUser().getUid()).child("score").setValue(score);
-            }
-
-            @Override
-            public void onCancelled(@NonNull DatabaseError databaseError) {
-
-            }
-        });
-
-    }
-
     public String format(String s) {
         String sFormatted = null;
         switch (s) {
@@ -367,7 +339,6 @@ public class DecodedQRActivity extends Activity {
                         Toast.makeText(DecodedQRActivity.this, R.string.haveToSelectOption, Toast.LENGTH_SHORT).show();
                     } else {
                         sendData();
-//                        updateScore();
                         animator.removeAllListeners();
                         animator.cancel();
 
