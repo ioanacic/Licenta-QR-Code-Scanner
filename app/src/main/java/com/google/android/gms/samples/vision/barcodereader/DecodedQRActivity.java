@@ -41,7 +41,7 @@ public class DecodedQRActivity extends Activity {
     RadioGroup answersGr;
     ProgressBar progressBar, progressBarHoriz;
     Button submitButton;
-    ValueAnimator animator = new ValueAnimator();
+    ObjectAnimator animator = new ObjectAnimator();
 
     private FirebaseAuth mAuth;
     private DatabaseReference mDatabase, mDatabaseUpdate;
@@ -49,6 +49,9 @@ public class DecodedQRActivity extends Activity {
     String questionId, correctAnswer, score, selectedAnswer;
     boolean isCorrect;
     boolean qAnswered = false;
+    boolean submitted = false;
+    boolean paused = false;
+    boolean history = false;
     Question q;
 
     CountDownTimer countDownTimer;
@@ -83,17 +86,14 @@ public class DecodedQRActivity extends Activity {
     protected void onPause() {
         super.onPause();
 
-        Log.w(TAG, "-------------------PAUSED");
+        paused = true;
 
-        submitButton.setEnabled(false);
-        progressBarHoriz.setVisibility(View.INVISIBLE);
-        progressBarHoriz.setEnabled(false);
-
-        String answer = "-1";
-        boolean isCorrect = false;
-        AnsweredQuestion aQ = new AnsweredQuestion(answer, isCorrect);
-        mDatabase = FirebaseDatabase.getInstance().getReference("users");
-        mDatabase.child(mAuth.getCurrentUser().getUid()).child("answers").child(questionId).setValue(aQ);
+        if (!submitted) {       // button pressed
+            if (history) {      // history pressed
+                return;
+            }
+            disableAndWriteDB();
+        }
     }
 
     public void checkAnsweredQuestions() {
@@ -123,7 +123,6 @@ public class DecodedQRActivity extends Activity {
                 }
                 activateHistoryButton();
 
-//                createCountDownTimer();
                 startAnimation();
             }
 
@@ -301,6 +300,11 @@ public class DecodedQRActivity extends Activity {
                     } else {
                         sendData();
 //                        updateScore();
+                        animator.removeAllListeners();
+                        animator.cancel();
+
+                        submitted = true;
+
                         Intent intent = new Intent(DecodedQRActivity.this, StudentAccountActivity.class);
                         startActivity(intent);
                     }
@@ -317,9 +321,13 @@ public class DecodedQRActivity extends Activity {
             progressBarHoriz.setVisibility(View.INVISIBLE);
             progressBarHoriz.setEnabled(false);
 
+            animator.removeAllListeners();
+            animator.cancel();
+
             submitButton.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
+                    history = true;
                     Intent intent = new Intent(DecodedQRActivity.this, HistoryActivity.class);
                     startActivity(intent);
                 }
@@ -327,27 +335,12 @@ public class DecodedQRActivity extends Activity {
         }
     }
 
-    public void createCountDownTimer() {
-        countDownTimer = new CountDownTimer(10000, 1000) {
-            int numberOfSeconds = 10000 / 1000;
-            int factor = 100 / numberOfSeconds;
-
-            @Override
-            public void onTick(long millisUntilFinished) {
-                int secondsRemaining = (int) (millisUntilFinished / 1000);
-                int progressPercentage = (numberOfSeconds - secondsRemaining) * factor;
-                progressBarHoriz.setProgress(100 - progressPercentage);
-            }
-
-            @Override
-            public void onFinish() {
-                // set intent to activity
-            }
-        }.start();
-    }
-
     private void startAnimation() {
-        animator = ValueAnimator.ofInt(0, 100);
+        if (qAnswered) {
+            return;
+        }
+
+        animator = ObjectAnimator.ofInt (progressBar, "progress", 0, 100);
         animator.setInterpolator(new LinearInterpolator());
         animator.setStartDelay(0);
         animator.setDuration(5000);         // default = 60000
@@ -365,25 +358,35 @@ public class DecodedQRActivity extends Activity {
             public void onAnimationEnd(Animator animation) {
                 super.onAnimationEnd(animation);
 
-                if (answersGr.getCheckedRadioButtonId() == -1) {
-                    submitButton.setEnabled(false);
-                    answerA.setEnabled(false);
-                    answerB.setEnabled(false);
-                    answerC.setEnabled(false);
-                    answerD.setEnabled(false);
+                if (!submitted) {
+                    if (paused) {
+                        return;
+                    }
+                    disableAndWriteDB();
                     Toast.makeText(DecodedQRActivity.this, R.string.timeExpired, Toast.LENGTH_SHORT).show();
-
-                    String answer = "-1";
-                    boolean isCorrect = false;
-                    AnsweredQuestion aQ = new AnsweredQuestion(answer, isCorrect);
-                    mDatabase = FirebaseDatabase.getInstance().getReference("users");
-                    mDatabase.child(mAuth.getCurrentUser().getUid()).child("answers").child(questionId).setValue(aQ);
                 }
 
             }
         });
 
         animator.start();
+    }
+
+    public void disableAndWriteDB() {
+        submitButton.setEnabled(false);
+        answerA.setEnabled(false);
+        answerB.setEnabled(false);
+        answerC.setEnabled(false);
+        answerD.setEnabled(false);
+
+        progressBarHoriz.setVisibility(View.INVISIBLE);
+        progressBarHoriz.setEnabled(false);
+
+        String answer = "-1";
+        boolean isCorrect = false;
+        AnsweredQuestion aQ = new AnsweredQuestion(answer, isCorrect);
+        mDatabase = FirebaseDatabase.getInstance().getReference("users");
+        mDatabase.child(mAuth.getCurrentUser().getUid()).child("answers").child(questionId).setValue(aQ);
     }
 
     // all the back buttons must be overriden else wont work properly

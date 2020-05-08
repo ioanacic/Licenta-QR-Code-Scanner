@@ -272,9 +272,10 @@ public class HistoryActivity extends Activity {
         options.add("All subjects");
 
         for (Map.Entry entry : professorsSubjects.entrySet()) {
-            boolean contains = false;
             List<String> entryValue = (List<String>) entry.getValue();
             for (String ev : entryValue) {
+                boolean contains = false;
+
                 for (String o : options) {
                     if (ev.equals(o)) {
                         contains = true;
@@ -299,17 +300,18 @@ public class HistoryActivity extends Activity {
         options.add("All subjects");
 
         for (Map.Entry entry : professorsSubjects.entrySet()) {
-            boolean contains = false;
             if (mAuth.getCurrentUser().getUid().equals(entry.getKey())) {
                 List<String> entryValue = (List<String>) entry.getValue();
                 for (String ev : entryValue) {
+                    boolean contains = false;
+
                     for (String o : options) {
-                        if (ev.substring(0, ev.indexOf(' ')).equals(o)) {
+                        if (ev.substring(0, ev.indexOf(" - ")).equals(o)) {
                             contains = true;
                         }
                     }
                     if (contains == false) {
-                        options.add(ev.substring(0, ev.indexOf(' ')));
+                        options.add(ev.substring(0, ev.indexOf(" - ")));
                     }
                 }
             }
@@ -327,19 +329,30 @@ public class HistoryActivity extends Activity {
         List<Question> selectedQuestions = new ArrayList<>();
         String selectedSubject = "";
 
-        // is the student wanna access history
-//        if (professorQuestionsAQ.isEmpty()) {
         if (selectedOption.equals("All subjects")) {
-            adapter.updateQ(questionsAQ);
+            if (!professorQuestionsAQ.isEmpty()) {
+                adapter.updateQ(professorQuestionsAQ);          // professor wanna see answers to his questions
+            } else {
+                adapter.updateQ(questionsAQ);                   // student wanna see all the questions
+            }
         } else {
             String idProfessor = "";
             // get professor id for option selected
             for (Map.Entry entry : professorsSubjects.entrySet()) {
                 List<String> entryValue = (List<String>) entry.getValue();
                 for (String ev : entryValue) {
-                    if (ev.substring(0, ev.indexOf(' ')).equals(selectedOption)) {
-                        idProfessor = entry.getKey().toString();
-                        selectedSubject = ev.substring(0, ev.indexOf(' '));
+                    if (!professorQuestionsAQ.isEmpty()) {
+                        // see ass professor
+                        if (ev.substring(0, ev.indexOf(" - ")).equals(selectedOption)) {
+                            idProfessor = entry.getKey().toString();
+                            selectedSubject = ev.substring(0, ev.indexOf(" - "));
+                        }
+                    } else {
+                        // see as student
+                        if (ev.equals(selectedOption)) {
+                            idProfessor = entry.getKey().toString();
+                            selectedSubject = ev.substring(0, ev.indexOf(" - "));
+                        }
                     }
                 }
             }
@@ -351,6 +364,5 @@ public class HistoryActivity extends Activity {
             }
             adapter.updateQ(selectedQuestions);
         }
-//        }
     }
 }
