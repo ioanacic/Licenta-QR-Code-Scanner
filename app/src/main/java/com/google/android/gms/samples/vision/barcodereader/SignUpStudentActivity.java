@@ -178,7 +178,7 @@ public class SignUpStudentActivity extends Activity implements View.OnClickListe
         }
 
         int intYear = Integer.parseInt(year);
-        if (intYear < 0 || phone.length() > 7) {
+        if (intYear < 0 || intYear > 7) {
             yearOfStudyField.setError("Year of study must be a number between 1 and 6.");
             valid = false;
         } else {

@@ -100,7 +100,7 @@ public class MainActivity extends Activity implements View.OnClickListener {
                             // wrong email format
                             catch (FirebaseAuthInvalidCredentialsException malformedEmail) {
                                 Log.w(TAG, "createUserWithEmail:malformedEmail");
-                                Toast.makeText(MainActivity.this, R.string.malformedEmail,
+                                Toast.makeText(MainActivity.this, malformedEmail.getLocalizedMessage(),
                                         Toast.LENGTH_SHORT).show();
                             }
                             // email already exists

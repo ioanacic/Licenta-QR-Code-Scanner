@@ -5,19 +5,23 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.TextInputEditText;
+import android.support.design.widget.TextInputLayout;
 import android.view.View;
-import android.widget.EditText;
+import android.widget.Toast;
 
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.auth.AuthCredential;
+import com.google.firebase.auth.EmailAuthProvider;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
-import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 public class StudentProfileActivity extends Activity implements View.OnClickListener {
@@ -26,11 +30,17 @@ public class StudentProfileActivity extends Activity implements View.OnClickList
     TextInputEditText firstNameField;
     TextInputEditText groupField;
     TextInputEditText yearOfStudyField;
+    TextInputEditText oldPassField, newPassField;
+
+    TextInputLayout oldPLayout, newPLayout;
 
     Student currentStudent;
 
+    boolean error = false;
+
     private FirebaseAuth mAuth;
     private DatabaseReference mDatabase;
+    private FirebaseUser firebaseUser;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -41,12 +51,19 @@ public class StudentProfileActivity extends Activity implements View.OnClickList
         firstNameField = (TextInputEditText) findViewById(R.id.changeFNameField);
         groupField = (TextInputEditText) findViewById(R.id.changeGroupField);
         yearOfStudyField = (TextInputEditText) findViewById(R.id.changeYearField);
+        oldPassField = (TextInputEditText) findViewById(R.id.oldPassword);
+        newPassField = (TextInputEditText) findViewById(R.id.newPassword);
+
+        oldPLayout = findViewById(R.id.oldPLayout);
+        newPLayout = findViewById(R.id.newPlayout);
 
         findViewById(R.id.saveChangesStudent).setOnClickListener(this);
         findViewById(R.id.changePasswordStudent).setOnClickListener(this);
+        findViewById(R.id.updatePasswordButton).setOnClickListener(this);
 
         mAuth = FirebaseAuth.getInstance();
         mDatabase = FirebaseDatabase.getInstance().getReference("users").child(mAuth.getCurrentUser().getUid());
+        firebaseUser = mAuth.getCurrentUser();
 
         getStudentInfo();
     }
@@ -84,21 +101,76 @@ public class StudentProfileActivity extends Activity implements View.OnClickList
 
     public void save() {
         String lName = "", fName = "", group = "", year = "";
-        if (!lastNameField.getText().equals(currentStudent.getLastName())) {
+        if (!lastNameField.getText().equals(currentStudent.getLastName()) && !lastNameField.getText().toString().isEmpty()) {
             lName = lastNameField.getText().toString().trim();
             mDatabase.child("lastName").setValue(lName);
         }
-        if (!firstNameField.getText().equals(currentStudent.getFirstName())) {
+        if (!firstNameField.getText().equals(currentStudent.getFirstName()) && !lastNameField.getText().toString().isEmpty()) {
             fName = firstNameField.getText().toString().trim();
             mDatabase.child("firstName").setValue(fName);
         }
-        if (!groupField.getText().equals(currentStudent.getGroup())) {
+        if (!groupField.getText().equals(currentStudent.getGroup()) && !lastNameField.getText().toString().isEmpty()) {
             group = groupField.getText().toString().trim();
             mDatabase.child("group").setValue(group);
         }
-        if (!yearOfStudyField.getText().equals(currentStudent.getYearOfStudy())) {
+        if (!yearOfStudyField.getText().equals(currentStudent.getYearOfStudy()) && !lastNameField.getText().toString().isEmpty()) {
             year = yearOfStudyField.getText().toString().trim();
             mDatabase.child("yearOfStudy").setValue(year);
+        }
+    }
+
+    public void updatePassword() {
+        final String email = firebaseUser.getEmail();
+        final String oldPass = oldPassField.getText().toString().trim();
+        final String newPass = newPassField.getText().toString().trim();
+        verifyPass(oldPass, newPass);
+        if (error) {
+            return;
+        }
+        AuthCredential credential = EmailAuthProvider.getCredential(email, oldPass);
+
+        firebaseUser.reauthenticate(credential).addOnCompleteListener(new OnCompleteListener<Void>() {
+            @Override
+            public void onComplete(@NonNull Task<Void> task) {
+                if (task.isSuccessful()) {
+                    firebaseUser.updatePassword(newPass).addOnCompleteListener(new OnCompleteListener<Void>() {
+                        @Override
+                        public void onComplete(@NonNull Task<Void> task) {
+                            if (!task.isSuccessful()) {
+                                Toast.makeText(StudentProfileActivity.this, R.string.changePassFailed,
+                                        Toast.LENGTH_SHORT).show();
+                            } else {
+                                Toast.makeText(StudentProfileActivity.this, R.string.changePassSucceded,
+                                        Toast.LENGTH_SHORT).show();
+                            }
+                        }
+                    });
+                } else {
+                    Toast.makeText(StudentProfileActivity.this, R.string.auth_failed,
+                            Toast.LENGTH_SHORT).show();
+                }
+            }
+        });
+    }
+
+    public void verifyPass(String oldp, String newp) {
+        if (oldp.isEmpty()) {
+            oldPassField.setError("This field cannot be empty");
+            error = true;
+        } else {
+            error = false;
+        }
+        if (newp.isEmpty()) {
+            newPassField.setError("This field cannot be empty");
+            error = true;
+        } else {
+            error = false;
+        }
+        if (newp.length() < 6) {
+            newPassField.setError("Password must be at least 6 characters");
+            error = true;
+        } else {
+            error = false;
         }
     }
 
@@ -108,6 +180,13 @@ public class StudentProfileActivity extends Activity implements View.OnClickList
             save();
             Intent intent = new Intent(StudentProfileActivity.this, StudentAccountActivity.class);
             startActivity(intent);
+        }
+        if (view.getId() == R.id.changePasswordStudent) {
+            oldPLayout.setVisibility(View.VISIBLE);
+            newPLayout.setVisibility(View.VISIBLE);
+        }
+        if (view.getId() == R.id.updatePasswordButton) {
+            updatePassword();
         }
     }
 }

@@ -37,9 +37,9 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:ems="15"
-                        android:inputType="textEmailAddress"
                         android:hint="Email Address"
-                        android:text="profpp@gmail.com" />
+                        android:inputType="textEmailAddress"
+                        android:text="secondstud@gmail.com" />
                 </android.support.design.widget.TextInputLayout>
             </TableRow>
 
@@ -62,9 +62,9 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:ems="15"
-                        android:inputType="textPassword"
                         android:hint="Password"
-                        android:text="pppppp"/>
+                        android:inputType="textPassword"
+                        android:text="newnew" />
                 </android.support.design.widget.TextInputLayout>
 
             </TableRow>
