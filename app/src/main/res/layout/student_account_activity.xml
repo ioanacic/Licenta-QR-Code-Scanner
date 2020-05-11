@@ -13,8 +13,8 @@
 
     <ImageButton
         android:id="@+id/studentProfileButton"
-        android:layout_width="27dp"
-        android:layout_height="36dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         android:background="@null"
         android:src="@drawable/profile" />
 
