@@ -6,6 +6,7 @@ import android.graphics.Bitmap;
 import android.graphics.Point;
 import android.os.Bundle;
 import android.os.Environment;
+import android.support.design.widget.TextInputEditText;
 import android.util.Log;
 import android.view.Display;
 import android.view.View;
@@ -32,7 +33,7 @@ public class GenerateQRActivity extends Activity {
 
     ImageView qrImage;
     Button save;
-    EditText renamePicture;
+    TextInputEditText renamePicture;
     String inputValue;
 
     String keyOfSelectedQuestion, subjectOfSelectedQuestion, courseOfSelectedQuestion;
@@ -48,7 +49,7 @@ public class GenerateQRActivity extends Activity {
 
         qrImage = (ImageView) findViewById(R.id.QR_Image);
         save = (Button) findViewById(R.id.save);
-        renamePicture = (EditText) findViewById(R.id.pictureName);
+        renamePicture = findViewById(R.id.pictureName);
 
         keyOfSelectedQuestion = getIntent().getStringExtra("KEY");
         subjectOfSelectedQuestion = getIntent().getStringExtra("SUBJECT");

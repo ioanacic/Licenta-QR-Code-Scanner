@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
+import android.support.design.widget.TextInputEditText;
 import android.util.Log;
 import android.view.View;
 import android.widget.ArrayAdapter;
@@ -30,8 +31,8 @@ import java.util.UUID;
 public class AddQuestionActivity extends Activity implements View.OnClickListener {
     private static final String TAG = "AddQuestionActivity";
 
-    EditText questionField, courseField;
-    EditText answerAField, answerBField, answerCField, answerDField;
+    TextInputEditText questionField, courseField;
+    TextInputEditText answerAField, answerBField, answerCField, answerDField;
     Spinner spinner, spinnerSubject;
     boolean isEmpty = false;
 
@@ -68,7 +69,7 @@ public class AddQuestionActivity extends Activity implements View.OnClickListene
     }
 
     public void addItemOnSpinner() {
-        options.add(" ");
+        options.add("Correct Answer");
         options.add("Answer A");
         options.add("Answer B");
         options.add("Answer C");
@@ -81,7 +82,7 @@ public class AddQuestionActivity extends Activity implements View.OnClickListene
     }
 
     public void addItemOnSpinnerSubject() {
-        optionsSubjects.add(" ");
+        optionsSubjects.add("Subject");
         getAllSubjects();
 
         // dont know if necessary

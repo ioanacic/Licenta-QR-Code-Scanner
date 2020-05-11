@@ -3,6 +3,7 @@ package com.google.android.gms.samples.vision.barcodereader;
 import android.app.Activity;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
+import android.support.design.widget.TextInputEditText;
 import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
@@ -23,7 +24,7 @@ import java.util.UUID;
 
 public class AddSubjectActivity extends Activity implements View.OnClickListener {
 
-    EditText newSubjectField;
+    TextInputEditText newSubjectField;
 
     private DatabaseReference mDatabase;
     private FirebaseAuth mAuth;

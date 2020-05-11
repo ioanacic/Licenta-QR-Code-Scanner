@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
+import android.support.design.widget.TextInputEditText;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
@@ -26,13 +27,13 @@ import java.util.List;
 public class SignUpStudentActivity extends Activity implements View.OnClickListener {
     private static final String TAG = "SignUp";
 
-    EditText emailField;
-    EditText passwordField;
-    EditText lastNameField;
-    EditText firstNameField;
-    EditText phoneField;
-    EditText groupField;
-    EditText yearOfStudyField;
+    TextInputEditText emailField;
+    TextInputEditText passwordField;
+    TextInputEditText lastNameField;
+    TextInputEditText firstNameField;
+    TextInputEditText phoneField;
+    TextInputEditText groupField;
+    TextInputEditText yearOfStudyField;
 
     private FirebaseAuth mAuth;
     private DatabaseReference mDatabase;
@@ -171,6 +172,14 @@ public class SignUpStudentActivity extends Activity implements View.OnClickListe
         String year = yearOfStudyField.getText().toString();
         if (TextUtils.isEmpty(year)) {
             yearOfStudyField.setError("Required.");
+            valid = false;
+        } else {
+            yearOfStudyField.setError(null);
+        }
+
+        int intYear = Integer.parseInt(year);
+        if (intYear < 0 || phone.length() > 7) {
+            yearOfStudyField.setError("Year of study must be a number between 1 and 6.");
             valid = false;
         } else {
             yearOfStudyField.setError(null);

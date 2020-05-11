@@ -20,6 +20,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.app.Activity;
 import android.support.annotation.NonNull;
+import android.support.design.widget.TextInputEditText;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
@@ -45,8 +46,8 @@ import java.util.Map;
 public class MainActivity extends Activity implements View.OnClickListener {
     private static final String TAG = "EmailPassword";
 
-    EditText mEmailField;
-    EditText mPasswordField;
+    TextInputEditText mEmailField;
+    TextInputEditText mPasswordField;
 
     String typeOfUser;
 

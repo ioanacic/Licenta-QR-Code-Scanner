@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
+import android.support.design.widget.TextInputEditText;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
@@ -27,12 +28,12 @@ import java.util.UUID;
 public class SignUpProfessorActivity extends Activity implements View.OnClickListener {
     private static final String TAG = "SignUp";
 
-    EditText emailField;
-    EditText passwordField;
-    EditText lastNameField;
-    EditText firstNameField;
-    EditText phoneField;
-    EditText subjectField;
+    TextInputEditText emailField;
+    TextInputEditText passwordField;
+    TextInputEditText lastNameField;
+    TextInputEditText firstNameField;
+    TextInputEditText phoneField;
+    TextInputEditText subjectField;
 
     private FirebaseAuth mAuth;
     private DatabaseReference mDatabase;
