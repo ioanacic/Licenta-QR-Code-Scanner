@@ -76,6 +76,9 @@
 
         <activity android:name=".AddSubjectActivity"
             android:label="Add new subject to professor"/>
+
+        <activity android:name=".StudentProfileActivity"
+            android:label="Profile for student"/>
     </application>
 
 </manifest>

@@ -33,46 +33,10 @@ public class StudentAccountActivity extends Activity implements View.OnClickList
         findViewById(R.id.read_barcode).setOnClickListener(this);
         findViewById(R.id.historyButton).setOnClickListener(this);
         findViewById(R.id.signOutButton).setOnClickListener(this);
+        findViewById(R.id.studentProfileButton).setOnClickListener(this);
 
         mAuth = FirebaseAuth.getInstance();
-
-//        getFirebaseData();
     }
-
-//    public void getFirebaseData() {
-//        mDatabase = FirebaseDatabase.getInstance().getReference("users");
-//        mDatabase.child(mAuth.getCurrentUser().getUid()).addListenerForSingleValueEvent(new ValueEventListener() {
-//            @Override
-//            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-//                Map<String, Object> map = (HashMap<String, Object>) dataSnapshot.getValue();
-//                for (HashMap.Entry i : map.entrySet()) {
-//                    if (i.getKey().equals("answers")) {
-//                        Map<String, Object> answersHM = (Map<String, Object>) i.getValue();
-//                        for (HashMap.Entry ii : answersHM.entrySet()) {
-//                            Map<String, Map<String, Object>> oneAnswer = (Map<String, Map<String, Object>>) ii.getValue();
-//                            String answer = "";
-//                            boolean correct = false;
-//                            for (HashMap.Entry oneField : oneAnswer.entrySet()) {
-//                                if (oneField.getKey().equals("answer")) {
-//                                    answer = (String) oneField.getValue();
-//                                }
-//                                if (oneField.getKey().equals("correct")) {
-//                                    correct = (boolean) oneField.getValue();
-//                                }
-//                            }
-//                            AnsweredQuestion aQ = new AnsweredQuestion(answer, correct);
-//                            answers.add(aQ);
-//                        }
-//                    }
-//                }
-//            }
-//
-//            @Override
-//            public void onCancelled(@NonNull DatabaseError databaseError) {
-//
-//            }
-//        });
-//    }
 
     @Override
     public void onClick(View v) {
@@ -87,6 +51,10 @@ public class StudentAccountActivity extends Activity implements View.OnClickList
         }
         if (v.getId() == R.id.historyButton) {
             Intent intent = new Intent(this, HistoryActivity.class);
+            startActivity(intent);
+        }
+        if (v.getId() == R.id.studentProfileButton) {
+            Intent intent = new Intent(this, StudentProfileActivity.class);
             startActivity(intent);
         }
     }
