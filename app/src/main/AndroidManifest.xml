@@ -14,7 +14,7 @@
         android:allowBackup="true"
         android:fullBackupContent="false"
         android:hardwareAccelerated="true"
-        android:icon="@drawable/icon2"
+        android:icon="@drawable/logoapp"
         android:label="MultiTrackerApp"
         android:supportsRtl = "true"
         android:theme="@style/Theme.AppCompat" >
@@ -26,7 +26,7 @@
             android:value="barcode" />
 
         <activity
-            android:name=".MainActivity"
+            android:name=".StartWithLogoActivity"
             android:label="@string/title_activity_main" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -34,6 +34,9 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+
+        <activity android:name=".SignInActivity"
+            android:label="Sign in activity"/>
 
         <activity android:name=".BarcodeCaptureActivity"
             android:label="Read Barcode"/>

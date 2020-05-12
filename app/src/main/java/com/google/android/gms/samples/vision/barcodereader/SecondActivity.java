@@ -90,7 +90,7 @@ public class SecondActivity extends Activity implements View.OnClickListener {
         }
         if (v.getId() == R.id.signOutButton) {
             mAuth.signOut();
-            Intent intent = new Intent(this, MainActivity.class);
+            Intent intent = new Intent(this, SignInActivity.class);
             startActivity(intent);
         }
         if (v.getId() == R.id.addQuestionButton) {

@@ -24,7 +24,6 @@ import android.support.design.widget.TextInputEditText;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
-import android.widget.EditText;
 import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -43,7 +42,7 @@ import com.google.firebase.database.ValueEventListener;
 import java.util.HashMap;
 import java.util.Map;
 
-public class MainActivity extends Activity implements View.OnClickListener {
+public class SignInActivity extends Activity implements View.OnClickListener {
     private static final String TAG = "EmailPassword";
 
     TextInputEditText mEmailField;
@@ -94,33 +93,29 @@ public class MainActivity extends Activity implements View.OnClickListener {
                             // password with less that 6 characters
                             catch (FirebaseAuthWeakPasswordException weakPassword) {
                                 Log.w(TAG, "createUserWithEmail:weakPassword");
-                                Toast.makeText(MainActivity.this, R.string.weakPassword,
+                                Toast.makeText(SignInActivity.this, R.string.weakPassword,
                                         Toast.LENGTH_SHORT).show();
                             }
                             // wrong email format
                             catch (FirebaseAuthInvalidCredentialsException malformedEmail) {
                                 Log.w(TAG, "createUserWithEmail:malformedEmail");
-                                Toast.makeText(MainActivity.this, malformedEmail.getLocalizedMessage(),
+                                Toast.makeText(SignInActivity.this, malformedEmail.getLocalizedMessage(),
                                         Toast.LENGTH_SHORT).show();
                             }
                             // email already exists
                             catch (FirebaseAuthUserCollisionException existEmail) {
                                 Log.w(TAG, "createUserWithEmail:existEmail");
-                                Toast.makeText(MainActivity.this, R.string.existEmail,
+                                Toast.makeText(SignInActivity.this, R.string.existEmail,
                                         Toast.LENGTH_SHORT).show();
                             }
                             catch (Exception e) {
                                 Log.w(TAG, "createUserWithEmail:failure", task.getException());
-                                Toast.makeText(MainActivity.this, R.string.incorrectCredentials,
+                                Toast.makeText(SignInActivity.this, R.string.incorrectCredentials,
                                         Toast.LENGTH_SHORT).show();
                             }
                         }
                     }
                 });
-    }
-
-    private void signOut() {
-        mAuth.signOut();
     }
 
     public void getTypeOfUser() {
@@ -137,9 +132,9 @@ public class MainActivity extends Activity implements View.OnClickListener {
 
                 Intent intent;
                 if (typeOfUser.equals("S")) {       // is student
-                    intent = new Intent(MainActivity.this, StudentAccountActivity.class);
+                    intent = new Intent(SignInActivity.this, StudentAccountActivity.class);
                 } else {        // is professor
-                    intent = new Intent(MainActivity.this, ProfessorAccountActivity.class);
+                    intent = new Intent(SignInActivity.this, ProfessorAccountActivity.class);
                 }
                 startActivity(intent);
             }

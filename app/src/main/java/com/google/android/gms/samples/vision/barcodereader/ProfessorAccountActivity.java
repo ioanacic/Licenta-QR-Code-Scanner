@@ -42,7 +42,7 @@ public class ProfessorAccountActivity extends Activity implements View.OnClickLi
         }
         if (v.getId() == R.id.signOutButton) {
             mAuth.signOut();
-            Intent intent = new Intent(this, MainActivity.class);
+            Intent intent = new Intent(this, SignInActivity.class);
             startActivity(intent);
         }
         if (v.getId() == R.id.addSubjectButton) {
