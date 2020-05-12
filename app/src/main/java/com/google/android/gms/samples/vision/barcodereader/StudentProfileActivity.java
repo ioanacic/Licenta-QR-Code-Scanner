@@ -7,6 +7,7 @@ import android.support.annotation.NonNull;
 import android.support.design.widget.TextInputEditText;
 import android.support.design.widget.TextInputLayout;
 import android.view.View;
+import android.widget.Button;
 import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -34,6 +35,8 @@ public class StudentProfileActivity extends Activity implements View.OnClickList
 
     TextInputLayout oldPLayout, newPLayout;
 
+    Button updatebPass;
+
     Student currentStudent;
 
     boolean error = false;
@@ -59,7 +62,8 @@ public class StudentProfileActivity extends Activity implements View.OnClickList
 
         findViewById(R.id.saveChangesStudent).setOnClickListener(this);
         findViewById(R.id.changePasswordStudent).setOnClickListener(this);
-        findViewById(R.id.updatePasswordButton).setOnClickListener(this);
+        updatebPass = findViewById(R.id.updatePasswordButton);
+        updatebPass.setOnClickListener(this);
 
         mAuth = FirebaseAuth.getInstance();
         mDatabase = FirebaseDatabase.getInstance().getReference("users").child(mAuth.getCurrentUser().getUid());
@@ -155,19 +159,19 @@ public class StudentProfileActivity extends Activity implements View.OnClickList
 
     public void verifyPass(String oldp, String newp) {
         if (oldp.isEmpty()) {
-            oldPassField.setError("This field cannot be empty");
+            oldPLayout.setError("This field cannot be empty");
             error = true;
         } else {
             error = false;
         }
         if (newp.isEmpty()) {
-            newPassField.setError("This field cannot be empty");
+            newPLayout.setError("This field cannot be empty");
             error = true;
         } else {
             error = false;
         }
         if (newp.length() < 6) {
-            newPassField.setError("Password must be at least 6 characters");
+            newPLayout.setError("Password must be at least 6 characters");
             error = true;
         } else {
             error = false;
@@ -184,6 +188,7 @@ public class StudentProfileActivity extends Activity implements View.OnClickList
         if (view.getId() == R.id.changePasswordStudent) {
             oldPLayout.setVisibility(View.VISIBLE);
             newPLayout.setVisibility(View.VISIBLE);
+            updatebPass.setVisibility(View.VISIBLE);
         }
         if (view.getId() == R.id.updatePasswordButton) {
             updatePassword();
