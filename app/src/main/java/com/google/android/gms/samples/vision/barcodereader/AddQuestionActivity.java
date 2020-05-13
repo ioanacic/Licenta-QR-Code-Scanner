@@ -2,6 +2,7 @@ package com.google.android.gms.samples.vision.barcodereader;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.TextInputEditText;
@@ -10,6 +11,7 @@ import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.Spinner;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -69,7 +71,7 @@ public class AddQuestionActivity extends Activity implements View.OnClickListene
     }
 
     public void addItemOnSpinner() {
-        options.add("Correct Answer");
+        options.add("Select correct answer");
         options.add("Answer A");
         options.add("Answer B");
         options.add("Answer C");
@@ -82,7 +84,7 @@ public class AddQuestionActivity extends Activity implements View.OnClickListene
     }
 
     public void addItemOnSpinnerSubject() {
-        optionsSubjects.add("Subject");
+        optionsSubjects.add("Select a subject");
         getAllSubjects();
 
         // dont know if necessary
@@ -138,8 +140,28 @@ public class AddQuestionActivity extends Activity implements View.OnClickListene
         idProfessor = mAuth.getCurrentUser().getUid();
         subject = spinnerSubject.getSelectedItem().toString().trim();
 
-        if (question.isEmpty() || courseNr.isEmpty() || answerA.isEmpty() || answerB.isEmpty() || answerC.isEmpty() ||
-                answerD.isEmpty() || correctAnswer.isEmpty() || subject.isEmpty()) {
+        if (subject.equals("Select a subject")) {
+            TextView errorTextview = (TextView) spinnerSubject.getSelectedView();
+            errorTextview.setError("");
+            errorTextview.setTextColor(Color.RED);
+            errorTextview.setText("Select a subject");
+
+//            ((TextView)spinnerSubject.getSelectedView()).setError("Choose an option");
+            return;
+        }
+
+        if (correctAnswer.equals("Select correct answer")) {
+            TextView errorTextview = (TextView) spinner.getSelectedView();
+            errorTextview.setError("");
+            errorTextview.setTextColor(Color.RED);
+            errorTextview.setText("Select correct answer");
+
+//            ((TextView)spinner.getSelectedView()).setError("Choose an option");
+            return;
+        }
+
+        if (question.isEmpty() || courseNr.isEmpty() || answerA.isEmpty() || answerB.isEmpty() ||
+                answerC.isEmpty() || answerD.isEmpty()) {
             Toast.makeText(AddQuestionActivity.this, getString(R.string.noFieldEmpty), Toast.LENGTH_LONG).show();
             isEmpty = true;
             return;

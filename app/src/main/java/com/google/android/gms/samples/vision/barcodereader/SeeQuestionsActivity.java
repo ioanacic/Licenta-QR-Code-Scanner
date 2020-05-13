@@ -1,6 +1,8 @@
 package com.google.android.gms.samples.vision.barcodereader;
 
 import android.app.Activity;
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -71,7 +73,7 @@ public class SeeQuestionsActivity extends Activity {
             }
         });
 
-
+        mDatabase = FirebaseDatabase.getInstance().getReference("questions");
         populateRecyclerView();
         getData();
     }
@@ -105,14 +107,37 @@ public class SeeQuestionsActivity extends Activity {
 
                     @Override
                     public void onLongItemClick(View view, int position) {
+                        Question selectedQuestion = adapter.getMyQuestions().get(position);
+                        String key = selectedQuestion.getKey();
+                        DialogInterface.OnClickListener dialogClickListener = new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                switch (which) {
+                                    case DialogInterface.BUTTON_POSITIVE:
+                                        //Yes button clicked
 
+                                        mDatabase.child(key).removeValue();
+                                        Intent intent = new Intent(SeeQuestionsActivity.this, SeeQuestionsActivity.class);
+                                        startActivity(intent);
+                                        break;
+
+                                    case DialogInterface.BUTTON_NEGATIVE:
+                                        //No button clicked
+                                        break;
+                                }
+                            }
+                        };
+
+                        AlertDialog.Builder builder = new AlertDialog.Builder(view.getContext());
+                        builder.setMessage("Are you sure you want to permanently delete the question?").
+                                setPositiveButton("Yes", dialogClickListener).setNegativeButton("No", dialogClickListener).show();
+                        adapter.notifyDataSetChanged();
                     }
                 })
         );
     }
 
     public void getData() {
-        mDatabase = FirebaseDatabase.getInstance().getReference("questions");
         mDatabase.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
@@ -148,7 +173,7 @@ public class SeeQuestionsActivity extends Activity {
     }
 
     public void addItemOnSpinner() {
-       List<String> options = new ArrayList<String>();
+        List<String> options = new ArrayList<String>();
         options.add("All courses");
 
         if (!questionsBySubject.isEmpty()) {
@@ -235,5 +260,9 @@ public class SeeQuestionsActivity extends Activity {
         }
 
         getDataBySubject();
+    }
+
+    public void updateAfterRemove(Question q) {
+
     }
 }
