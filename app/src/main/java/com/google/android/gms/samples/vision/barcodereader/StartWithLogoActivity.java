@@ -34,7 +34,7 @@ public class StartWithLogoActivity extends Activity {
 
         quizImg = findViewById(R.id.quizImg);
 
-        new CountDownTimer(1500, 1000){
+        new CountDownTimer(700, 100){
             public void onTick(long millisUntilFinished){
             }
             public  void onFinish(){

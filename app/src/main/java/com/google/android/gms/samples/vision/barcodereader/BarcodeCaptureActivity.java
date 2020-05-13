@@ -34,6 +34,7 @@ import android.support.v4.app.ActivityCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.GestureDetector;
+import android.view.Gravity;
 import android.view.MotionEvent;
 import android.view.ScaleGestureDetector;
 import android.view.View;
@@ -49,8 +50,14 @@ import com.google.android.gms.samples.vision.barcodereader.ui.camera.GraphicOver
 import com.google.android.gms.vision.MultiProcessor;
 import com.google.android.gms.vision.barcode.Barcode;
 import com.google.android.gms.vision.barcode.BarcodeDetector;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
 import java.io.IOException;
+import java.util.Collections;
 
 /**
  * Activity for the multi-tracker app.  This app detects barcodes and displays the value with the
@@ -79,6 +86,8 @@ public final class BarcodeCaptureActivity extends AppCompatActivity implements B
     private ScaleGestureDetector scaleGestureDetector;
     private GestureDetector gestureDetector;
 
+    boolean invalid = true;
+
     /**
      * Initializes the UI and creates the detector pipeline.
      */
@@ -105,10 +114,6 @@ public final class BarcodeCaptureActivity extends AppCompatActivity implements B
 
         gestureDetector = new GestureDetector(this, new CaptureGestureListener());
         scaleGestureDetector = new ScaleGestureDetector(this, new ScaleListener());
-
-        Snackbar.make(mGraphicOverlay, "Tap to capture. Pinch/Stretch to zoom",
-                Snackbar.LENGTH_LONG)
-                .show();
     }
 
     /**
@@ -157,7 +162,7 @@ public final class BarcodeCaptureActivity extends AppCompatActivity implements B
      * Creates and starts the camera.  Note that this uses a higher resolution in comparison
      * to other detection examples to enable the barcode detector to detect small barcodes
      * at long distances.
-     *
+     * <p>
      * Suppressing InlinedApi since there is a check that the minimum version is met before using
      * the constant.
      */
@@ -277,7 +282,7 @@ public final class BarcodeCaptureActivity extends AppCompatActivity implements B
         if (grantResults.length != 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
             Log.d(TAG, "Camera permission granted - initialize the camera source");
             // we have permission, so create the camerasource
-            boolean autoFocus = getIntent().getBooleanExtra(AutoFocus,false);
+            boolean autoFocus = getIntent().getBooleanExtra(AutoFocus, false);
             boolean useFlash = getIntent().getBooleanExtra(UseFlash, false);
             createCameraSource(autoFocus, useFlash);
             return;
@@ -359,9 +364,10 @@ public final class BarcodeCaptureActivity extends AppCompatActivity implements B
         }
 
         if (best != null) {
-            Intent data = new Intent();
-            data.putExtra(BarcodeObject, best);
-            setResult(CommonStatusCodes.SUCCESS, data);
+//            Intent data = new Intent(BarcodeCaptureActivity.this, DecodedQRActivity.class);
+//            data.putExtra(BarcodeObject, best.displayValue);
+//            setResult(CommonStatusCodes.SUCCESS, data);
+            checkDataBase(best);
             finish();
             return true;
         }
@@ -431,8 +437,39 @@ public final class BarcodeCaptureActivity extends AppCompatActivity implements B
 
     @Override
     public void onBarcodeDetected(Barcode barcode) {
-        Intent intent = new Intent(this, DecodedQRActivity.class);
-        intent.putExtra(BarcodeObject, barcode.displayValue);
-        startActivity(intent);
+        checkDataBase(barcode);
+    }
+
+    public void checkDataBase(Barcode barcode) {
+        DatabaseReference mDatabase = FirebaseDatabase.getInstance().getReference("questions");
+        mDatabase.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                for (DataSnapshot d : dataSnapshot.getChildren()) {
+                    if (d.getKey().equals(barcode.displayValue)) {
+                        invalid = false;        // the code scanned is not invalid
+                        // there is a question for the code scanned
+                    }
+                }
+                if (invalid) {
+                    // true = show message
+                    Toast toast = null;
+                    toast = Toast.makeText(BarcodeCaptureActivity.this, getText(R.string.invalidQRCode), Toast.LENGTH_SHORT);
+                    toast.setGravity(Gravity.CENTER, 0, 0);
+                    toast.show();
+                } else {
+                    // false = go to decoded
+                    Intent intent = new Intent(BarcodeCaptureActivity.this, DecodedQRActivity.class);
+                    intent.putExtra(BarcodeObject, barcode.displayValue);
+                    startActivity(intent);
+                    invalid = true;
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        });
     }
 }

@@ -49,7 +49,7 @@ public class DecodedQRActivity extends Activity {
     List<String> radioButtonsList = new ArrayList<>();
 
     private FirebaseAuth mAuth;
-    private DatabaseReference mDatabase, mDatabaseUpdate;
+    private DatabaseReference mDatabase;
 
     String questionId, correctAnswer, selectedAnswer, selectedAnswerText;
     String correctAnswerText;
@@ -60,8 +60,6 @@ public class DecodedQRActivity extends Activity {
     boolean history = false;
     Question q;
     Map<String, String> answersAndText = new HashMap<>();
-
-    CountDownTimer countDownTimer;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -309,7 +307,7 @@ public class DecodedQRActivity extends Activity {
         for (String s : radioButtonsList) {
             if (selectedAnswerText.equals(s)) {
                 int id = radioButtonsList.indexOf(s);
-                switch(id) {
+                switch (id) {
                     case 0:
                         selectedAnswer = "answerA";
                         break;
@@ -379,7 +377,7 @@ public class DecodedQRActivity extends Activity {
             return;
         }
 
-        animator = ObjectAnimator.ofInt (progressBar, "progress", 0, 100);
+        animator = ObjectAnimator.ofInt(progressBar, "progress", 0, 100);
         animator.setInterpolator(new LinearInterpolator());
         animator.setStartDelay(0);
         animator.setDuration(5000);         // default = 60000

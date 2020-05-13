@@ -39,16 +39,13 @@
             android:label="Sign in activity"/>
 
         <activity android:name=".BarcodeCaptureActivity"
-            android:label="Read Barcode"/>
+            android:label="Scan QR to access the quiz"/>
 
         <activity android:name=".DecodedQRActivity"
             android:label="Read decoded QR"/>
 
         <activity android:name="GenerateQRActivity"
             android:label="Generate QR code"/>
-
-        <activity android:name="SecondActivity"
-            android:label="After you logged in"/>
 
         <activity android:name="StudentAccountActivity"
             android:label="After you logged in as a student"/>

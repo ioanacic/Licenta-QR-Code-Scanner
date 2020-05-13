@@ -43,7 +43,7 @@
                     android:id="@+id/read_barcode"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="@string/read_barcode" />
+                    android:text="Read barcode" />
             </TableRow>
 
             <TableRow
