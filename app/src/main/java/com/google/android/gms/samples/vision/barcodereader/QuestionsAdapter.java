@@ -5,6 +5,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.TextView;
 
 import java.util.ArrayList;
@@ -16,6 +17,10 @@ public class QuestionsAdapter extends RecyclerView.Adapter<QuestionsAdapter.View
     public static class ViewHolder extends RecyclerView.ViewHolder {
         // the info I want to see for an entry
         public TextView course, question, info;
+        public Button addQuestion;
+        public Question questionQ;      // the selected Q
+
+        SeeQuestionListener listener;
 
         public ViewHolder(View v) {
             super(v);
@@ -25,12 +30,34 @@ public class QuestionsAdapter extends RecyclerView.Adapter<QuestionsAdapter.View
             info = (TextView) itemView.findViewById(R.id.infoMsgField);
             info.setVisibility(View.INVISIBLE);
         }
+
+        public ViewHolder(View v, final SeeQuestionListener listener) {
+            super(v);
+            this.listener = listener;
+
+            course = (TextView) itemView.findViewById(R.id.courseField);
+            question = (TextView) itemView.findViewById(R.id.questionField);
+            info = (TextView) itemView.findViewById(R.id.infoMsgField);
+            info.setVisibility(View.INVISIBLE);
+
+            addQuestion = (Button) itemView.findViewById(R.id.addQuestionToTest);
+
+            addQuestion.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    listener.onAddQButtonClicked(questionQ);
+                }
+            });
+        }
     }
 
     private List<Question> myQuestios;
 
-    public QuestionsAdapter() {
+    SeeQuestionListener listener;
+
+    public QuestionsAdapter(SeeQuestionListener listener) {
         myQuestios = new ArrayList<>();
+        this.listener = listener;
     }
 
     @Override
@@ -40,7 +67,7 @@ public class QuestionsAdapter extends RecyclerView.Adapter<QuestionsAdapter.View
 
         View questionView = inflater.inflate(R.layout.see_question_layout, parent, false);
 
-        ViewHolder viewHolder = new ViewHolder(questionView);
+        ViewHolder viewHolder = new ViewHolder(questionView, listener);
 
         return viewHolder;
     }
@@ -53,6 +80,8 @@ public class QuestionsAdapter extends RecyclerView.Adapter<QuestionsAdapter.View
         TextView q = viewHolder.question;
         c.setText(question.getCourse());
         q.setText(question.getQuestion());
+
+        viewHolder.questionQ = question;
     }
 
     @Override

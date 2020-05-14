@@ -11,6 +11,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.Spinner;
 import android.widget.Toast;
 
@@ -24,17 +25,20 @@ import com.google.firebase.database.ValueEventListener;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.UUID;
 
-public class SeeQuestionsActivity extends Activity {
+public class SeeQuestionsActivity extends Activity implements SeeQuestionListener {
     private RecyclerView recyclerView;
     private QuestionsAdapter adapter;
-    private DatabaseReference mDatabase;
+    private DatabaseReference mDatabase, mDatabaseTest;
     private FirebaseAuth mAuth;
 
     Spinner spinner, spinnerSubject;
+    Button createTest;
 
     List<Question> questions = new ArrayList<>();
     List<Question> questionsBySubject = new ArrayList<>();
+    List<Question> questionsForTest = new ArrayList<>();
 
     ArrayAdapter<String> dataAdapterSpinner;
 
@@ -73,68 +77,77 @@ public class SeeQuestionsActivity extends Activity {
             }
         });
 
+        createTest = findViewById(R.id.createTest);
+        createTest.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                createTest();
+            }
+        });
+
         mDatabase = FirebaseDatabase.getInstance().getReference("questions");
+        mDatabaseTest = FirebaseDatabase.getInstance().getReference("tests");
         populateRecyclerView();
         getData();
     }
 
     // add new param for the field for comparison
     public void populateRecyclerView() {
-        adapter = new QuestionsAdapter();
+        adapter = new QuestionsAdapter(this);
         recyclerView.setAdapter(adapter);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
 
-        recyclerView.addOnItemTouchListener(
-                new RecyclerItemClickListener(this.getApplicationContext(), recyclerView, new RecyclerItemClickListener.OnItemClickListener() {
-                    @Override
-                    public void onItemClick(View view, int position) {
-                        Question selectedQuestion = adapter.getMyQuestions().get(position);
-                        String key = selectedQuestion.getKey();
-                        String subject = spinnerSubject.getSelectedItem().toString().trim();
-                        String course = selectedQuestion.getCourse();
-
-                        Intent intent = new Intent(SeeQuestionsActivity.this, GenerateQRActivity.class);
-                        intent.putExtra("KEY", key);
-                        intent.putExtra("COURSE", course);
-                        intent.putExtra("SUBJECT", subject);
-
-                        if (spinnerSubject.getSelectedItem().toString().trim().equals("All subjects")) {
-                            Toast.makeText(getApplicationContext(), R.string.selectASubject, Toast.LENGTH_SHORT).show();
-                        } else {
-                            startActivity(intent);
-                        }
-                    }
-
-                    @Override
-                    public void onLongItemClick(View view, int position) {
-                        Question selectedQuestion = adapter.getMyQuestions().get(position);
-                        String key = selectedQuestion.getKey();
-                        DialogInterface.OnClickListener dialogClickListener = new DialogInterface.OnClickListener() {
-                            @Override
-                            public void onClick(DialogInterface dialog, int which) {
-                                switch (which) {
-                                    case DialogInterface.BUTTON_POSITIVE:
-                                        //Yes button clicked
-
-                                        mDatabase.child(key).removeValue();
-                                        Intent intent = new Intent(SeeQuestionsActivity.this, SeeQuestionsActivity.class);
-                                        startActivity(intent);
-                                        break;
-
-                                    case DialogInterface.BUTTON_NEGATIVE:
-                                        //No button clicked
-                                        break;
-                                }
-                            }
-                        };
-
-                        AlertDialog.Builder builder = new AlertDialog.Builder(view.getContext());
-                        builder.setMessage("Are you sure you want to permanently delete the question?").
-                                setPositiveButton("Yes", dialogClickListener).setNegativeButton("No", dialogClickListener).show();
-                        adapter.notifyDataSetChanged();
-                    }
-                })
-        );
+//        recyclerView.addOnItemTouchListener(
+//                new RecyclerItemClickListener(this.getApplicationContext(), recyclerView, new RecyclerItemClickListener.OnItemClickListener() {
+//                    @Override
+//                    public void onItemClick(View view, int position) {
+//                        Question selectedQuestion = adapter.getMyQuestions().get(position);
+//                        String key = selectedQuestion.getKey();
+//                        String subject = spinnerSubject.getSelectedItem().toString().trim();
+//                        String course = selectedQuestion.getCourse();
+//
+//                        Intent intent = new Intent(SeeQuestionsActivity.this, GenerateQRActivity.class);
+//                        intent.putExtra("KEY", key);
+//                        intent.putExtra("COURSE", course);
+//                        intent.putExtra("SUBJECT", subject);
+//
+//                        if (spinnerSubject.getSelectedItem().toString().trim().equals("All subjects")) {
+//                            Toast.makeText(getApplicationContext(), R.string.selectASubject, Toast.LENGTH_SHORT).show();
+//                        } else {
+//                            startActivity(intent);
+//                        }
+//                    }
+//
+//                    @Override
+//                    public void onLongItemClick(View view, int position) {
+//                        Question selectedQuestion = adapter.getMyQuestions().get(position);
+//                        String key = selectedQuestion.getKey();
+//                        DialogInterface.OnClickListener dialogClickListener = new DialogInterface.OnClickListener() {
+//                            @Override
+//                            public void onClick(DialogInterface dialog, int which) {
+//                                switch (which) {
+//                                    case DialogInterface.BUTTON_POSITIVE:
+//                                        //Yes button clicked
+//
+//                                        mDatabase.child(key).removeValue();
+//                                        Intent intent = new Intent(SeeQuestionsActivity.this, SeeQuestionsActivity.class);
+//                                        startActivity(intent);
+//                                        break;
+//
+//                                    case DialogInterface.BUTTON_NEGATIVE:
+//                                        //No button clicked
+//                                        break;
+//                                }
+//                            }
+//                        };
+//
+//                        AlertDialog.Builder builder = new AlertDialog.Builder(view.getContext());
+//                        builder.setMessage("Are you sure you want to permanently delete the question?").
+//                                setPositiveButton("Yes", dialogClickListener).setNegativeButton("No", dialogClickListener).show();
+//                        adapter.notifyDataSetChanged();
+//                    }
+//                })
+//        );
     }
 
     public void getData() {
@@ -262,7 +275,17 @@ public class SeeQuestionsActivity extends Activity {
         getDataBySubject();
     }
 
-    public void updateAfterRemove(Question q) {
+    @Override
+    public void onAddQButtonClicked(Question q) {
+        System.out.println("add q");
+        questionsForTest.add(q);
+    }
 
+    public void createTest() {
+        String uniqueId = UUID.randomUUID().toString();
+
+        for (Question q : questionsForTest) {
+            mDatabaseTest.child(uniqueId).child(q.getKey()).setValue("");
+        }
     }
 }

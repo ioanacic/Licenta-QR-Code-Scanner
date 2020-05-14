@@ -8,6 +8,10 @@ public class Question {
     String idProfessor;
     String subject;
 
+    // for "Add question to test"
+    boolean isSelected = false;    // has not been selected
+                                   // false = buton gol, true = buton plin
+
     public Question() {
 
     }
@@ -144,5 +148,13 @@ public class Question {
 
     public void setSubject(String subject) {
         this.subject = subject;
+    }
+
+    public boolean isSelected() {
+        return isSelected;
+    }
+
+    public void setSelected(boolean selected) {
+        isSelected = selected;
     }
 }
