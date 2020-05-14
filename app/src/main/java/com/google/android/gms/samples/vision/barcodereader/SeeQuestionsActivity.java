@@ -1,9 +1,7 @@
 package com.google.android.gms.samples.vision.barcodereader;
 
 import android.app.Activity;
-import android.app.AlertDialog;
-import android.content.DialogInterface;
-import android.content.Intent;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.LinearLayoutManager;
@@ -13,7 +11,6 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.Spinner;
-import android.widget.Toast;
 
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
@@ -23,6 +20,7 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 import java.util.UUID;
@@ -34,7 +32,7 @@ public class SeeQuestionsActivity extends Activity implements SeeQuestionListene
     private FirebaseAuth mAuth;
 
     Spinner spinner, spinnerSubject;
-    Button createTest;
+    Button createTestButton;
 
     List<Question> questions = new ArrayList<>();
     List<Question> questionsBySubject = new ArrayList<>();
@@ -77,8 +75,8 @@ public class SeeQuestionsActivity extends Activity implements SeeQuestionListene
             }
         });
 
-        createTest = findViewById(R.id.createTest);
-        createTest.setOnClickListener(new View.OnClickListener() {
+        createTestButton = findViewById(R.id.createTest);
+        createTestButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 createTest();
@@ -276,14 +274,43 @@ public class SeeQuestionsActivity extends Activity implements SeeQuestionListene
     }
 
     @Override
-    public void onAddQButtonClicked(Question q) {
-        System.out.println("add q");
-        questionsForTest.add(q);
+    public void onAddQButtonClicked(Question question) {
+        if (spinnerSubject.getSelectedItem().toString().trim().equals("All subjects")) {
+            updateTestQs(questions, question);
+            adapter.updateQ(questions);
+        } else {
+            updateTestQs(questionsBySubject, question);
+            adapter.updateQ(questionsBySubject);
+        }
+    }
+
+    public void updateTestQs(List<Question> questions, Question question) {
+        for (Question q : questions) {
+            if (q.equals(question)) {
+                if (!q.isSelected()) {
+                    // q.isSelected = false = nu a fost apasat
+                    q.setSelected(true);
+
+                    questionsForTest.add(question);
+                } else {
+                    // q.isSelected = true = a fost apasat, ii anulez efectul
+                    q.setSelected(false);
+
+                    for (Question qT : questionsForTest) {
+                        if (qT.equals(q)) {
+                            questionsForTest.removeAll(Arrays.asList(qT));
+                            break;
+                        }
+                    }
+                }
+            }
+        }
     }
 
     public void createTest() {
         String uniqueId = UUID.randomUUID().toString();
 
+        mDatabaseTest.child(uniqueId).child("professorKey").setValue(mAuth.getCurrentUser().getUid());
         for (Question q : questionsForTest) {
             mDatabaseTest.child(uniqueId).child(q.getKey()).setValue("");
         }

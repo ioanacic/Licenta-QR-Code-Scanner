@@ -1,6 +1,7 @@
 package com.google.android.gms.samples.vision.barcodereader;
 
 import android.content.Context;
+import android.graphics.Color;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -46,6 +47,7 @@ public class QuestionsAdapter extends RecyclerView.Adapter<QuestionsAdapter.View
                 @Override
                 public void onClick(View view) {
                     listener.onAddQButtonClicked(questionQ);
+
                 }
             });
         }
@@ -82,6 +84,14 @@ public class QuestionsAdapter extends RecyclerView.Adapter<QuestionsAdapter.View
         q.setText(question.getQuestion());
 
         viewHolder.questionQ = question;
+
+        if (!question.isSelected()) {
+            // = false = nu a mai fost apasat
+            viewHolder.addQuestion .setBackgroundColor(Color.parseColor("#5A5656"));
+        } else {
+            // = true = a mai fost apasat = resetez
+            viewHolder.addQuestion.setBackgroundColor(Color.parseColor("#FFB500"));
+        }
     }
 
     @Override
