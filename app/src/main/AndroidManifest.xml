@@ -82,6 +82,9 @@
 
         <activity android:name=".ProfessorProfileActivity"
             android:label="Profile for professor"/>
+
+        <activity android:name=".SeeTestsActivity"
+            android:label="See all the tests"/>
     </application>
 
 </manifest>

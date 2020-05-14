@@ -309,10 +309,20 @@ public class SeeQuestionsActivity extends Activity implements SeeQuestionListene
 
     public void createTest() {
         String uniqueId = UUID.randomUUID().toString();
+        String title = "";
 
         mDatabaseTest.child(uniqueId).child("professorKey").setValue(mAuth.getCurrentUser().getUid());
         for (Question q : questionsForTest) {
             mDatabaseTest.child(uniqueId).child(q.getKey()).setValue("");
+        }
+        mDatabaseTest.child(uniqueId).child("numberOfQuestions").setValue(questionsForTest.size());
+
+        if (!spinnerSubject.getSelectedItem().toString().trim().equals("All subjects")) {
+            title = spinnerSubject.getSelectedItem().toString().trim();
+            if (!spinner.getSelectedItem().toString().trim().equals("All courses")) {
+                title = title + " - " + spinner.getSelectedItem().toString().trim();
+            }
+            mDatabaseTest.child(uniqueId).child("title").setValue(title);
         }
     }
 }
