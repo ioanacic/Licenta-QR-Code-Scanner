@@ -41,7 +41,7 @@
         <activity android:name=".BarcodeCaptureActivity"
             android:label="Scan QR to access the quiz"/>
 
-        <activity android:name=".DecodedQRActivity"
+        <activity android:name=".QuizActivity"
             android:label="Read decoded QR"/>
 
         <activity android:name="GenerateQRActivity"
@@ -85,6 +85,9 @@
 
         <activity android:name=".SeeTestsActivity"
             android:label="See all the tests"/>
+
+        <activity android:name=".DecodeQRActivity"
+            android:label="The activity after the scan"/>
     </application>
 
 </manifest>

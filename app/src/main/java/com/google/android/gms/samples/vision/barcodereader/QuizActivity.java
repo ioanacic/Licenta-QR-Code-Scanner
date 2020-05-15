@@ -7,10 +7,7 @@ import android.animation.ValueAnimator;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
-import android.os.CountDownTimer;
-import android.os.Handler;
 import android.support.annotation.NonNull;
-import android.util.Log;
 import android.view.View;
 import android.view.animation.LinearInterpolator;
 import android.widget.Button;
@@ -28,19 +25,17 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public class DecodedQRActivity extends Activity {
+public class QuizActivity extends Activity {
     private static final int RC_BARCODE_CAPTURE = 9001;
     public static final String BarcodeObject = "Barcode";
     private static final String TAG = "DecoderQRActivity";
 
     TextView questionText;
-    TextView infoMessage;
     TextView questionNumber;
     RadioButton answerA, answerB, answerC, answerD;
     RadioGroup answersGr;
@@ -59,7 +54,6 @@ public class DecodedQRActivity extends Activity {
     boolean qAnswered = false;
     boolean submitted = false;
     boolean paused = false;
-    boolean history = false;
     boolean isQuestion = false, isTest = false;
     int count = 0;
 
@@ -70,10 +64,9 @@ public class DecodedQRActivity extends Activity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.decoded_qr);
+        setContentView(R.layout.quiz_activity);
 
         questionText = (TextView) findViewById(R.id.questionText);
-        infoMessage = (TextView) findViewById(R.id.infoMessage);
         questionNumber = (TextView) findViewById(R.id.questionNumber);
         answerA = (RadioButton) findViewById(R.id.answerA);
         answerB = (RadioButton) findViewById(R.id.answerB);
@@ -102,7 +95,7 @@ public class DecodedQRActivity extends Activity {
         paused = true;
 
         if (!submitted) {                             // submit not pressed
-            if (history || qAnswered) {              // history pressed or just see the activity
+            if (qAnswered) {              // just see the activity
                 return;
             }
 
@@ -155,11 +148,9 @@ public class DecodedQRActivity extends Activity {
                 }
 
                 if (isTest) {
-                    getAnsweredQuestions();
-//                    getDataForTest();
+                    getDataForTest();
                 } else if (isQuestion) {
                     getData(questionId);
-                    checkAnsweredQuestions();
                 }
             }
 
@@ -230,87 +221,6 @@ public class DecodedQRActivity extends Activity {
                 progressBarHoriz.setVisibility(View.VISIBLE);
 
                 activateSubmitButton();
-            }
-
-            @Override
-            public void onCancelled(@NonNull DatabaseError databaseError) {
-
-            }
-        });
-    }
-
-    public void getAnsweredQuestions() {
-        mDatabase = FirebaseDatabase.getInstance().getReference("users");
-        mDatabase.child(mAuth.getCurrentUser().getUid()).addListenerForSingleValueEvent(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                Map<String, Object> map = (HashMap<String, Object>) dataSnapshot.getValue();
-                int howManyAnswered = 0;
-
-                for (HashMap.Entry i : map.entrySet()) {
-                    if (i.getKey().equals("answers")) {
-                        Map<String, Object> answersHM = (Map<String, Object>) i.getValue();
-                        for (HashMap.Entry ii : answersHM.entrySet()) {
-                            for (String key : test.getQuestionsId()) {
-                                if (ii.getKey().equals(key)) {
-                                    howManyAnswered++;
-                                }
-                            }
-                        }
-                    }
-                }
-
-                if (howManyAnswered == test.getNumberOfQuestions()) {
-                    Intent intent = new Intent(DecodedQRActivity.this, StudentAccountActivity.class);
-                    startActivity(intent);
-                } else {
-                    getDataForTest();
-                }
-//                activateHistoryButton();
-//
-//                startAnimation();
-            }
-
-            @Override
-            public void onCancelled(@NonNull DatabaseError databaseError) {
-
-            }
-        });
-    }
-
-    public void checkAnsweredQuestions() {
-        mDatabase = FirebaseDatabase.getInstance().getReference("users");
-        mDatabase.child(mAuth.getCurrentUser().getUid()).addListenerForSingleValueEvent(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                Map<String, Object> map = (HashMap<String, Object>) dataSnapshot.getValue();
-                for (HashMap.Entry i : map.entrySet()) {
-                    if (i.getKey().equals("answers")) {
-                        Map<String, Object> answersHM = (Map<String, Object>) i.getValue();
-                        for (HashMap.Entry ii : answersHM.entrySet()) {
-                            String key = (String) ii.getKey();
-                            if (key.equals(questionId)) {
-                                qAnswered = true;       // the question was already answered, the student cannot submit a new answer
-
-                                Map<String, Map<String, Object>> oneAnswer = (Map<String, Map<String, Object>>) ii.getValue();
-                                for (HashMap.Entry oneField : oneAnswer.entrySet()) {
-                                    if (oneField.getKey().equals("answer")) {
-                                        selectedAnswer = (String) oneField.getValue();          // from db
-                                        for (Map.Entry entry : answersAndText.entrySet()) {
-                                            if (selectedAnswer.equals(entry.getKey())) {
-                                                selectedAnswerText = entry.getValue().toString();       // text of answer, have to find id
-                                                break;
-                                            }
-                                        }
-                                        setSelectedAnswer();
-                                    }
-                                }
-                            }
-                        }
-                    }
-                }
-                activateHistoryButton();
-
                 startAnimation();
             }
 
@@ -387,73 +297,11 @@ public class DecodedQRActivity extends Activity {
         return sFormatted;
     }
 
-    public void setSelectedAnswer() {
-        if (!selectedAnswer.equals("-1")) {
-            searchIdButton();
-        }
-        switch (selectedAnswer) {
-            case "-1":
-                answerA.setEnabled(false);
-                answerB.setEnabled(false);
-                answerC.setEnabled(false);
-                answerD.setEnabled(false);
-                break;
-            case "answerA":
-
-                answersGr.check(R.id.answerA);
-                answerB.setEnabled(false);
-                answerC.setEnabled(false);
-                answerD.setEnabled(false);
-                break;
-            case "answerB":
-                answersGr.check(R.id.answerB);
-                answerA.setEnabled(false);
-                answerC.setEnabled(false);
-                answerD.setEnabled(false);
-                break;
-            case "answerC":
-                answersGr.check(R.id.answerC);
-                answerA.setEnabled(false);
-                answerB.setEnabled(false);
-                answerD.setEnabled(false);
-                break;
-            case "answerD":
-                answersGr.check(R.id.answerD);
-                answerA.setEnabled(false);
-                answerB.setEnabled(false);
-                answerC.setEnabled(false);
-                break;
-        }
-    }
-
-    public void searchIdButton() {
-        for (String s : radioButtonsList) {
-            if (selectedAnswerText.equals(s)) {
-                int id = radioButtonsList.indexOf(s);
-                switch (id) {
-                    case 0:
-                        selectedAnswer = "answerA";
-                        break;
-                    case 1:
-                        selectedAnswer = "answerB";
-                        break;
-                    case 2:
-                        selectedAnswer = "answerC";
-                        break;
-                    case 3:
-                        selectedAnswer = "answerD";
-                        break;
-                }
-                break;
-            }
-        }
-    }
-
     public void submitButtonTestOrQuestion() {
         if (isTest) {       // test
 
             if (answersGr.getCheckedRadioButtonId() == -1) {
-                Toast.makeText(DecodedQRActivity.this, R.string.haveToSelectOption, Toast.LENGTH_SHORT).show();
+                Toast.makeText(QuizActivity.this, R.string.haveToSelectOption, Toast.LENGTH_SHORT).show();
             } else {
                 sendData(test.getQuestionsId().get(count));
                 animator.removeAllListeners();
@@ -463,7 +311,8 @@ public class DecodedQRActivity extends Activity {
 
                 // a afisat deja ultima intrebare din test
                 if (count+1 == test.getNumberOfQuestions()) {
-                    Intent intent = new Intent(DecodedQRActivity.this, StudentAccountActivity.class);
+                    Intent intent = new Intent(QuizActivity.this, DecodeQRActivity.class);
+                    intent.putExtra("QUIZ ENDED", "ended");
                     startActivity(intent);
 
                     return;
@@ -487,7 +336,7 @@ public class DecodedQRActivity extends Activity {
 
             // if the student didn't choose an option
             if (answersGr.getCheckedRadioButtonId() == -1) {
-                Toast.makeText(DecodedQRActivity.this, R.string.haveToSelectOption, Toast.LENGTH_SHORT).show();
+                Toast.makeText(QuizActivity.this, R.string.haveToSelectOption, Toast.LENGTH_SHORT).show();
             } else {
                 sendData(questionId);
                 animator.removeAllListeners();
@@ -495,7 +344,8 @@ public class DecodedQRActivity extends Activity {
 
                 submitted = true;
 
-                Intent intent = new Intent(DecodedQRActivity.this, StudentAccountActivity.class);
+                Intent intent = new Intent(QuizActivity.this, DecodeQRActivity.class);
+                intent.putExtra("QUIZ ENDED", "ended");
                 startActivity(intent);
             }
         }
@@ -508,28 +358,6 @@ public class DecodedQRActivity extends Activity {
                 @Override
                 public void onClick(View v) {
                     submitButtonTestOrQuestion();
-                }
-            });
-        }
-    }
-
-    public void activateHistoryButton() {
-        if (qAnswered) {
-            submitButton.setText("History");
-            submitButton.setVisibility(View.VISIBLE);
-            infoMessage.setVisibility(View.VISIBLE);
-            progressBarHoriz.setVisibility(View.INVISIBLE);
-            progressBarHoriz.setEnabled(false);
-
-            animator.removeAllListeners();
-            animator.cancel();
-
-            submitButton.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    history = true;
-                    Intent intent = new Intent(DecodedQRActivity.this, HistoryActivity.class);
-                    startActivity(intent);
                 }
             });
         }
@@ -576,7 +404,8 @@ public class DecodedQRActivity extends Activity {
                             // n ai raspuns la asta, dar treci la urmatoarea intrebare
 
                             if (count+1 == test.getNumberOfQuestions()) {
-                                Intent intent = new Intent(DecodedQRActivity.this, StudentAccountActivity.class);
+                                Intent intent = new Intent(QuizActivity.this, DecodeQRActivity.class);
+                                intent.putExtra("QUIZ ENDED", "ended");
                                 startActivity(intent);
 
                                 return;
@@ -589,7 +418,7 @@ public class DecodedQRActivity extends Activity {
                         disableAndWriteDB(questionId);
                     }
 
-                    Toast.makeText(DecodedQRActivity.this, R.string.timeExpired, Toast.LENGTH_SHORT).show();
+                    Toast.makeText(QuizActivity.this, R.string.timeExpired, Toast.LENGTH_SHORT).show();
                 }
 
             }
@@ -618,7 +447,7 @@ public class DecodedQRActivity extends Activity {
     // all the back buttons must be overriden else wont work properly
 //    @Override
 //    public void onBackPressed() {
-//        Intent setIntent = new Intent(DecodedQRActivity.this, SecondActivity.class);
+//        Intent setIntent = new Intent(QuizActivity.this, SecondActivity.class);
 //        startActivity(setIntent);
 //    }
 }

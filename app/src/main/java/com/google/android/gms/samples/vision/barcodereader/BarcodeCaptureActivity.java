@@ -42,7 +42,6 @@ import android.widget.Toast;
 
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.GoogleApiAvailability;
-import com.google.android.gms.common.api.CommonStatusCodes;
 import com.google.android.gms.samples.vision.barcodereader.ui.camera.CameraSource;
 import com.google.android.gms.samples.vision.barcodereader.ui.camera.CameraSourcePreview;
 
@@ -57,7 +56,6 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
 import java.io.IOException;
-import java.util.Collections;
 
 /**
  * Activity for the multi-tracker app.  This app detects barcodes and displays the value with the
@@ -364,7 +362,7 @@ public final class BarcodeCaptureActivity extends AppCompatActivity implements B
         }
 
         if (best != null) {
-//            Intent data = new Intent(BarcodeCaptureActivity.this, DecodedQRActivity.class);
+//            Intent data = new Intent(BarcodeCaptureActivity.this, QuizActivity.class);
 //            data.putExtra(BarcodeObject, best.displayValue);
 //            setResult(CommonStatusCodes.SUCCESS, data);
             checkDataBase(best);
@@ -456,8 +454,10 @@ public final class BarcodeCaptureActivity extends AppCompatActivity implements B
                     checkDataBaseForTest(barcode);
                 } else {
                     // false = go to decoded
-                    Intent intent = new Intent(BarcodeCaptureActivity.this, DecodedQRActivity.class);
+                    // it s a question
+                    Intent intent = new Intent(BarcodeCaptureActivity.this, DecodeQRActivity.class);
                     intent.putExtra(BarcodeObject, barcode.displayValue);
+                    intent.putExtra("TYPE OF QUIZ", "question");
                     startActivity(intent);
                     invalid = true;
                 }
@@ -489,8 +489,10 @@ public final class BarcodeCaptureActivity extends AppCompatActivity implements B
                     toast.show();
                 } else {
                     // false = go to decoded
-                    Intent intent = new Intent(BarcodeCaptureActivity.this, DecodedQRActivity.class);
+                    // it s a test
+                    Intent intent = new Intent(BarcodeCaptureActivity.this, DecodeQRActivity.class);
                     intent.putExtra(BarcodeObject, barcode.displayValue);
+                    intent.putExtra("TYPE OF QUIZ", "test");
                     startActivity(intent);
                     invalid = true;
                 }
