@@ -452,6 +452,36 @@ public final class BarcodeCaptureActivity extends AppCompatActivity implements B
                     }
                 }
                 if (invalid) {
+                    // check if maybe it s a test
+                    checkDataBaseForTest(barcode);
+                } else {
+                    // false = go to decoded
+                    Intent intent = new Intent(BarcodeCaptureActivity.this, DecodedQRActivity.class);
+                    intent.putExtra(BarcodeObject, barcode.displayValue);
+                    startActivity(intent);
+                    invalid = true;
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        });
+    }
+
+    public void checkDataBaseForTest(Barcode barcode) {
+        DatabaseReference mDatabase = FirebaseDatabase.getInstance().getReference("tests");
+        mDatabase.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                for (DataSnapshot d : dataSnapshot.getChildren()) {
+                    if (d.getKey().equals(barcode.displayValue)) {
+                        invalid = false;        // the code scanned is not invalid
+                        // there is a question for the code scanned
+                    }
+                }
+                if (invalid) {
                     // true = show message
                     Toast toast = null;
                     toast = Toast.makeText(BarcodeCaptureActivity.this, getText(R.string.invalidQRCode), Toast.LENGTH_SHORT);

@@ -93,6 +93,7 @@ public class SeeTestsActivity extends Activity implements View.OnClickListener {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 Map<String, Object> map = (HashMap<String, Object>) dataSnapshot.getValue();
+                // TODO only the tests for logged professor
 
                 for (HashMap.Entry i : map.entrySet()) {
                     Map<String, Object> oneTest = (HashMap<String, Object>) i.getValue();

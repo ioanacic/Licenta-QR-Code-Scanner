@@ -13,6 +13,10 @@ public class Test {
 
     }
 
+    public Test(int numberOfQuestions) {
+        this.numberOfQuestions = numberOfQuestions;
+    }
+
     public Test(String professorKey, String title, int numberOfQuestions) {
         this.professorKey = professorKey;
         this.title = title;
