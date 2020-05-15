@@ -7,6 +7,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 public class StudentsAdapter extends RecyclerView.Adapter<StudentsAdapter.ViewHolder> {
@@ -25,8 +27,8 @@ public class StudentsAdapter extends RecyclerView.Adapter<StudentsAdapter.ViewHo
 
     private List<Student> myStudents;
 
-    public StudentsAdapter(List<Student> students) {
-        myStudents = students;
+    public StudentsAdapter() {
+        myStudents = new ArrayList<>();;
     }
 
     @Override
@@ -54,5 +56,16 @@ public class StudentsAdapter extends RecyclerView.Adapter<StudentsAdapter.ViewHo
     @Override
     public int getItemCount() {
         return myStudents.size();
+    }
+
+    public void updateS(List<Student> newSList) {
+        myStudents.clear();
+        myStudents.addAll(newSList);
+        Collections.sort(myStudents, (o1, o2) -> o1.getLastName().compareTo(o2.getLastName()));
+        this.notifyDataSetChanged();
+    }
+
+    public List<Student> getMyStudents() {
+        return myStudents;
     }
 }

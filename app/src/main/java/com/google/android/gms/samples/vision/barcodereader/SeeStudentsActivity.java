@@ -57,14 +57,12 @@ public class SeeStudentsActivity extends Activity {
         mAuth = FirebaseAuth.getInstance();
 
         getAllQuestions();
-        populateRecyclerView(students);
+        populateRecyclerView();
 
     }
 
-    public void populateRecyclerView(final List<Student> s) {
-        // sort alfabetically
-        Collections.sort(s, (o1, o2) -> o1.getLastName().compareTo(o2.getLastName()));
-        adapter = new StudentsAdapter(s);
+    public void populateRecyclerView() {
+        adapter = new StudentsAdapter();
         recyclerView.setAdapter(adapter);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
 
@@ -72,7 +70,7 @@ public class SeeStudentsActivity extends Activity {
                 new RecyclerItemClickListener(this.getApplicationContext(), recyclerView, new RecyclerItemClickListener.OnItemClickListener() {
                     @Override
                     public void onItemClick(View view, int position) {
-                        Student selectedStudent = students.get(position);
+                        Student selectedStudent = adapter.getMyStudents().get(position);
                         String key = selectedStudent.getKey();
                         Intent intent = new Intent(SeeStudentsActivity.this, HistoryActivity.class);
                         intent.putExtra("KEY", key);
@@ -253,9 +251,9 @@ public class SeeStudentsActivity extends Activity {
         }
 
         if (spinner.getSelectedItem().toString().trim().equals("All groups")) {
-            populateRecyclerView(students);
+            adapter.updateS(students);
         } else {
-            populateRecyclerView(selectedStudents);
+            adapter.updateS(selectedStudents);
         }
     }
 }
