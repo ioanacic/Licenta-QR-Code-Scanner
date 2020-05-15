@@ -11,6 +11,7 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.Spinner;
+import android.widget.Toast;
 
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
@@ -80,6 +81,7 @@ public class SeeQuestionsActivity extends Activity implements SeeQuestionListene
             @Override
             public void onClick(View view) {
                 createTest();
+
             }
         });
 
@@ -324,5 +326,8 @@ public class SeeQuestionsActivity extends Activity implements SeeQuestionListene
             }
             mDatabaseTest.child(uniqueId).child("title").setValue(title);
         }
+
+        Toast.makeText(getApplicationContext(), R.string.testSaved, Toast.LENGTH_SHORT).show();
+
     }
 }
