@@ -27,6 +27,8 @@ public class Question {
         this.correctAnswer = correctAnswer;
         this.idProfessor = idProfessor;
         this.subject = subject;
+
+        isSelected = false;
     }
 
     public Question(String key, String question, String course, String answerA, String answerB, String answerC, String answerD,

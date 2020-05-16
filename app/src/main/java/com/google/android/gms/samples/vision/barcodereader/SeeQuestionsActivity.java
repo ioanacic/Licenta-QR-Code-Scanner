@@ -292,11 +292,13 @@ public class SeeQuestionsActivity extends Activity implements SeeQuestionListene
                 if (!q.isSelected()) {
                     // q.isSelected = false = nu a fost apasat
                     q.setSelected(true);
+                    mDatabase.child(q.getKey()).child("selected").setValue(true);
 
                     questionsForTest.add(question);
                 } else {
                     // q.isSelected = true = a fost apasat, ii anulez efectul
                     q.setSelected(false);
+                    mDatabase.child(q.getKey()).child("selected").setValue(false);
 
                     for (Question qT : questionsForTest) {
                         if (qT.equals(q)) {
