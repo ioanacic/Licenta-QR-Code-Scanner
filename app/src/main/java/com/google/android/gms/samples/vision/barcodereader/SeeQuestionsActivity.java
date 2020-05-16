@@ -37,9 +37,12 @@ public class SeeQuestionsActivity extends Activity implements SeeQuestionListene
 
     List<Question> questions = new ArrayList<>();
     List<Question> questionsBySubject = new ArrayList<>();
+    List<Question> questionsByCourse = new ArrayList<>();
     List<Question> questionsForTest = new ArrayList<>();
 
     ArrayAdapter<String> dataAdapterSpinner;
+
+    boolean isPressed = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -81,7 +84,7 @@ public class SeeQuestionsActivity extends Activity implements SeeQuestionListene
             @Override
             public void onClick(View view) {
                 createTest();
-
+                isPressed = true;
             }
         });
 
@@ -253,9 +256,24 @@ public class SeeQuestionsActivity extends Activity implements SeeQuestionListene
         } else {
             adapter.updateQ(selectedQuestions);
         }
+
+        if (!questionsByCourse.isEmpty()) {
+            questionsByCourse.clear();
+        }
+        questionsByCourse = selectedQuestions;
     }
 
     public void onOptionSelectedSubject() {
+        // there were selected questions for test, but changed the subject, so RESET
+        if (!questionsForTest.isEmpty()) {
+            for (Question q : questionsForTest) {
+                q.setSelected(false);
+                mDatabase.child(q.getKey()).child("selected").setValue(false);
+            }
+
+            questionsForTest.clear();
+        }
+
         String selectedOption = spinnerSubject.getSelectedItem().toString().trim();
         List<Question> selectedQuestions = new ArrayList<>();
 
@@ -277,16 +295,29 @@ public class SeeQuestionsActivity extends Activity implements SeeQuestionListene
 
     @Override
     public void onAddQButtonClicked(Question question) {
+        // TODO update somehow that you cannoe DESELECT a question added to another test
+        // with if condition = the button shows SELECTED, if questionsForTest.isEmpty = the questions are added in another test, CANNOT ADD AGAIN
+        // without if condition = the button is selected, with DESELECT AND SELECT AGAIN can add the question to another test
+
         if (spinnerSubject.getSelectedItem().toString().trim().equals("All subjects")) {
-            updateTestQs(questions, question);
-            adapter.updateQ(questions);
-        } else {
+//            updateTestQs(questions, question);
+//            adapter.updateQ(questions);
+            Toast.makeText(getApplicationContext(), R.string.selectASubject, Toast.LENGTH_SHORT).show();
+        } else if (spinner.getSelectedItem().toString().trim().equals("All courses")) {
             updateTestQs(questionsBySubject, question);
             adapter.updateQ(questionsBySubject);
+        } else {
+            updateTestQs(questionsByCourse, question);
+            adapter.updateQ(questionsByCourse);
         }
     }
 
     public void updateTestQs(List<Question> questions, Question question) {
+        // if the professor added a test, the questionsForTest is empty now, but isPressed = true, so RESET
+        if (questionsForTest.size() == 0) {
+            isPressed = false;
+        }
+
         for (Question q : questions) {
             if (q.equals(question)) {
                 if (!q.isSelected()) {
@@ -309,6 +340,7 @@ public class SeeQuestionsActivity extends Activity implements SeeQuestionListene
                 }
             }
         }
+
     }
 
     public void createTest() {
@@ -331,5 +363,20 @@ public class SeeQuestionsActivity extends Activity implements SeeQuestionListene
 
         Toast.makeText(getApplicationContext(), R.string.testSaved, Toast.LENGTH_SHORT).show();
 
+        questionsForTest.clear();
     }
+
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+
+        // remove the selection for questions if the button is not pressed
+        if (!isPressed) {
+            for (Question q : questionsForTest) {
+                q.setSelected(false);
+                mDatabase.child(q.getKey()).child("selected").setValue(false);
+            }
+        }
+    }
+
 }

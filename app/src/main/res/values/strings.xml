@@ -33,4 +33,5 @@
     <string name="cannotBeEmpty">This field cannot be empty</string>
     <string name="invalidQRCode">This QR code is not recognised by the app. Please try a valid QR code!</string>
     <string name="testSaved">The test was successfully saved</string>
+    <string name="questionAlreadySaved">This question is already included in another test</string>
 </resources>
