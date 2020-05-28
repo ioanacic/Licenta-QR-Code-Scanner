@@ -111,12 +111,14 @@ public class SeeQuestionsActivity extends Activity implements SeeQuestionListene
                         String key = selectedQuestion.getKey();
                         String subject = spinnerSubject.getSelectedItem().toString().trim();
                         String course = selectedQuestion.getCourse();
+                        String statement = selectedQuestion.getQuestion();
 
                         Intent intent = new Intent(SeeQuestionsActivity.this, GenerateQRActivity.class);
                         intent.putExtra("KEY", key);
                         intent.putExtra("COURSE", course);
                         intent.putExtra("SUBJECT", subject);
                         intent.putExtra("TYPE", "question");
+                        intent.putExtra("DEFAULT_TITLE", statement);
 
                         if (spinnerSubject.getSelectedItem().toString().trim().equals("All subjects")) {
                             Toast.makeText(getApplicationContext(), R.string.selectASubject, Toast.LENGTH_SHORT).show();

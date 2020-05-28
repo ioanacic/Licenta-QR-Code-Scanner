@@ -36,7 +36,7 @@ public class GenerateQRActivity extends Activity {
     TextInputEditText renamePicture;
     String inputValue;
 
-    String keyOfSelectedQuestion, subjectOfSelectedQuestion, courseOfSelectedQuestion, type;
+    String keyOfSelectedQuestion, subjectOfSelectedQuestion, courseOfSelectedQuestion, type, statement;
 
     Bitmap bitmap;
     QRGEncoder qrgEncoder;
@@ -55,6 +55,7 @@ public class GenerateQRActivity extends Activity {
         subjectOfSelectedQuestion = getIntent().getStringExtra("SUBJECT");
         courseOfSelectedQuestion = getIntent().getStringExtra("COURSE");
         type = getIntent().getStringExtra("TYPE");
+        statement = getIntent().getStringExtra("DEFAULT_TITLE");
 
         inputValue = keyOfSelectedQuestion.trim();
         if (inputValue.length() > 0) {
@@ -99,7 +100,7 @@ public class GenerateQRActivity extends Activity {
 
                 String pictureName;
                 if (renamePicture.getText().toString().isEmpty()) {
-                    pictureName = keyOfSelectedQuestion;
+                    pictureName = statement;
                 } else {
                     pictureName = renamePicture.getText().toString();
                 }
