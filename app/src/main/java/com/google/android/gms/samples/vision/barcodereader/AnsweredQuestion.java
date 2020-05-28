@@ -4,6 +4,8 @@ public class AnsweredQuestion {
     String qId, answer;
     boolean isCorrect;
 
+    String subject;
+
     public AnsweredQuestion() {
 
     }
@@ -51,5 +53,13 @@ public class AnsweredQuestion {
 
     public void setCorrect(boolean correct) {
         isCorrect = correct;
+    }
+
+    public String getSubject() {
+        return subject;
+    }
+
+    public void setSubject(String subject) {
+        this.subject = subject;
     }
 }

@@ -63,7 +63,9 @@ public class StartWithLogoActivity extends Activity {
                 }
 
                 Intent intent;
-                if (typeOfUser.equals("S")) {       // is student
+                if (typeOfUser == null) {
+                    intent = new Intent(StartWithLogoActivity.this, SignInActivity.class);
+                } else if (typeOfUser.equals("S")) {       // is student
                     intent = new Intent(StartWithLogoActivity.this, StudentAccountActivity.class);
                 } else {        // is professor
                     intent = new Intent(StartWithLogoActivity.this, ProfessorAccountActivity.class);

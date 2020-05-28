@@ -280,6 +280,7 @@ public class HistoryActivity extends Activity {
         yourScore.setText(scoreStr);
     }
 
+    // as student
     public void addItemsOnSpinnerStudent() {
         List<String> options = new ArrayList<String>();
         options.add("All subjects");
@@ -308,6 +309,7 @@ public class HistoryActivity extends Activity {
         spinner.setAdapter(dataAdapter);
     }
 
+    // as professor
     public void addItemsOnSpinnerProfessor() {
         List<String> options = new ArrayList<String>();
         options.add("All subjects");
