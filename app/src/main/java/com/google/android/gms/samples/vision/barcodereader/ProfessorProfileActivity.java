@@ -129,4 +129,12 @@ public class ProfessorProfileActivity extends Activity implements View.OnClickLi
             startActivity(intent);
         }
     }
+
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+
+        Intent intent = new Intent(this, ProfessorAccountActivity.class);
+        startActivity(intent);
+    }
 }

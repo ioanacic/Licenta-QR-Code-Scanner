@@ -123,7 +123,6 @@ public class GenerateQRActivity extends Activity {
                     } else {
                         intent = new Intent(GenerateQRActivity.this, SeeTestsActivity.class);
                     }
-
                     startActivity(intent);
                 } catch (WriterException e) {
                     e.printStackTrace();
@@ -140,6 +139,5 @@ public class GenerateQRActivity extends Activity {
                 }
             }
         });
-
     }
 }

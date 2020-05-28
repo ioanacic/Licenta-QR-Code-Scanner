@@ -394,6 +394,13 @@ public class SeeStudentsActivity extends Activity {
                 }
             }
         }.start();
+    }
 
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+
+        Intent intent = new Intent(this, ProfessorAccountActivity.class);
+        startActivity(intent);
     }
 }

@@ -163,4 +163,12 @@ public class SeeTestsActivity extends Activity implements View.OnClickListener {
     public void onClick(View view) {
 
     }
+
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+
+        Intent intent = new Intent(this, ProfessorAccountActivity.class);
+        startActivity(intent);
+    }
 }

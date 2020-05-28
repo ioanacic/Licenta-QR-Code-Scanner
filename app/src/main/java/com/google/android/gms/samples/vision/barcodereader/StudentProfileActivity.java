@@ -194,4 +194,12 @@ public class StudentProfileActivity extends Activity implements View.OnClickList
             updatePassword();
         }
     }
+
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+
+        Intent intent = new Intent(this, StudentAccountActivity.class);
+        startActivity(intent);
+    }
 }

@@ -211,4 +211,12 @@ public class SignUpStudentActivity extends Activity implements View.OnClickListe
             singUp();
         }
     }
+
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+
+        Intent intent = new Intent(this, SignInActivity.class);
+        startActivity(intent);
+    }
 }

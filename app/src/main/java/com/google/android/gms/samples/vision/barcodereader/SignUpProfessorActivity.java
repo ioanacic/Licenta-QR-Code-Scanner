@@ -201,4 +201,12 @@ public class SignUpProfessorActivity extends Activity implements View.OnClickLis
             singUp();
         }
     }
+
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+
+        Intent intent = new Intent(this, SignInActivity.class);
+        startActivity(intent);
+    }
 }

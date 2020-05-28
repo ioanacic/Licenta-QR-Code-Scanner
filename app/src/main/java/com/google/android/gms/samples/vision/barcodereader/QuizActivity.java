@@ -5,6 +5,9 @@ import android.animation.AnimatorListenerAdapter;
 import android.animation.ObjectAnimator;
 import android.animation.ValueAnimator;
 import android.app.Activity;
+import android.app.AlertDialog;
+import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -444,10 +447,31 @@ public class QuizActivity extends Activity {
         mDatabase.child(mAuth.getCurrentUser().getUid()).child("answers").child(questionId).setValue(aQ);
     }
 
-    // all the back buttons must be overriden else wont work properly
-//    @Override
-//    public void onBackPressed() {
-//        Intent setIntent = new Intent(QuizActivity.this, SecondActivity.class);
-//        startActivity(setIntent);
-//    }
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+
+        DialogInterface.OnClickListener dialogClickListener = new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                switch (which) {
+                    case DialogInterface.BUTTON_POSITIVE:
+                        //Yes button clicked
+                        Intent intent = new Intent(QuizActivity.this, StudentAccountActivity.class);
+                        startActivity(intent);
+                        break;
+
+                    case DialogInterface.BUTTON_NEGATIVE:
+                        //No button clicked
+                        break;
+                }
+            }
+        };
+
+        Context context = this;
+        AlertDialog.Builder builder = new AlertDialog.Builder(context);
+        builder.setMessage("Are you sure you want to exit the quiz? You won't be able to take it again!").
+                setPositiveButton("Yes", dialogClickListener).setNegativeButton("No", dialogClickListener).show();
+
+    }
 }

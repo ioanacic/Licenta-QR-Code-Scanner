@@ -137,7 +137,6 @@ public class SeeQuestionsActivity extends Activity implements SeeQuestionListene
                                 switch (which) {
                                     case DialogInterface.BUTTON_POSITIVE:
                                         //Yes button clicked
-
                                         mDatabase.child(key).removeValue();
                                         Intent intent = new Intent(SeeQuestionsActivity.this, SeeQuestionsActivity.class);
                                         startActivity(intent);
@@ -384,6 +383,8 @@ public class SeeQuestionsActivity extends Activity implements SeeQuestionListene
                 mDatabase.child(q.getKey()).child("selected").setValue(false);
             }
         }
-    }
 
+        Intent intent = new Intent(this, ProfessorAccountActivity.class);
+        startActivity(intent);
+    }
 }

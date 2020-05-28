@@ -202,4 +202,12 @@ public class AddQuestionActivity extends Activity implements View.OnClickListene
             addQuestion();
         }
     }
+
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+
+        Intent intent = new Intent(this, ProfessorAccountActivity.class);
+        startActivity(intent);
+    }
 }
