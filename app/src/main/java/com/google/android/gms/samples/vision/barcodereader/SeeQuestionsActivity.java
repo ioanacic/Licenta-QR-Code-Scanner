@@ -1,6 +1,9 @@
 package com.google.android.gms.samples.vision.barcodereader;
 
 import android.app.Activity;
+import android.app.AlertDialog;
+import android.content.DialogInterface;
+import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -100,57 +103,58 @@ public class SeeQuestionsActivity extends Activity implements SeeQuestionListene
         recyclerView.setAdapter(adapter);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
 
-//        recyclerView.addOnItemTouchListener(
-//                new RecyclerItemClickListener(this.getApplicationContext(), recyclerView, new RecyclerItemClickListener.OnItemClickListener() {
-//                    @Override
-//                    public void onItemClick(View view, int position) {
-//                        Question selectedQuestion = adapter.getMyQuestions().get(position);
-//                        String key = selectedQuestion.getKey();
-//                        String subject = spinnerSubject.getSelectedItem().toString().trim();
-//                        String course = selectedQuestion.getCourse();
-//
-//                        Intent intent = new Intent(SeeQuestionsActivity.this, GenerateQRActivity.class);
-//                        intent.putExtra("KEY", key);
-//                        intent.putExtra("COURSE", course);
-//                        intent.putExtra("SUBJECT", subject);
-//
-//                        if (spinnerSubject.getSelectedItem().toString().trim().equals("All subjects")) {
-//                            Toast.makeText(getApplicationContext(), R.string.selectASubject, Toast.LENGTH_SHORT).show();
-//                        } else {
-//                            startActivity(intent);
-//                        }
-//                    }
-//
-//                    @Override
-//                    public void onLongItemClick(View view, int position) {
-//                        Question selectedQuestion = adapter.getMyQuestions().get(position);
-//                        String key = selectedQuestion.getKey();
-//                        DialogInterface.OnClickListener dialogClickListener = new DialogInterface.OnClickListener() {
-//                            @Override
-//                            public void onClick(DialogInterface dialog, int which) {
-//                                switch (which) {
-//                                    case DialogInterface.BUTTON_POSITIVE:
-//                                        //Yes button clicked
-//
-//                                        mDatabase.child(key).removeValue();
-//                                        Intent intent = new Intent(SeeQuestionsActivity.this, SeeQuestionsActivity.class);
-//                                        startActivity(intent);
-//                                        break;
-//
-//                                    case DialogInterface.BUTTON_NEGATIVE:
-//                                        //No button clicked
-//                                        break;
-//                                }
-//                            }
-//                        };
-//
-//                        AlertDialog.Builder builder = new AlertDialog.Builder(view.getContext());
-//                        builder.setMessage("Are you sure you want to permanently delete the question?").
-//                                setPositiveButton("Yes", dialogClickListener).setNegativeButton("No", dialogClickListener).show();
-//                        adapter.notifyDataSetChanged();
-//                    }
-//                })
-//        );
+        recyclerView.addOnItemTouchListener(
+                new RecyclerItemClickListener(this.getApplicationContext(), recyclerView, new RecyclerItemClickListener.OnItemClickListener() {
+                    @Override
+                    public void onItemClick(View view, int position) {
+                        Question selectedQuestion = adapter.getMyQuestions().get(position);
+                        String key = selectedQuestion.getKey();
+                        String subject = spinnerSubject.getSelectedItem().toString().trim();
+                        String course = selectedQuestion.getCourse();
+
+                        Intent intent = new Intent(SeeQuestionsActivity.this, GenerateQRActivity.class);
+                        intent.putExtra("KEY", key);
+                        intent.putExtra("COURSE", course);
+                        intent.putExtra("SUBJECT", subject);
+                        intent.putExtra("TYPE", "question");
+
+                        if (spinnerSubject.getSelectedItem().toString().trim().equals("All subjects")) {
+                            Toast.makeText(getApplicationContext(), R.string.selectASubject, Toast.LENGTH_SHORT).show();
+                        } else {
+                            startActivity(intent);
+                        }
+                    }
+
+                    @Override
+                    public void onLongItemClick(View view, int position) {
+                        Question selectedQuestion = adapter.getMyQuestions().get(position);
+                        String key = selectedQuestion.getKey();
+                        DialogInterface.OnClickListener dialogClickListener = new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                switch (which) {
+                                    case DialogInterface.BUTTON_POSITIVE:
+                                        //Yes button clicked
+
+                                        mDatabase.child(key).removeValue();
+                                        Intent intent = new Intent(SeeQuestionsActivity.this, SeeQuestionsActivity.class);
+                                        startActivity(intent);
+                                        break;
+
+                                    case DialogInterface.BUTTON_NEGATIVE:
+                                        //No button clicked
+                                        break;
+                                }
+                            }
+                        };
+
+                        AlertDialog.Builder builder = new AlertDialog.Builder(view.getContext());
+                        builder.setMessage("Are you sure you want to permanently delete the question?").
+                                setPositiveButton("Yes", dialogClickListener).setNegativeButton("No", dialogClickListener).show();
+                        adapter.notifyDataSetChanged();
+                    }
+                })
+        );
     }
 
     public void getData() {
@@ -318,6 +322,7 @@ public class SeeQuestionsActivity extends Activity implements SeeQuestionListene
             isPressed = false;
         }
 
+        // TODO user can deselect a question randomly, even if it s in a test and he doesnt want to use it in another
         for (Question q : questions) {
             if (q.equals(question)) {
                 if (!q.isSelected()) {

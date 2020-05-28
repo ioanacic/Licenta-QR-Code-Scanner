@@ -36,7 +36,7 @@ public class GenerateQRActivity extends Activity {
     TextInputEditText renamePicture;
     String inputValue;
 
-    String keyOfSelectedQuestion, subjectOfSelectedQuestion, courseOfSelectedQuestion;
+    String keyOfSelectedQuestion, subjectOfSelectedQuestion, courseOfSelectedQuestion, type;
 
     Bitmap bitmap;
     QRGEncoder qrgEncoder;
@@ -54,6 +54,7 @@ public class GenerateQRActivity extends Activity {
         keyOfSelectedQuestion = getIntent().getStringExtra("KEY");
         subjectOfSelectedQuestion = getIntent().getStringExtra("SUBJECT");
         courseOfSelectedQuestion = getIntent().getStringExtra("COURSE");
+        type = getIntent().getStringExtra("TYPE");
 
         inputValue = keyOfSelectedQuestion.trim();
         if (inputValue.length() > 0) {
@@ -114,7 +115,14 @@ public class GenerateQRActivity extends Activity {
                     save = QRGSaver.save(filepath.toString(), keyOfSelectedQuestion.trim(), bitmap, QRGContents.ImageType.IMAGE_JPEG);
                     result = save ? "Image Saved" : "Image Not Saved";
                     Toast.makeText(getApplicationContext(), result, Toast.LENGTH_SHORT).show();
-                    Intent intent = new Intent(GenerateQRActivity.this, SeeQuestionsActivity.class);
+
+                    Intent intent;
+                    if (type.equals("question")) {
+                        intent = new Intent(GenerateQRActivity.this, SeeQuestionsActivity.class);
+                    } else {
+                        intent = new Intent(GenerateQRActivity.this, SeeTestsActivity.class);
+                    }
+
                     startActivity(intent);
                 } catch (WriterException e) {
                     e.printStackTrace();
