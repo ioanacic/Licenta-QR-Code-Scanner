@@ -26,13 +26,16 @@ public class SeeAQActivity extends Activity {
     private FirebaseAuth mAuth;
     private DatabaseReference mDatabase, questionsAsProfessor, getQuestionsAsStudent;
 
-    TextView questionText, infoMessage;
+    TextView questionText, infoMessage, statistics;
     RadioButton answerA, answerB, answerC, answerD;
     RadioGroup answersGr;
 
     String keyOfSelectedQuestion, keyOfSelectedStudent, selectedAnswer, correctAnswer;
     Question question;
     AnsweredQuestion answeredQuestion;
+
+    Double countTotal = 0.0;         // total of students who answered to this question
+    Double countCorrect = 0.0;       // total of student to answered correctly to this question
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -46,6 +49,7 @@ public class SeeAQActivity extends Activity {
         answerD = (RadioButton) findViewById(R.id.answerD);
         answersGr = (RadioGroup) findViewById(R.id.answersGroup);
         infoMessage = (TextView) findViewById(R.id.infoMessage);
+        statistics = (TextView) findViewById(R.id.statistics);
 
         mAuth = FirebaseAuth.getInstance();
         // the id of the current question
@@ -107,6 +111,8 @@ public class SeeAQActivity extends Activity {
                         }
                     }
                 }
+
+                getStatistics();
             }
 
             @Override
@@ -209,5 +215,59 @@ public class SeeAQActivity extends Activity {
         }
 
         return sFormatted;
+    }
+
+    public void getStatistics() {
+        FirebaseDatabase.getInstance().getReference("users").addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                for (DataSnapshot d : dataSnapshot.getChildren()) {
+
+                    // get the type of user
+                    Map<String, User> userValue = (HashMap<String, User>) d.getValue();
+                    String typeOfUser = "";
+                    for (HashMap.Entry i : userValue.entrySet()) {
+                        if (i.getKey().equals("typeOfUser")) {
+                            typeOfUser = (String) i.getValue();
+                        }
+                    }
+
+                    // we only get the students
+                    if (typeOfUser.equals("S")) {
+                        for (HashMap.Entry i : userValue.entrySet()) {
+                            if (i.getKey().equals("answers")) {
+                                Map<String, Object> answersHM = (Map<String, Object>) i.getValue();
+                                for (HashMap.Entry ii : answersHM.entrySet()) {
+                                    if (ii.getKey().equals(keyOfSelectedQuestion)) {
+                                        countTotal++;
+
+                                        Map<String, Map<String, Object>> oneAnswer = (Map<String, Map<String, Object>>) ii.getValue();
+                                        for (HashMap.Entry oneField : oneAnswer.entrySet()) {
+                                            if (oneField.getKey().equals("correct")) {
+                                                if ((boolean) oneField.getValue()) {
+                                                    countCorrect++;
+                                                }
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+
+                Double result = countCorrect/countTotal*100;
+                String resultStr = result.toString();
+                if (resultStr.length() >= 5) {
+                    resultStr = resultStr.substring(0, 5);
+                }
+                statistics.setText("A total of " + resultStr + "% answered correctly to this question");
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        });
     }
 }

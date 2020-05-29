@@ -92,4 +92,14 @@
         android:layout_height="wrap_content"
         android:textSize="18sp" />
 
+    <Space
+        android:layout_width="match_parent"
+        android:layout_height="80dp" />
+
+    <TextView
+        android:id="@+id/statistics"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textSize="18sp" />
+
 </LinearLayout>
