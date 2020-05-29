@@ -45,6 +45,7 @@ public class QuizActivity extends Activity {
     ProgressBar progressBar, progressBarHoriz;
     Button submitButton;
     ObjectAnimator animator = new ObjectAnimator();
+
     List<String> radioButtonsList = new ArrayList<>();
 
     private FirebaseAuth mAuth;
@@ -144,6 +145,7 @@ public class QuizActivity extends Activity {
 
                         test = new Test(numberOfQuestions);
                         test.setQuestionsId(qs);
+                        shuffleTestQuestions();
 
                     } else {
                         isQuestion = true;
@@ -164,6 +166,13 @@ public class QuizActivity extends Activity {
         });
     }
 
+    public void shuffleTestQuestions() {
+        List<String> testsList = test.getQuestionsId();
+        Collections.shuffle(testsList);
+        test.setQuestionsId(testsList);
+    }
+
+    // gets every question from test until there is none left
     public void getDataForTest() {
         submitButton.setEnabled(true);
         answerA.setEnabled(true);
