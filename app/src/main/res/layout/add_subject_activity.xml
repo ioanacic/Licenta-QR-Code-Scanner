@@ -27,6 +27,8 @@
                     android:id="@+id/newSubjectField"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:drawableStart="@drawable/ic_topic_black_18dp"
+                    android:drawablePadding="10dp"
                     android:ems="15"
                     android:hint="New subject"
                     android:inputType="textCapSentences" />

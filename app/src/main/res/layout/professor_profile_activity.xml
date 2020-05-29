@@ -39,6 +39,8 @@
                             android:id="@+id/changeLName"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
+                            android:drawableStart="@drawable/ic_person_black_18dp"
+                            android:drawablePadding="5dp"
                             android:ems="15"
                             android:hint="Last Name"
                             android:inputType="textCapSentences" />
@@ -66,10 +68,11 @@
                             android:id="@+id/changeFName"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
+                            android:drawableStart="@drawable/ic_person_black_18dp"
+                            android:drawablePadding="5dp"
                             android:ems="15"
                             android:hint="First Name"
                             android:inputType="textCapSentences" />
-                        <!--                android:drawableStart="@drawable/profile"-->
 
                     </android.support.design.widget.TextInputLayout>
 
@@ -179,6 +182,8 @@
                             android:id="@+id/oldPasswordProf"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
+                            android:drawableStart="@drawable/ic_lock_black_18dp"
+                            android:drawablePadding="10dp"
                             android:ems="15"
                             android:hint="Old password"
                             android:inputType="textPassword"
@@ -207,6 +212,8 @@
                             android:id="@+id/newPasswordProf"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
+                            android:drawableStart="@drawable/ic_lock_black_18dp"
+                            android:drawablePadding="10dp"
                             android:ems="15"
                             android:hint="New password"
                             android:inputType="textPassword"

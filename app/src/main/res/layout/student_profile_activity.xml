@@ -39,8 +39,11 @@
                             android:id="@+id/changeLNameField"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
+                            android:drawableStart="@drawable/ic_person_black_18dp"
+                            android:drawablePadding="10dp"
                             android:ems="15"
-                            android:hint="Last Name" />
+                            android:hint="Last Name"
+                            android:inputType="textCapSentences" />
                     </android.support.design.widget.TextInputLayout>
 
                     <Space
@@ -65,9 +68,11 @@
                             android:id="@+id/changeFNameField"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:drawableStart="@drawable/profile"
+                            android:drawableStart="@drawable/ic_person_black_18dp"
+                            android:drawablePadding="10dp"
                             android:ems="15"
-                            android:hint="First Name" />
+                            android:hint="First Name"
+                            android:inputType="textCapSentences" />
                     </android.support.design.widget.TextInputLayout>
 
                     <Space
@@ -93,6 +98,8 @@
                             android:id="@+id/changeGroupField"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
+                            android:drawableStart="@drawable/ic_group_black_18dp"
+                            android:drawablePadding="10dp"
                             android:ems="15"
                             android:hint="Group" />
                     </android.support.design.widget.TextInputLayout>
@@ -141,6 +148,8 @@
                             android:id="@+id/changeYearField"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
+                            android:drawableStart="@drawable/ic_event_black_18dp"
+                            android:drawablePadding="10dp"
                             android:ems="15"
                             android:hint="Year of study" />
                     </android.support.design.widget.TextInputLayout>
@@ -251,6 +260,8 @@
                             android:id="@+id/oldPassword"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
+                            android:drawableStart="@drawable/ic_lock_black_18dp"
+                            android:drawablePadding="10dp"
                             android:ems="15"
                             android:hint="Old password"
                             android:inputType="textPassword"
@@ -278,6 +289,8 @@
                             android:id="@+id/newPassword"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
+                            android:drawableStart="@drawable/ic_lock_black_18dp"
+                            android:drawablePadding="10dp"
                             android:ems="15"
                             android:hint="New password"
                             android:inputType="textPassword"

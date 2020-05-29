@@ -39,6 +39,8 @@
                             android:id="@+id/fieldLastName"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
+                            android:drawableStart="@drawable/ic_person_black_18dp"
+                            android:drawablePadding="10dp"
                             android:ems="15"
                             android:hint="Last Name"
                             android:inputType="textCapSentences" />
@@ -61,6 +63,8 @@
                             android:id="@+id/fieldFirstName"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
+                            android:drawableStart="@drawable/ic_person_black_18dp"
+                            android:drawablePadding="10dp"
                             android:ems="15"
                             android:hint="First Name"
                             android:inputType="textCapSentences" />
@@ -83,6 +87,8 @@
                             android:id="@+id/fieldPhone"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
+                            android:drawableStart="@drawable/ic_call_black_18dp"
+                            android:drawablePadding="10dp"
                             android:ems="15"
                             android:hint="Phone"
                             android:inputType="number" />
@@ -105,6 +111,8 @@
                             android:id="@+id/fieldSubject"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
+                            android:drawableStart="@drawable/ic_topic_black_18dp"
+                            android:drawablePadding="10dp"
                             android:ems="15"
                             android:hint="Subject"
                             android:inputType="textCapSentences" />
@@ -127,6 +135,8 @@
                             android:id="@+id/fieldEmail"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
+                            android:drawableStart="@drawable/ic_email_black_18dp"
+                            android:drawablePadding="10dp"
                             android:ems="15"
                             android:hint="Email Address"
                             android:inputType="textEmailAddress" />
@@ -151,6 +161,8 @@
                             android:id="@+id/fieldPassword"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
+                            android:drawableStart="@drawable/ic_lock_black_18dp"
+                            android:drawablePadding="10dp"
                             android:ems="15"
                             android:hint="Password"
                             android:inputType="textPassword" />
