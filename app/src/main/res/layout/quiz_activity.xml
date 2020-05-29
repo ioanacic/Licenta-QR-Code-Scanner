@@ -123,7 +123,7 @@
             android:layout_height="wrap_content"
             android:background="#00009688"
             android:progress="100"
-            android:progressTint="#480D21"
+            android:progressTint="#f9ba10"
             android:progressBackgroundTint="#FFFFFFFF" />
 
         <Space

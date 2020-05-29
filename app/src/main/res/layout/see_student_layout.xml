@@ -27,6 +27,6 @@
             android:id="@+id/dividerStudent"
             android:layout_width="match_parent"
             android:layout_height="2dp"
-            android:background="#C73565" />
+            android:background="#f9ba10" />
     </LinearLayout>
 </LinearLayout>
