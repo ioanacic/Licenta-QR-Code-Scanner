@@ -7,6 +7,7 @@ import android.graphics.Point;
 import android.os.Bundle;
 import android.os.Environment;
 import android.support.design.widget.TextInputEditText;
+import android.support.design.widget.TextInputLayout;
 import android.util.Log;
 import android.view.Display;
 import android.view.View;
@@ -28,13 +29,16 @@ import androidmads.library.qrgenearator.QRGContents;
 import androidmads.library.qrgenearator.QRGEncoder;
 import androidmads.library.qrgenearator.QRGSaver;
 
-public class GenerateQRActivity extends Activity {
+public class GenerateQRActivity extends Activity implements View.OnClickListener {
     String TAG = "GenerateQRCode";
 
     ImageView qrImage;
     Button save;
     TextInputEditText renamePicture;
+    TextInputLayout renameLayout;
+
     String inputValue;
+    boolean show = false;
 
     String keyOfSelectedQuestion, subjectOfSelectedQuestion, courseOfSelectedQuestion, type, statement;
 
@@ -50,6 +54,10 @@ public class GenerateQRActivity extends Activity {
         qrImage = (ImageView) findViewById(R.id.QR_Image);
         save = (Button) findViewById(R.id.save);
         renamePicture = findViewById(R.id.pictureName);
+
+        findViewById(R.id.infoRenameButton).setOnClickListener(this);
+        renameLayout = findViewById(R.id.renameLayout);
+        renameLayout.setErrorTextAppearance(R.style.error_appearance);
 
         keyOfSelectedQuestion = getIntent().getStringExtra("KEY");
         subjectOfSelectedQuestion = getIntent().getStringExtra("SUBJECT");
@@ -139,5 +147,18 @@ public class GenerateQRActivity extends Activity {
                 }
             }
         });
+    }
+
+    @Override
+    public void onClick(View view) {
+        if (view.getId() == R.id.infoRenameButton) {
+            if (!show) {
+                renameLayout.setError("You will identify the code easier if you rename it now");
+                show = true;
+            } else {
+                renameLayout.setError("");
+                show = false;
+            }
+        }
     }
 }

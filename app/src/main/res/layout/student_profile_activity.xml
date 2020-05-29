@@ -28,7 +28,7 @@
                     android:layout_height="match_parent">
 
                     <Space
-                        android:layout_width="20dp"
+                        android:layout_width="10dp"
                         android:layout_height="wrap_content" />
 
                     <android.support.design.widget.TextInputLayout
@@ -44,7 +44,7 @@
                     </android.support.design.widget.TextInputLayout>
 
                     <Space
-                        android:layout_width="10dp"
+                        android:layout_width="5dp"
                         android:layout_height="wrap_content" />
 
                 </TableRow>
@@ -85,6 +85,7 @@
                         android:layout_height="wrap_content" />
 
                     <android.support.design.widget.TextInputLayout
+                        android:id="@+id/groupLayout"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content">
 
@@ -100,6 +101,27 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content" />
 
+                    <TableRow>
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:orientation="vertical">
+
+                            <Space
+                                android:layout_width="match_parent"
+                                android:layout_height="20dp" />
+
+                            <ImageButton
+                                android:id="@+id/infoChangeGroup"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:background="@null"
+                                android:src="@drawable/ic_info_outline_black_24dp" />
+                        </LinearLayout>
+
+                    </TableRow>
+
                 </TableRow>
 
                 <TableRow
@@ -111,6 +133,7 @@
                         android:layout_height="wrap_content" />
 
                     <android.support.design.widget.TextInputLayout
+                        android:id="@+id/yearLayout"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content">
 
@@ -125,6 +148,27 @@
                     <Space
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content" />
+
+                    <TableRow>
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:orientation="vertical">
+
+                            <Space
+                                android:layout_width="match_parent"
+                                android:layout_height="20dp" />
+
+                            <ImageButton
+                                android:id="@+id/infoChangeYear"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:background="@null"
+                                android:src="@drawable/ic_info_outline_black_24dp" />
+                        </LinearLayout>
+
+                    </TableRow>
 
                 </TableRow>
 

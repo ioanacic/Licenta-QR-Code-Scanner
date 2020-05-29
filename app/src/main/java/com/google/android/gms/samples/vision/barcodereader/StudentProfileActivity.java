@@ -34,12 +34,15 @@ public class StudentProfileActivity extends Activity implements View.OnClickList
     TextInputEditText oldPassField, newPassField;
 
     TextInputLayout oldPLayout, newPLayout;
+    TextInputLayout groupLayout, yearLayout;
 
     Button updatebPass;
 
     Student currentStudent;
 
     boolean error = false;
+    boolean showG = false;
+    boolean showY = false;
 
     private FirebaseAuth mAuth;
     private DatabaseReference mDatabase;
@@ -59,9 +62,16 @@ public class StudentProfileActivity extends Activity implements View.OnClickList
 
         oldPLayout = findViewById(R.id.oldPLayout);
         newPLayout = findViewById(R.id.newPLayout);
+        groupLayout = findViewById(R.id.groupLayout);
+        yearLayout = findViewById(R.id.yearLayout);
+
+        groupLayout.setErrorTextAppearance(R.style.error_appearance);
+        yearLayout.setErrorTextAppearance(R.style.error_appearance);
 
         findViewById(R.id.saveChangesStudent).setOnClickListener(this);
         findViewById(R.id.changePasswordStudent).setOnClickListener(this);
+        findViewById(R.id.infoChangeGroup).setOnClickListener(this);
+        findViewById(R.id.infoChangeYear).setOnClickListener(this);
         updatebPass = findViewById(R.id.updatePasswordButton);
         updatebPass.setOnClickListener(this);
 
@@ -192,6 +202,24 @@ public class StudentProfileActivity extends Activity implements View.OnClickList
         }
         if (view.getId() == R.id.updatePasswordButton) {
             updatePassword();
+        }
+        if (view.getId() == R.id.infoChangeGroup) {
+            if (!showG) {
+                groupLayout.setError("Update it at the beginning of every school year");
+                showG = true;
+            } else {
+                groupLayout.setError("");
+                showG = false;
+            }
+        }
+        if (view.getId() == R.id.infoChangeYear) {
+            if (!showY) {
+                yearLayout.setError("Update it at the beginning of every school year");
+                showY = true;
+            } else {
+                yearLayout.setError("");
+                showY = false;
+            }
         }
     }
 
