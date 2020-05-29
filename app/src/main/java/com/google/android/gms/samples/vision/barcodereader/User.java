@@ -23,12 +23,11 @@ public class User {
         this.typeOfUser = typeOfUser;
     }
 
-    public User(String lastName, String firstName, String phone, String email, String password, String typeOfUser) {
+    public User(String lastName, String firstName, String phone, String email, String typeOfUser) {
         this.lastName = lastName;
         this.firstName = firstName;
         this.phone = phone;
         this.email = email;
-        this.password = password;
         this.typeOfUser = typeOfUser;
     }
 
@@ -70,14 +69,6 @@ public class User {
 
     public void setEmail(String email) {
         this.email = email;
-    }
-
-    public String getPassword() {
-        return password;
-    }
-
-    public void setPassword(String password) {
-        this.password = password;
     }
 
     public String getTypeOfUser() {

@@ -81,7 +81,7 @@ public class SignUpProfessorActivity extends Activity implements View.OnClickLis
                     @Override
                     public void onComplete(@NonNull Task<AuthResult> task) {
                         if (task.isSuccessful()) {
-                            Professor professor = new Professor(lastName, firstName, phone, email, password, typeOfUser, subjects);
+                            Professor professor = new Professor(lastName, firstName, phone, email, typeOfUser, subjects);
                             mDatabase.child(mAuth.getCurrentUser().getUid()).setValue(professor).addOnCompleteListener(new OnCompleteListener<Void>() {
                                 @Override
                                 public void onComplete(@NonNull Task<Void> task) {

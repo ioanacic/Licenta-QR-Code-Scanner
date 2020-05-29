@@ -85,7 +85,7 @@ public class SignUpStudentActivity extends Activity implements View.OnClickListe
                     @Override
                     public void onComplete(@NonNull Task<AuthResult> task) {
                         if (task.isSuccessful()) {
-                            Student student = new Student(lastName, firstName, phone,  email, password, typeOfUser, group, year, answers);
+                            Student student = new Student(lastName, firstName, phone,  email, typeOfUser, group, year, answers);
                             mDatabase.child(mAuth.getCurrentUser().getUid()).setValue(student).addOnCompleteListener(new OnCompleteListener<Void>() {
                                 @Override
                                 public void onComplete(@NonNull Task<Void> task) {

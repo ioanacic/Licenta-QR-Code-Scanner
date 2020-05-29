@@ -24,8 +24,8 @@ public class Professor extends User {
         this.subjects = subjects;
     }
 
-    public Professor(String lastName, String firstName, String phone, String email, String password,  String typeOfUser, List<String> subjects) {
-        super(lastName, firstName, phone, email, password, typeOfUser);
+    public Professor(String lastName, String firstName, String phone, String email,  String typeOfUser, List<String> subjects) {
+        super(lastName, firstName, phone, email, typeOfUser);
         this.subjects = subjects;
     }
 

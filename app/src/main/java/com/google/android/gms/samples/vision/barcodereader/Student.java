@@ -30,9 +30,9 @@ public class Student extends User {
         this.answers = answers;
     }
 
-    public Student(String lastName, String firstName, String phone, String email, String password, String typeOfUser,
+    public Student(String lastName, String firstName, String phone, String email, String typeOfUser,
                    String group, String yearOfStudy, List<AnsweredQuestion> answers) {
-        super(lastName, firstName, phone, email, password, typeOfUser);
+        super(lastName, firstName, phone, email, typeOfUser);
         this.group = group;
         this.yearOfStudy = yearOfStudy;
         this.answers = answers;
