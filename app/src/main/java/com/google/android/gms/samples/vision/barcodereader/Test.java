@@ -5,7 +5,7 @@ import java.util.List;
 
 public class Test {
     String key;
-    String professorKey, title;
+    String professorKey, title, subject;
     List<String> questionsId;
     int numberOfQuestions;
 
@@ -70,5 +70,13 @@ public class Test {
 
     public void setQuestionsId(List<String> questionsId) {
         this.questionsId = questionsId;
+    }
+
+    public String getSubject() {
+        return subject;
+    }
+
+    public void setSubject(String subject) {
+        this.subject = subject;
     }
 }

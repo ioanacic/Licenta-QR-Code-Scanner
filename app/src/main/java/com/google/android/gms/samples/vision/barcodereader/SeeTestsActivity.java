@@ -10,6 +10,7 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.Spinner;
 
 import com.google.firebase.auth.FirebaseAuth;
@@ -35,6 +36,7 @@ public class SeeTestsActivity extends Activity implements View.OnClickListener {
     Spinner spinner;
 
     List<Test> tests = new ArrayList<>();
+    List<Test> selectedTests = new ArrayList<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -46,7 +48,7 @@ public class SeeTestsActivity extends Activity implements View.OnClickListener {
         spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
-//                onOptionSelected();
+                onOptionSelectedSubject();
             }
 
             @Override
@@ -74,7 +76,6 @@ public class SeeTestsActivity extends Activity implements View.OnClickListener {
                 new RecyclerItemClickListener(this.getApplicationContext(), recyclerView, new RecyclerItemClickListener.OnItemClickListener() {
                     @Override
                     public void onItemClick(View view, int position) {
-                        // TODO save in specific folders like QR s for questions
                         Test selectedTest = adapter.getMyTests().get(position);
                         String key = selectedTest.getKey();
                         Intent intent = new Intent(SeeTestsActivity.this, GenerateQRActivity.class);
@@ -150,6 +151,7 @@ public class SeeTestsActivity extends Activity implements View.OnClickListener {
 
                 adapter.notifyDataSetChanged();
                 adapter.updateT(tests);
+                addItemOnSpinner();
             }
 
             @Override
@@ -157,6 +159,60 @@ public class SeeTestsActivity extends Activity implements View.OnClickListener {
 
             }
         });
+    }
+
+    public void getSubject() {
+        for (Test t : tests) {
+            if (t.getTitle().contains("-")) {
+                t.setSubject(t.getTitle().substring(0, t.getTitle().indexOf(" - ")));
+            } else {
+                t.setSubject(t.getTitle());
+            }
+        }
+    }
+
+    public void addItemOnSpinner() {
+        getSubject();
+
+        List<String> options = new ArrayList<String>();
+        options.add("All subjects");
+
+        for (Test t : tests) {
+            boolean contains = false;
+            for (String o : options) {
+                if (t.getSubject().equals(o)) {
+                    contains = true;
+                }
+            }
+            if (contains == false) {
+                options.add(t.getSubject());
+            }
+        }
+
+        Collections.sort(options, (o1, o2) -> o1.compareTo(o2));
+
+        ArrayAdapter<String> dataAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, options);
+        dataAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+
+        spinner.setAdapter(dataAdapter);
+    }
+
+    public void onOptionSelectedSubject() {
+        selectedTests.clear();
+        String selectedOption = spinner.getSelectedItem().toString().trim();
+
+        for (Test t : tests) {
+            if (t.getSubject().equals(selectedOption)) {
+                selectedTests.add(t);
+            }
+        }
+
+        if (spinner.getSelectedItem().toString().trim().equals("All subjects")) {
+            adapter.updateT(tests);
+        } else {
+            adapter.updateT(selectedTests);
+
+        }
     }
 
     @Override
