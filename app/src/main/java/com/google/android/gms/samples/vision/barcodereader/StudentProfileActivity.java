@@ -58,7 +58,7 @@ public class StudentProfileActivity extends Activity implements View.OnClickList
         newPassField = (TextInputEditText) findViewById(R.id.newPassword);
 
         oldPLayout = findViewById(R.id.oldPLayout);
-        newPLayout = findViewById(R.id.newPlayout);
+        newPLayout = findViewById(R.id.newPLayout);
 
         findViewById(R.id.saveChangesStudent).setOnClickListener(this);
         findViewById(R.id.changePasswordStudent).setOnClickListener(this);
