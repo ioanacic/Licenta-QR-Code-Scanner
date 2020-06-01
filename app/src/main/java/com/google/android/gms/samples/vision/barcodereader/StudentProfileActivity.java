@@ -206,18 +206,20 @@ public class StudentProfileActivity extends Activity implements View.OnClickList
         if (view.getId() == R.id.infoChangeGroup) {
             if (!showG) {
                 groupLayout.setError("Update it at the beginning of every school year");
+                groupLayout.setErrorEnabled(true);
                 showG = true;
             } else {
-                groupLayout.setError("");
                 showG = false;
+                groupLayout.setErrorEnabled(false);
             }
         }
         if (view.getId() == R.id.infoChangeYear) {
             if (!showY) {
                 yearLayout.setError("Update it at the beginning of every school year");
+                yearLayout.setErrorEnabled(true);
                 showY = true;
             } else {
-                yearLayout.setError("");
+                yearLayout.setErrorEnabled(false);
                 showY = false;
             }
         }

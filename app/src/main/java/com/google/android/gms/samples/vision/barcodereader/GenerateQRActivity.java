@@ -154,9 +154,10 @@ public class GenerateQRActivity extends Activity implements View.OnClickListener
         if (view.getId() == R.id.infoRenameButton) {
             if (!show) {
                 renameLayout.setError("You will identify the code easier if you rename it now");
+                renameLayout.setErrorEnabled(true);
                 show = true;
             } else {
-                renameLayout.setError("");
+                renameLayout.setErrorEnabled(false);
                 show = false;
             }
         }

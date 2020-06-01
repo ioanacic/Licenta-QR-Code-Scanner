@@ -5,11 +5,11 @@
         <item name="android:textSize">12sp</item>
     </style>
 
-    <style name="TextLabel" parent="TextAppearance.AppCompat">
+    <style name="TextLabel" parent="Theme.AppCompat.Light.DarkActionBar">
         <item name="android:textColorHint">#f9ba10</item>
         <item name="android:textSize">18sp</item>
         <item name="colorAccent">#f9ba10</item>
-        <item name="colorControlNormal">#f9ba10</item>
+        <item name="colorControlNormal">#000000</item>
         <item name="colorControlActivated">#f9ba10</item>
     </style>
 </resources>
