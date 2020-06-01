@@ -15,7 +15,7 @@
         android:fullBackupContent="false"
         android:hardwareAccelerated="true"
         android:icon="@drawable/logo"
-        android:label="MultiTrackerApp"
+        android:label="Quiz Time!"
         android:supportsRtl = "true"
         android:theme="@style/Theme.Design.Light" >
         <meta-data
