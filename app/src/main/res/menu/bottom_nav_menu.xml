@@ -2,21 +2,23 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
     <item
-        android:id="@+id/action_account"
+        android:id="@+id/action_home"
         android:enabled="true"
         android:icon="@drawable/ic_account_circle_black_18dp"
-        android:title="Account"
-        app:showAsAction="ifRoom" />
+        android:title="Home" />
     <item
-        android:id="@+id/action_qr"
+        android:id="@+id/action_see_questions"
         android:enabled="true"
         android:icon="@drawable/ic_qr_code_black_18dp"
-        android:title="QR"
-        app:showAsAction="ifRoom" />
+        android:title="Questions" />
     <item
-        android:id="@+id/action_camera"
+        android:id="@+id/action_see_tests"
         android:enabled="true"
         android:icon="@drawable/ic_camera_enhance_black_18dp"
-        android:title="Camera"
-        app:showAsAction="ifRoom" />
+        android:title="Tests" />
+    <item
+        android:id="@+id/action_see_students"
+        android:enabled="true"
+        android:icon="@drawable/ic_camera_enhance_black_18dp"
+        android:title="Students" />
 </menu>

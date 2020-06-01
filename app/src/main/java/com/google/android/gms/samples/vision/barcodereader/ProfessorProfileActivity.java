@@ -220,7 +220,7 @@ public class ProfessorProfileActivity extends Activity implements View.OnClickLi
     public void onBackPressed() {
         super.onBackPressed();
 
-        Intent intent = new Intent(this, ProfessorAccountActivity.class);
+        Intent intent = new Intent(this, ProfessorMenu.class);
         startActivity(intent);
     }
 }

@@ -1,13 +1,15 @@
 package com.google.android.gms.samples.vision.barcodereader;
 
-import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Environment;
 import android.support.annotation.NonNull;
+import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
@@ -24,12 +26,11 @@ import com.google.firebase.database.ValueEventListener;
 import java.io.File;
 import java.io.FileWriter;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public class SeeStudentsActivity extends Activity {
+public class SeeStudentsFragment extends Fragment {
     private RecyclerView recyclerView;
     private StudentsAdapter adapter;
     private DatabaseReference mDatabase;
@@ -44,12 +45,12 @@ public class SeeStudentsActivity extends Activity {
     Map<String, String> scorePerSubject = new HashMap<>();
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.see_students_activity);
-        recyclerView = (RecyclerView) findViewById(R.id.my_recycler_view_students);
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        View rootView = inflater.inflate(R.layout.see_students_activity, container, false);
 
-        spinner = (Spinner) findViewById(R.id.groupsOptions);
+        recyclerView = (RecyclerView) rootView.findViewById(R.id.my_recycler_view_students);
+
+        spinner = (Spinner) rootView.findViewById(R.id.groupsOptions);
         spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
@@ -62,12 +63,12 @@ public class SeeStudentsActivity extends Activity {
             }
         });
 
-        saveFile = findViewById(R.id.saveFile);
+        saveFile = rootView.findViewById(R.id.saveFile);
         saveFile.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 saveCsvFile();
-                Toast.makeText(SeeStudentsActivity.this, R.string.csvFileSaved, Toast.LENGTH_SHORT).show();
+                Toast.makeText(getActivity().getApplicationContext(), R.string.csvFileSaved, Toast.LENGTH_SHORT).show();
             }
         });
 
@@ -75,20 +76,22 @@ public class SeeStudentsActivity extends Activity {
 
         getAllQuestions();
         populateRecyclerView();
+
+        return rootView;
     }
 
     public void populateRecyclerView() {
         adapter = new StudentsAdapter();
         recyclerView.setAdapter(adapter);
-        recyclerView.setLayoutManager(new LinearLayoutManager(this));
+        recyclerView.setLayoutManager(new LinearLayoutManager(getActivity().getApplicationContext()));
 
         recyclerView.addOnItemTouchListener(
-                new RecyclerItemClickListener(this.getApplicationContext(), recyclerView, new RecyclerItemClickListener.OnItemClickListener() {
+                new RecyclerItemClickListener(getActivity().getApplicationContext(), recyclerView, new RecyclerItemClickListener.OnItemClickListener() {
                     @Override
                     public void onItemClick(View view, int position) {
                         Student selectedStudent = adapter.getMyStudents().get(position);
                         String key = selectedStudent.getKey();
-                        Intent intent = new Intent(SeeStudentsActivity.this, HistoryActivity.class);
+                        Intent intent = new Intent(getActivity().getApplicationContext(), HistoryActivity.class);
                         intent.putExtra("KEY", key);
                         startActivity(intent);
                     }
@@ -261,7 +264,7 @@ public class SeeStudentsActivity extends Activity {
             }
         }
 
-        ArrayAdapter<String> dataAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, options);
+        ArrayAdapter<String> dataAdapter = new ArrayAdapter<String>(getActivity().getApplicationContext(), android.R.layout.simple_spinner_item, options);
         dataAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
 
         spinner.setAdapter(dataAdapter);
@@ -312,7 +315,7 @@ public class SeeStudentsActivity extends Activity {
         // HOW IT S DONE - poti salva doar daca a selectat o grupa, iar pt o grupa salveaza scorurile pentru fiecare materie
         String groupNumber = spinner.getSelectedItem().toString().trim();
         if (groupNumber.equals("All groups")) {
-            Toast.makeText(SeeStudentsActivity.this, R.string.selectAGroup, Toast.LENGTH_SHORT).show();
+            Toast.makeText(getActivity().getApplicationContext(), R.string.selectAGroup, Toast.LENGTH_SHORT).show();
             return;
         }
 
@@ -393,13 +396,5 @@ public class SeeStudentsActivity extends Activity {
                 }
             }
         }.start();
-    }
-
-    @Override
-    public void onBackPressed() {
-        super.onBackPressed();
-
-        Intent intent = new Intent(this, ProfessorAccountActivity.class);
-        startActivity(intent);
     }
 }
