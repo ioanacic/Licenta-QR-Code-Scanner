@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+    <item
+        android:id="@+id/action_account"
+        android:enabled="true"
+        android:icon="@drawable/ic_account_circle_black_18dp"
+        android:title="Account"
+        app:showAsAction="ifRoom" />
+    <item
+        android:id="@+id/action_qr"
+        android:enabled="true"
+        android:icon="@drawable/ic_qr_code_black_18dp"
+        android:title="QR"
+        app:showAsAction="ifRoom" />
+    <item
+        android:id="@+id/action_camera"
+        android:enabled="true"
+        android:icon="@drawable/ic_camera_enhance_black_18dp"
+        android:title="Camera"
+        app:showAsAction="ifRoom" />
+</menu>

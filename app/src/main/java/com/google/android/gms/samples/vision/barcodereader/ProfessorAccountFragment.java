@@ -1,0 +1,87 @@
+package com.google.android.gms.samples.vision.barcodereader;
+
+import android.content.Intent;
+import android.os.Bundle;
+import android.support.v4.app.Fragment;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
+
+import com.google.firebase.auth.FirebaseAuth;
+
+public class ProfessorAccountFragment extends Fragment implements View.OnClickListener {
+    FirebaseAuth mAuth;
+
+    String extra1, extra2;
+
+    BottomNavigationBarInterface bI;
+
+    @Override
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+
+
+        mAuth = FirebaseAuth.getInstance();
+    }
+
+    @Override
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        View rootView = inflater.inflate(R.layout.professor_account_activity, container, false);
+        rootView.findViewById(R.id.addQuestionButton).setOnClickListener(this);
+        rootView.findViewById(R.id.seeQuestionsButton).setOnClickListener(this);
+        rootView.findViewById(R.id.seeStudentsButton).setOnClickListener(this);
+        rootView.findViewById(R.id.signOutButton).setOnClickListener(this);
+        rootView.findViewById(R.id.addSubjectButton).setOnClickListener(this);
+        rootView.findViewById(R.id.professorProfileButton).setOnClickListener(this);
+        rootView.findViewById(R.id.seeTestsButton).setOnClickListener(this);
+
+        return rootView;
+    }
+
+    // set pt put extra
+    public void setup(String extra1, String extra2, BottomNavigationBarInterface bI) {
+        this.extra1 = extra1;
+        this.extra2 = extra2;
+
+        this.bI = bI;
+    }
+
+    @Override
+    public void onClick(View v) {
+        if (v.getId() == R.id.addQuestionButton) {
+            // new fragment
+            ProfessorAccountFragment myFr = new ProfessorAccountFragment();
+            myFr.setup("f", "f", bI);   // bI = reference to the same activity
+
+            bI.openNewFragment(myFr);
+
+//            Intent intent = new Intent(this, AddQuestionActivity.class);
+//            startActivity(intent);
+        }
+//        if (v.getId() == R.id.seeQuestionsButton) {
+//            Intent intent = new Intent(this, SeeQuestionsActivity.class);
+//            startActivity(intent);
+//        }
+//        if (v.getId() == R.id.seeStudentsButton) {
+//            Intent intent = new Intent(this, SeeStudentsActivity.class);
+//            startActivity(intent);
+//        }
+//        if (v.getId() == R.id.signOutButton) {
+//            mAuth.signOut();
+//            Intent intent = new Intent(this, SignInActivity.class);
+//            startActivity(intent);
+//        }
+//        if (v.getId() == R.id.addSubjectButton) {
+//            Intent intent = new Intent(this, AddSubjectActivity.class);
+//            startActivity(intent);
+//        }
+//        if (v.getId() == R.id.professorProfileButton) {
+//            Intent intent = new Intent(this, ProfessorProfileActivity.class);
+//            startActivity(intent);
+//        }
+//        if (v.getId() == R.id.seeTestsButton) {
+//            Intent intent = new Intent(this, SeeTestsActivity.class);
+//            startActivity(intent);
+//        }
+    }
+}

@@ -88,6 +88,9 @@
 
         <activity android:name=".DecodeQRActivity"
             android:label="The activity after the scan"/>
+
+        <activity android:name=".BottomNavigationBar"
+            android:label="Navig bar"/>
     </application>
 
 </manifest>

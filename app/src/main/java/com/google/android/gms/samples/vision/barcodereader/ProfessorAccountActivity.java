@@ -23,6 +23,7 @@ public class ProfessorAccountActivity extends Activity implements View.OnClickLi
         findViewById(R.id.addSubjectButton).setOnClickListener(this);
         findViewById(R.id.professorProfileButton).setOnClickListener(this);
         findViewById(R.id.seeTestsButton).setOnClickListener(this);
+        findViewById(R.id.navigBar).setOnClickListener(this);
 
         mAuth = FirebaseAuth.getInstance();
     }
@@ -56,6 +57,10 @@ public class ProfessorAccountActivity extends Activity implements View.OnClickLi
         }
         if (v.getId() == R.id.seeTestsButton) {
             Intent intent = new Intent(this, SeeTestsActivity.class);
+            startActivity(intent);
+        }
+        if (v.getId() == R.id.navigBar) {
+            Intent intent = new Intent(this, BottomNavigationBar.class);
             startActivity(intent);
         }
     }
