@@ -1,5 +1,6 @@
 package com.google.android.gms.samples.vision.barcodereader;
 
+import android.annotation.SuppressLint;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.internal.BottomNavigationItemView;
@@ -69,6 +70,7 @@ public class ProfessorMenu extends FragmentActivity {
         transaction.replace(R.id.fragmentContainer, newFragment).commit();
     }
 
+    @SuppressLint("RestrictedApi")
     private void disableShiftMode(BottomNavigationView view) {
         BottomNavigationMenuView menuView = (BottomNavigationMenuView) view.getChildAt(0);
         try {

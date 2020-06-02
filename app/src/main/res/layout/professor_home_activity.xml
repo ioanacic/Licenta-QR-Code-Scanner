@@ -18,10 +18,9 @@
 
         <ImageButton
             android:id="@+id/professorProfileButton"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:background="@null"
-            android:src="@drawable/profile" />
+            android:layout_width="29dp"
+            android:layout_height="29dp"
+            android:background="@drawable/ic_account_circle_black_18dp" />
 
         <Space
             android:layout_width="wrap_content"
@@ -30,10 +29,9 @@
 
         <ImageButton
             android:id="@+id/professorSignOutButton"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:background="@null"
-            android:src="@drawable/profile" />
+            android:layout_width="28dp"
+            android:layout_height="match_parent"
+            android:background="@drawable/ic_exit_to_app_black_18dp" />
     </LinearLayout>
 
     <LinearLayout
@@ -61,11 +59,21 @@
             android:text="Add subject" />
     </LinearLayout>
 
-    <FrameLayout
+    <android.support.constraint.ConstraintLayout
         android:id="@+id/addContainer"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:padding="10dp">
 
-    </FrameLayout>
+        <ImageView
+            android:id="@+id/logoImageView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:src="@drawable/logoapp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent" />
+    </android.support.constraint.ConstraintLayout>
 
 </LinearLayout>

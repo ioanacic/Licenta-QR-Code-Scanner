@@ -7,11 +7,14 @@ import android.support.v4.app.FragmentTransaction;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 
 import com.google.firebase.auth.FirebaseAuth;
 
 public class ProfessorHomeFragment extends Fragment implements View.OnClickListener {
     FirebaseAuth mAuth;
+
+    ImageView img;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -20,6 +23,8 @@ public class ProfessorHomeFragment extends Fragment implements View.OnClickListe
         rootView.findViewById(R.id.professorSignOutButton).setOnClickListener(this);
         rootView.findViewById(R.id.addQuestionButton).setOnClickListener(this);
         rootView.findViewById(R.id.addSubjectButton).setOnClickListener(this);
+        img = rootView.findViewById(R.id.logoImageView);
+        img.setVisibility(View.VISIBLE);
 
         mAuth = FirebaseAuth.getInstance();
 
@@ -31,23 +36,27 @@ public class ProfessorHomeFragment extends Fragment implements View.OnClickListe
         if (v.getId() == R.id.professorProfileButton) {
             Intent intent = new Intent(getActivity(), ProfessorProfileActivity.class);
             startActivity(intent);
+            img.setVisibility(View.INVISIBLE);
         }
         if (v.getId() == R.id.professorSignOutButton) {
             mAuth.signOut();
             Intent intent = new Intent(getActivity(), SignInActivity.class);
             startActivity(intent);
+            img.setVisibility(View.INVISIBLE);
         }
         if (v.getId() == R.id.addQuestionButton) {
             AddQuestionFragment addQuestionFragment = new AddQuestionFragment();
 
             FragmentTransaction transactionAddQ = getChildFragmentManager().beginTransaction();
             transactionAddQ.replace(R.id.addContainer, addQuestionFragment).commit();
+            img.setVisibility(View.INVISIBLE);
         }
         if (v.getId() == R.id.addSubjectButton) {
             AddSubjectFragment addSubjectFragment = new AddSubjectFragment();
 
             FragmentTransaction transactionAddSj = getChildFragmentManager().beginTransaction();
             transactionAddSj.replace(R.id.addContainer, addSubjectFragment).commit();
+            img.setVisibility(View.INVISIBLE);
         }
     }
 }
