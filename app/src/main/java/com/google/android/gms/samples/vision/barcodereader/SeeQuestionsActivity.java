@@ -317,6 +317,17 @@ public class SeeQuestionsActivity extends Activity implements SeeQuestionListene
         }
     }
 
+    @Override
+    public void onViewClicked(Question q) {
+
+    }
+
+    @Override
+    public void onViewLongClicked(View view, Question q) {
+
+    }
+
+
     public void updateTestQs(List<Question> questions, Question question) {
         // if the professor added a test, the questionsForTest is empty now, but isPressed = true, so RESET
         if (questionsForTest.size() == 0) {

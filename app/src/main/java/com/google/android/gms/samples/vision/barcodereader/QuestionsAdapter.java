@@ -1,6 +1,7 @@
 package com.google.android.gms.samples.vision.barcodereader;
 
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.Color;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -14,6 +15,13 @@ import java.util.Collections;
 import java.util.List;
 
 public class QuestionsAdapter extends RecyclerView.Adapter<QuestionsAdapter.ViewHolder> {
+
+//    @Override
+//    public void onClick(View view) {
+//        if (view.getId() == R.id.addQuestionToTest) {
+//            listener.onAddQButtonClicked(questionQ);
+//        }
+//    }
 
     public static class ViewHolder extends RecyclerView.ViewHolder {
         // the info I want to see for an entry
@@ -47,7 +55,21 @@ public class QuestionsAdapter extends RecyclerView.Adapter<QuestionsAdapter.View
                 @Override
                 public void onClick(View view) {
                     listener.onAddQButtonClicked(questionQ);
+                }
+            });
 
+            v.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    listener.onViewClicked(questionQ);
+                }
+            });
+
+            v.setOnLongClickListener(new View.OnLongClickListener() {
+                @Override
+                public boolean onLongClick(View view) {
+                    listener.onViewLongClicked(view, questionQ);
+                    return true;
                 }
             });
         }

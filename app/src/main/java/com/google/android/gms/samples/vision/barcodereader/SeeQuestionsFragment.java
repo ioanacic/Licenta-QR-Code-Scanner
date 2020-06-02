@@ -107,69 +107,55 @@ public class SeeQuestionsFragment extends Fragment implements SeeQuestionListene
         recyclerView.setAdapter(adapter);
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity().getApplicationContext()));
 
-        recyclerView.addOnItemTouchListener(
-                new RecyclerItemClickListener(getActivity().getApplicationContext(), recyclerView, new RecyclerItemClickListener.OnItemClickListener() {
-                    @Override
-                    public void onItemClick(View view, int position) {
-                        Question selectedQuestion = adapter.getMyQuestions().get(position);
-                        String key = selectedQuestion.getKey();
-                        String subject = spinnerSubject.getSelectedItem().toString().trim();
-                        String course = selectedQuestion.getCourse();
-                        String statement = selectedQuestion.getQuestion();
-
-//                        Intent intent = new Intent(getActivity(), GenerateQRActivity.class);
-//                        intent.putExtra("KEY", key);
-//                        intent.putExtra("COURSE", course);
-//                        intent.putExtra("SUBJECT", subject);
-//                        intent.putExtra("TYPE", "question");
-//                        intent.putExtra("DEFAULT_TITLE", statement);
+//        recyclerView.addOnItemTouchListener(
+//                new RecyclerItemClickListener(getActivity().getApplicationContext(), recyclerView, new RecyclerItemClickListener.OnItemClickListener() {
+//                    @Override
+//                    public void onItemClick(View view, int position) {
+//                        Question selectedQuestion = adapter.getMyQuestions().get(position);
+//                        String key = selectedQuestion.getKey();
+//                        String subject = spinnerSubject.getSelectedItem().toString().trim();
+//                        String course = selectedQuestion.getCourse();
+//                        String statement = selectedQuestion.getQuestion();
+//
+//                        GenerateQRFragment generateQRFragment = new GenerateQRFragment();
+//                        generateQRFragment.setup(key, subject, course, "question", statement);
 //
 //                        if (spinnerSubject.getSelectedItem().toString().trim().equals("All subjects")) {
 //                            Toast.makeText(getActivity().getApplicationContext(), R.string.selectASubject, Toast.LENGTH_SHORT).show();
 //                        } else {
-//                            startActivity(intent);
+//                            ((ProfessorMenuActivity) getActivity()).addFragment(generateQRFragment);
 //                        }
-
-                        GenerateQRFragment generateQRFragment = new GenerateQRFragment();
-                        generateQRFragment.setup(key, subject, course, "question", statement);
-
-
-                        if (spinnerSubject.getSelectedItem().toString().trim().equals("All subjects")) {
-                            Toast.makeText(getActivity().getApplicationContext(), R.string.selectASubject, Toast.LENGTH_SHORT).show();
-                        } else {
-                            ((ProfessorMenuActivity) getActivity()).addFragment(generateQRFragment);
-                        }
-                    }
-
-                    @Override
-                    public void onLongItemClick(View view, int position) {
-                        Question selectedQuestion = adapter.getMyQuestions().get(position);
-                        String key = selectedQuestion.getKey();
-                        DialogInterface.OnClickListener dialogClickListener = new DialogInterface.OnClickListener() {
-                            @Override
-                            public void onClick(DialogInterface dialog, int which) {
-                                switch (which) {
-                                    case DialogInterface.BUTTON_POSITIVE:
-                                        //Yes button clicked
-                                        mDatabase.child(key).removeValue();
-                                        Intent intent = new Intent(getActivity(), SeeQuestionsActivity.class);
-                                        startActivity(intent);
-                                        break;
-
-                                    case DialogInterface.BUTTON_NEGATIVE:
-                                        //No button clicked
-                                        break;
-                                }
-                            }
-                        };
-
-                        AlertDialog.Builder builder = new AlertDialog.Builder(view.getContext());
-                        builder.setMessage("Are you sure you want to permanently delete the question?").
-                                setPositiveButton("Yes", dialogClickListener).setNegativeButton("No", dialogClickListener).show();
-                        adapter.notifyDataSetChanged();
-                    }
-                })
-        );
+//                    }
+//
+//                    @Override
+//                    public void onLongItemClick(View view, int position) {
+//                        Question selectedQuestion = adapter.getMyQuestions().get(position);
+//                        String key = selectedQuestion.getKey();
+//                        DialogInterface.OnClickListener dialogClickListener = new DialogInterface.OnClickListener() {
+//                            @Override
+//                            public void onClick(DialogInterface dialog, int which) {
+//                                switch (which) {
+//                                    case DialogInterface.BUTTON_POSITIVE:
+//                                        //Yes button clicked
+//                                        mDatabase.child(key).removeValue();
+//                                        Intent intent = new Intent(getActivity(), SeeQuestionsActivity.class);
+//                                        startActivity(intent);
+//                                        break;
+//
+//                                    case DialogInterface.BUTTON_NEGATIVE:
+//                                        //No button clicked
+//                                        break;
+//                                }
+//                            }
+//                        };
+//
+//                        AlertDialog.Builder builder = new AlertDialog.Builder(view.getContext());
+//                        builder.setMessage("Are you sure you want to permanently delete the question?").
+//                                setPositiveButton("Yes", dialogClickListener).setNegativeButton("No", dialogClickListener).show();
+//                        adapter.notifyDataSetChanged();
+//                    }
+//                })
+//        );
     }
 
     public void getData() {
@@ -313,7 +299,7 @@ public class SeeQuestionsFragment extends Fragment implements SeeQuestionListene
     }
 
     @Override
-    public void onAddQButtonClicked(Question question) {
+    public void onAddQButtonClicked(Question selectedQuestion) {
         // TODO update somehow that you cannoe DESELECT a question added to another test
         // with if condition = the button shows SELECTED, if questionsForTest.isEmpty = the questions are added in another test, CANNOT ADD AGAIN
         // without if condition = the button is selected, with DESELECT AND SELECT AGAIN can add the question to another test
@@ -323,12 +309,54 @@ public class SeeQuestionsFragment extends Fragment implements SeeQuestionListene
 //            adapter.updateQ(questions);
             Toast.makeText(getActivity().getApplicationContext(), R.string.selectASubject, Toast.LENGTH_SHORT).show();
         } else if (spinner.getSelectedItem().toString().trim().equals("All courses")) {
-            updateTestQs(questionsBySubject, question);
+            updateTestQs(questionsBySubject, selectedQuestion);
             adapter.updateQ(questionsBySubject);
         } else {
-            updateTestQs(questionsByCourse, question);
+            updateTestQs(questionsByCourse, selectedQuestion);
             adapter.updateQ(questionsByCourse);
         }
+    }
+
+    public void onViewClicked(Question selectedQuestion) {
+        String key = selectedQuestion.getKey();
+        String subject = spinnerSubject.getSelectedItem().toString().trim();
+        String course = selectedQuestion.getCourse();
+        String statement = selectedQuestion.getQuestion();
+
+        GenerateQRFragment generateQRFragment = new GenerateQRFragment();
+        generateQRFragment.setup(key, subject, course, "question", statement);
+
+        if (spinnerSubject.getSelectedItem().toString().trim().equals("All subjects")) {
+            Toast.makeText(getActivity().getApplicationContext(), R.string.selectASubject, Toast.LENGTH_SHORT).show();
+        } else {
+            ((ProfessorMenuActivity) getActivity()).addFragment(generateQRFragment);
+        }
+    }
+
+    public void onViewLongClicked(View view, Question selectedQuestion) {
+        String key = selectedQuestion.getKey();
+        DialogInterface.OnClickListener dialogClickListener = new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                switch (which) {
+                    case DialogInterface.BUTTON_POSITIVE:
+                        //Yes button clicked
+                        mDatabase.child(key).removeValue();
+                        Intent intent = new Intent(getActivity(), SeeQuestionsActivity.class);
+                        startActivity(intent);
+                        break;
+
+                    case DialogInterface.BUTTON_NEGATIVE:
+                        //No button clicked
+                        break;
+                }
+            }
+        };
+
+        AlertDialog.Builder builder = new AlertDialog.Builder(view.getContext());
+        builder.setMessage("Are you sure you want to permanently delete the question?").
+                setPositiveButton("Yes", dialogClickListener).setNegativeButton("No", dialogClickListener).show();
+        adapter.notifyDataSetChanged();
     }
 
     public void updateTestQs(List<Question> questions, Question question) {
