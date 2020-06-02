@@ -73,7 +73,7 @@ public class ProfessorMenuActivity extends FragmentActivity {
 
     public void addFragment(Fragment newFragment) {
         FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
-        transaction.add(R.id.fragmentContainer, newFragment).commit();
+        transaction.add(R.id.fragmentContainer, newFragment).addToBackStack(null).commit();
     }
 
     @SuppressLint("RestrictedApi")

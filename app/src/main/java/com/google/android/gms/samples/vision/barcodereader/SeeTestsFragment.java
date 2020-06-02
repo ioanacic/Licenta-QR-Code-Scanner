@@ -14,6 +14,7 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Spinner;
+import android.widget.Toast;
 
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
@@ -82,10 +83,17 @@ public class SeeTestsFragment extends Fragment implements View.OnClickListener {
                     public void onItemClick(View view, int position) {
                         Test selectedTest = adapter.getMyTests().get(position);
                         String key = selectedTest.getKey();
-                        Intent intent = new Intent(getActivity(), GenerateQRActivity.class);
-                        intent.putExtra("KEY", key);
-                        intent.putExtra("TYPE", "test");
-                        startActivity(intent);
+
+                        GenerateQRFragment generateQRFragment = new GenerateQRFragment();
+                        generateQRFragment.setup(key, "test");
+
+                        ((ProfessorMenuActivity) getActivity()).addFragment(generateQRFragment);
+
+
+//                        Intent intent = new Intent(getActivity(), GenerateQRActivity.class);
+//                        intent.putExtra("KEY", key);
+//                        intent.putExtra("TYPE", "test");
+//                        startActivity(intent);
                     }
 
                     @Override

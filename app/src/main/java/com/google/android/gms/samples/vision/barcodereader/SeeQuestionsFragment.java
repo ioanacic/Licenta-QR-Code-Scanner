@@ -117,17 +117,27 @@ public class SeeQuestionsFragment extends Fragment implements SeeQuestionListene
                         String course = selectedQuestion.getCourse();
                         String statement = selectedQuestion.getQuestion();
 
-                        Intent intent = new Intent(getActivity(), GenerateQRActivity.class);
-                        intent.putExtra("KEY", key);
-                        intent.putExtra("COURSE", course);
-                        intent.putExtra("SUBJECT", subject);
-                        intent.putExtra("TYPE", "question");
-                        intent.putExtra("DEFAULT_TITLE", statement);
+//                        Intent intent = new Intent(getActivity(), GenerateQRActivity.class);
+//                        intent.putExtra("KEY", key);
+//                        intent.putExtra("COURSE", course);
+//                        intent.putExtra("SUBJECT", subject);
+//                        intent.putExtra("TYPE", "question");
+//                        intent.putExtra("DEFAULT_TITLE", statement);
+//
+//                        if (spinnerSubject.getSelectedItem().toString().trim().equals("All subjects")) {
+//                            Toast.makeText(getActivity().getApplicationContext(), R.string.selectASubject, Toast.LENGTH_SHORT).show();
+//                        } else {
+//                            startActivity(intent);
+//                        }
+
+                        GenerateQRFragment generateQRFragment = new GenerateQRFragment();
+                        generateQRFragment.setup(key, subject, course, "question", statement);
+
 
                         if (spinnerSubject.getSelectedItem().toString().trim().equals("All subjects")) {
                             Toast.makeText(getActivity().getApplicationContext(), R.string.selectASubject, Toast.LENGTH_SHORT).show();
                         } else {
-                            startActivity(intent);
+                            ((ProfessorMenuActivity) getActivity()).addFragment(generateQRFragment);
                         }
                     }
 

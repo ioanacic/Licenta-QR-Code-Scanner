@@ -51,9 +51,14 @@ public class StudentMenuActivity extends FragmentActivity {
         });
     }
 
-    public void openNewFragment(Fragment newFragment) {
+    public void replaceWithFragment(Fragment newFragment) {
         FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
         transaction.replace(R.id.fragmentContainerStudent, newFragment).commit();
+    }
+
+    public void addFragment(Fragment newFragment) {
+        FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
+        transaction.add(R.id.fragmentContainerStudent, newFragment).addToBackStack(null).commit();
     }
 
     @Override

@@ -1,7 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical" android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#FFFFFF"
+    android:orientation="vertical"
+    android:clickable="true">
 
     <Space
         android:layout_width="match_parent"
@@ -43,38 +46,38 @@
 
                 <RadioButton
                     android:id="@+id/answerA"
-                    android:tag="answerA"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:ems="11"
                     android:inputType="textMultiLine"
+                    android:tag="answerA"
                     android:visibility="invisible" />
 
                 <RadioButton
                     android:id="@+id/answerB"
-                    android:tag="answerB"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:ems="11"
                     android:inputType="textMultiLine"
+                    android:tag="answerB"
                     android:visibility="invisible" />
 
                 <RadioButton
                     android:id="@+id/answerC"
-                    android:tag="answerC"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:ems="11"
                     android:inputType="textMultiLine"
+                    android:tag="answerC"
                     android:visibility="invisible" />
 
                 <RadioButton
                     android:id="@+id/answerD"
-                    android:tag="answerD"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:ems="11"
                     android:inputType="textMultiLine"
+                    android:tag="answerD"
                     android:visibility="invisible" />
             </RadioGroup>
 

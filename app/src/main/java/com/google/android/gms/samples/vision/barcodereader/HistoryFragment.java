@@ -91,10 +91,10 @@ public class HistoryFragment extends Fragment {
                         seeAQFragment.setKeys(key, keyOfSelectedStudent);
 
                         if (getActivity() instanceof ProfessorMenuActivity) {
-                            ((ProfessorMenuActivity) getActivity()).replaceWithFragment(seeAQFragment);
+                            ((ProfessorMenuActivity) getActivity()).addFragment(seeAQFragment);
                         }
                         if (getActivity() instanceof StudentMenuActivity) {
-                            ((StudentMenuActivity) getActivity()).openNewFragment(seeAQFragment);
+                            ((StudentMenuActivity) getActivity()).addFragment(seeAQFragment);
                         }
 
                     }

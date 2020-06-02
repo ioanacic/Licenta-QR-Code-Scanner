@@ -94,11 +94,7 @@ public class SeeStudentsFragment extends Fragment {
                         HistoryFragment historyFragment = new HistoryFragment();
                         historyFragment.setKeyOfSelectedStudent(key);
 
-                        ((ProfessorMenuActivity) getActivity()).replaceWithFragment(historyFragment);
-
-//                        Intent intent = new Intent(getActivity().getApplicationContext(), HistoryActivity.class);
-//                        intent.putExtra("KEY", key);
-//                        startActivity(intent);
+                        ((ProfessorMenuActivity) getActivity()).addFragment(historyFragment);
                     }
 
                     @Override

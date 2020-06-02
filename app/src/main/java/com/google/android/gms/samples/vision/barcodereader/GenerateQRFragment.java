@@ -126,13 +126,7 @@ public class GenerateQRFragment extends Fragment implements View.OnClickListener
                     result = save ? "Image Saved" : "Image Not Saved";
                     Toast.makeText(getActivity().getApplicationContext(), result, Toast.LENGTH_SHORT).show();
 
-//                    Intent intent;
-//                    if (type.equals("question")) {
-//                        intent = new Intent(getActivity().getApplicationContext(), SeeQuestionsActivity.class);
-//                    } else {
-//                        intent = new Intent(getActivity().getApplicationContext(), SeeTestsActivity.class);
-//                    }
-//                    startActivity(intent);
+                    getActivity().getSupportFragmentManager().popBackStack();
                 } catch (WriterException e) {
                     e.printStackTrace();
                 }

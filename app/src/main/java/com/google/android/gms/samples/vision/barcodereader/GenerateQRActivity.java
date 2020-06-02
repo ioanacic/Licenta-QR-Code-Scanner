@@ -125,13 +125,13 @@ public class GenerateQRActivity extends Activity implements View.OnClickListener
                     result = save ? "Image Saved" : "Image Not Saved";
                     Toast.makeText(getApplicationContext(), result, Toast.LENGTH_SHORT).show();
 
-                    Intent intent;
-                    if (type.equals("question")) {
-                        intent = new Intent(GenerateQRActivity.this, SeeQuestionsActivity.class);
-                    } else {
-                        intent = new Intent(GenerateQRActivity.this, SeeTestsActivity.class);
-                    }
-                    startActivity(intent);
+//                    Intent intent;
+//                    if (type.equals("question")) {
+//                        intent = new Intent(GenerateQRActivity.this, SeeQuestionsActivity.class);
+//                    } else {
+//                        intent = new Intent(GenerateQRActivity.this, SeeTestsActivity.class);
+//                    }
+//                    startActivity(intent);
                 } catch (WriterException e) {
                     e.printStackTrace();
                 }
