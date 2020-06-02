@@ -52,7 +52,7 @@ public class SeeQuestionsFragment extends Fragment implements SeeQuestionListene
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.see_questions_activity, container, false);
-        
+
         mAuth = FirebaseAuth.getInstance();
 
         recyclerView = (RecyclerView) rootView.findViewById(R.id.my_recycler_view);
@@ -117,14 +117,17 @@ public class SeeQuestionsFragment extends Fragment implements SeeQuestionListene
                         String course = selectedQuestion.getCourse();
                         String statement = selectedQuestion.getQuestion();
 
-                        GenerateQRFragment generateQRFragment = new GenerateQRFragment();
-                        generateQRFragment.setup(key, subject, course, "question", statement);
-
+                        Intent intent = new Intent(getActivity(), GenerateQRActivity.class);
+                        intent.putExtra("KEY", key);
+                        intent.putExtra("COURSE", course);
+                        intent.putExtra("SUBJECT", subject);
+                        intent.putExtra("TYPE", "question");
+                        intent.putExtra("DEFAULT_TITLE", statement);
 
                         if (spinnerSubject.getSelectedItem().toString().trim().equals("All subjects")) {
                             Toast.makeText(getActivity().getApplicationContext(), R.string.selectASubject, Toast.LENGTH_SHORT).show();
                         } else {
-                            ((ProfessorMenuActivity) getActivity()).addFragment(generateQRFragment);
+                            startActivity(intent);
                         }
                     }
 
