@@ -16,13 +16,6 @@ import java.util.List;
 
 public class QuestionsAdapter extends RecyclerView.Adapter<QuestionsAdapter.ViewHolder> {
 
-//    @Override
-//    public void onClick(View view) {
-//        if (view.getId() == R.id.addQuestionToTest) {
-//            listener.onAddQButtonClicked(questionQ);
-//        }
-//    }
-
     public static class ViewHolder extends RecyclerView.ViewHolder {
         // the info I want to see for an entry
         public TextView course, question, info;
@@ -36,7 +29,6 @@ public class QuestionsAdapter extends RecyclerView.Adapter<QuestionsAdapter.View
 
             course = (TextView) itemView.findViewById(R.id.courseField);
             question = (TextView) itemView.findViewById(R.id.questionField);
-            info = (TextView) itemView.findViewById(R.id.infoMsgField);
             info.setVisibility(View.INVISIBLE);
         }
 
@@ -46,8 +38,6 @@ public class QuestionsAdapter extends RecyclerView.Adapter<QuestionsAdapter.View
 
             course = (TextView) itemView.findViewById(R.id.courseField);
             question = (TextView) itemView.findViewById(R.id.questionField);
-            info = (TextView) itemView.findViewById(R.id.infoMsgField);
-            info.setVisibility(View.INVISIBLE);
 
             addQuestion = (Button) itemView.findViewById(R.id.addQuestionToTest);
 
