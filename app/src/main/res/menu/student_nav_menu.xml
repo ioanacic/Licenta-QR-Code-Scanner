@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+    <item
+        android:id="@+id/action_home"
+        android:enabled="true"
+        android:icon="@drawable/ic_home_black_18dp"
+        android:title="Home" />
+    <item
+        android:id="@+id/action_scan_qr"
+        android:enabled="true"
+        android:icon="@drawable/ic_center_focus_weak_black_18dp"
+        android:title="Scan QR" />
+    <item
+        android:id="@+id/action_history"
+        android:enabled="true"
+        android:icon="@drawable/ic_history_black_18dp"
+        android:title="History" />
+</menu>

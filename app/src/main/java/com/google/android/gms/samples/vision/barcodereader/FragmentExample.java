@@ -41,7 +41,7 @@ public class FragmentExample extends Fragment implements View.OnClickListener {
             // new fragment
             SeeQuestionsFragment myFr = new SeeQuestionsFragment();
 
-            ((ProfessorMenu) getActivity()).openNewFragment(myFr);
+            ((ProfessorMenuActivity) getActivity()).openNewFragment(myFr);
 
 //            Intent intent = new Intent(this, AddQuestionActivity.class);
 //            startActivity(intent);

@@ -1,13 +1,13 @@
 package com.google.android.gms.samples.vision.barcodereader;
 
-import android.app.Activity;
-import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
+import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Spinner;
@@ -26,7 +26,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public class HistoryActivity extends Activity {
+public class HistoryFragment extends Fragment {
     private RecyclerView recyclerView;
     private HistoryAdapter adapter;
     private FirebaseAuth mAuth;
@@ -42,15 +42,15 @@ public class HistoryActivity extends Activity {
     Map<String, List<String>> professorsSubjects = new HashMap<>();
 
     @Override
-    protected void onCreate(@Nullable Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.history_activity);
-        recyclerView = (RecyclerView) findViewById(R.id.my_recycler_view_QS);
-        yourScore = (TextView) findViewById(R.id.yourScore);
-        infoScore = (TextView) findViewById(R.id.scoreTextView);
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        View rootView = inflater.inflate(R.layout.history_activity, container, false);
+
+        recyclerView = (RecyclerView) rootView.findViewById(R.id.my_recycler_view_QS);
+        yourScore = (TextView) rootView.findViewById(R.id.yourScore);
+        infoScore = (TextView) rootView.findViewById(R.id.scoreTextView);
         infoScore.setVisibility(View.INVISIBLE);
 
-        spinner = (Spinner) findViewById(R.id.subjectsOptions);
+        spinner = (Spinner) rootView.findViewById(R.id.subjectsOptions);
         spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
@@ -65,30 +65,38 @@ public class HistoryActivity extends Activity {
 
         mAuth = FirebaseAuth.getInstance();
 
-        // it s a professor that s accessing student's history
-        if (getIntent().getStringExtra("KEY") != null) {
-            keyOfSelectedStudent = getIntent().getStringExtra("KEY");
-        }
-
         getAnsweredQuestions();
         populateRecyclerView();
+
+        return rootView;
+    }
+
+    public void setKeyOfSelectedStudent(String keyOfSelectedStudent) {
+        this.keyOfSelectedStudent = keyOfSelectedStudent;
     }
 
     public void populateRecyclerView() {
         adapter = new HistoryAdapter();
         recyclerView.setAdapter(adapter);
-        recyclerView.setLayoutManager(new LinearLayoutManager(this));
+        recyclerView.setLayoutManager(new LinearLayoutManager(getActivity().getApplicationContext()));
 
         recyclerView.addOnItemTouchListener(
-                new RecyclerItemClickListener(this.getApplicationContext(), recyclerView, new RecyclerItemClickListener.OnItemClickListener() {
+                new RecyclerItemClickListener(getActivity().getApplicationContext(), recyclerView, new RecyclerItemClickListener.OnItemClickListener() {
                     @Override
                     public void onItemClick(View view, int position) {
                         Question selectedQuestion = adapter.getMyQuestions().get(position);
                         String key = selectedQuestion.getKey();
-                        Intent intent = new Intent(HistoryActivity.this, SeeAQActivity.class);
-                        intent.putExtra("KEY", key);        // selected question id
-                        intent.putExtra("STUDENT_KEY", keyOfSelectedStudent);       // selected student id
-                        startActivity(intent);
+
+                        SeeAQFragment seeAQFragment = new SeeAQFragment();
+                        seeAQFragment.setKeys(key, keyOfSelectedStudent);
+
+                        if (getActivity() instanceof ProfessorMenuActivity) {
+                            ((ProfessorMenuActivity) getActivity()).openNewFragment(seeAQFragment);
+                        }
+                        if (getActivity() instanceof StudentMenuActivity) {
+                            ((StudentMenuActivity) getActivity()).openNewFragment(seeAQFragment);
+                        }
+
                     }
 
                     @Override
@@ -302,7 +310,7 @@ public class HistoryActivity extends Activity {
 
         Collections.sort(options, (o1, o2) -> o1.compareTo(o2));
 
-        ArrayAdapter<String> dataAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, options);
+        ArrayAdapter<String> dataAdapter = new ArrayAdapter<String>(getActivity().getApplicationContext(), android.R.layout.simple_spinner_item, options);
         dataAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
 
         spinner.setAdapter(dataAdapter);
@@ -332,7 +340,7 @@ public class HistoryActivity extends Activity {
         }
         Collections.sort(options, (o1, o2) -> o1.compareTo(o2));
 
-        ArrayAdapter<String> dataAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, options);
+        ArrayAdapter<String> dataAdapter = new ArrayAdapter<String>(getActivity().getApplicationContext(), android.R.layout.simple_spinner_item, options);
         dataAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
 
         spinner.setAdapter(dataAdapter);

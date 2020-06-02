@@ -1,5 +1,7 @@
 package com.google.android.gms.samples.vision.barcodereader;
 
+import com.google.android.gms.samples.vision.barcodereader.User;
+
 import java.util.ArrayList;
 import java.util.List;
 

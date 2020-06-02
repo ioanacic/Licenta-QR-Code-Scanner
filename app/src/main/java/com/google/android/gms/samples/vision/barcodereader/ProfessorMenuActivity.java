@@ -1,6 +1,7 @@
 package com.google.android.gms.samples.vision.barcodereader;
 
 import android.annotation.SuppressLint;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.internal.BottomNavigationItemView;
@@ -15,14 +16,14 @@ import android.view.MenuItem;
 
 import java.lang.reflect.Field;
 
-public class ProfessorMenu extends FragmentActivity {
+public class ProfessorMenuActivity extends FragmentActivity {
 
     BottomNavigationView bottomNavigation;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.buttom_navigation_bar);
+        setContentView(R.layout.professor_navigation_bar);
         bottomNavigation = findViewById(R.id.bottom_navigation);
         disableShiftMode(bottomNavigation);
 
@@ -89,5 +90,15 @@ public class ProfessorMenu extends FragmentActivity {
         } catch (NoSuchFieldException e) {
         } catch (IllegalAccessException e) {
         }
+    }
+
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+
+        Intent intent = new Intent(Intent.ACTION_MAIN);
+        intent.addCategory(Intent.CATEGORY_HOME);
+        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        startActivity(intent);
     }
 }

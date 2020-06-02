@@ -60,7 +60,7 @@ public class ProfessorAccountActivity extends Activity implements View.OnClickLi
             startActivity(intent);
         }
         if (v.getId() == R.id.navigBar) {
-            Intent intent = new Intent(this, ProfessorMenu.class);
+            Intent intent = new Intent(this, ProfessorMenuActivity.class);
             startActivity(intent);
         }
     }

@@ -132,9 +132,9 @@ public class SignInActivity extends Activity implements View.OnClickListener {
 
                 Intent intent;
                 if (typeOfUser.equals("S")) {       // is student
-                    intent = new Intent(SignInActivity.this, StudentAccountActivity.class);
+                    intent = new Intent(SignInActivity.this, StudentMenuActivity.class);
                 } else {        // is professor
-                    intent = new Intent(SignInActivity.this, ProfessorAccountActivity.class);
+                    intent = new Intent(SignInActivity.this, ProfessorMenuActivity.class);
                 }
                 startActivity(intent);
             }

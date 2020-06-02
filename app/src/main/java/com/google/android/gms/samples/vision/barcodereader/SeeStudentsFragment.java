@@ -1,6 +1,5 @@
 package com.google.android.gms.samples.vision.barcodereader;
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.os.Environment;
 import android.support.annotation.NonNull;
@@ -91,9 +90,15 @@ public class SeeStudentsFragment extends Fragment {
                     public void onItemClick(View view, int position) {
                         Student selectedStudent = adapter.getMyStudents().get(position);
                         String key = selectedStudent.getKey();
-                        Intent intent = new Intent(getActivity().getApplicationContext(), HistoryActivity.class);
-                        intent.putExtra("KEY", key);
-                        startActivity(intent);
+
+                        HistoryFragment historyFragment = new HistoryFragment();
+                        historyFragment.setKeyOfSelectedStudent(key);
+
+                        ((ProfessorMenuActivity) getActivity()).openNewFragment(historyFragment);
+
+//                        Intent intent = new Intent(getActivity().getApplicationContext(), HistoryActivity.class);
+//                        intent.putExtra("KEY", key);
+//                        startActivity(intent);
                     }
 
                     @Override

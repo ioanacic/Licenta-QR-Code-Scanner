@@ -17,7 +17,7 @@
         android:orientation="horizontal">
 
         <ImageButton
-            android:id="@+id/professorProfileButton"
+            android:id="@+id/studentProfileButton"
             android:layout_width="29dp"
             android:layout_height="29dp"
             android:background="@drawable/ic_account_circle_black_18dp" />
@@ -28,35 +28,10 @@
             android:layout_weight="1" />
 
         <ImageButton
-            android:id="@+id/professorSignOutButton"
+            android:id="@+id/studentSignOutButton"
             android:layout_width="29dp"
             android:layout_height="29dp"
             android:background="@drawable/ic_exit_to_app_black_18dp" />
-    </LinearLayout>
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal">
-
-        <Button
-            android:id="@+id/addQuestionButton"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:text="Add question" />
-
-        <Space
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_weight="1" />
-
-        <Button
-            android:id="@+id/addSubjectButton"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:text="Add subject" />
     </LinearLayout>
 
     <android.support.constraint.ConstraintLayout

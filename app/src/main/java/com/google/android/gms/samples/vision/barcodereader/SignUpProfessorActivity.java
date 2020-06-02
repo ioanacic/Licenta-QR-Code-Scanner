@@ -8,7 +8,6 @@ import android.support.design.widget.TextInputEditText;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
-import android.widget.EditText;
 import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -94,7 +93,7 @@ public class SignUpProfessorActivity extends Activity implements View.OnClickLis
                             });
                             setSubject();
 
-                            Intent intent = new Intent(SignUpProfessorActivity.this, ProfessorAccountActivity.class);
+                            Intent intent = new Intent(SignUpProfessorActivity.this, ProfessorMenuActivity.class);
                             startActivity(intent);
                         } else {
                             try {
