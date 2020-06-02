@@ -192,7 +192,7 @@ public class StudentProfileActivity extends Activity implements View.OnClickList
     public void onClick(View view) {
         if (view.getId() == R.id.saveChangesStudent) {
             save();
-            Intent intent = new Intent(StudentProfileActivity.this, StudentAccountActivity.class);
+            Intent intent = new Intent(StudentProfileActivity.this, StudentMenuActivity.class);
             startActivity(intent);
         }
         if (view.getId() == R.id.changePasswordStudent) {
@@ -229,7 +229,7 @@ public class StudentProfileActivity extends Activity implements View.OnClickList
     public void onBackPressed() {
         super.onBackPressed();
 
-        Intent intent = new Intent(this, StudentAccountActivity.class);
+        Intent intent = new Intent(this, StudentMenuActivity.class);
         startActivity(intent);
     }
 }

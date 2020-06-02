@@ -458,7 +458,7 @@ public class QuizActivity extends Activity {
 
     @Override
     public void onBackPressed() {
-        super.onBackPressed();
+//        super.onBackPressed();
 
         DialogInterface.OnClickListener dialogClickListener = new DialogInterface.OnClickListener() {
             @Override
@@ -466,7 +466,7 @@ public class QuizActivity extends Activity {
                 switch (which) {
                     case DialogInterface.BUTTON_POSITIVE:
                         //Yes button clicked
-                        Intent intent = new Intent(QuizActivity.this, StudentAccountActivity.class);
+                        Intent intent = new Intent(QuizActivity.this, StudentMenuActivity.class);
                         startActivity(intent);
                         break;
 

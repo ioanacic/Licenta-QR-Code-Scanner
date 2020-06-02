@@ -203,7 +203,7 @@ public class ProfessorProfileActivity extends Activity implements View.OnClickLi
     public void onClick(View view) {
         if (view.getId() == R.id.saveChangesProfessor) {
             save();
-            Intent intent = new Intent(ProfessorProfileActivity.this, ProfessorAccountActivity.class);
+            Intent intent = new Intent(ProfessorProfileActivity.this, ProfessorMenuActivity.class);
             startActivity(intent);
         }
         if (view.getId() == R.id.changePasswordProfessor) {

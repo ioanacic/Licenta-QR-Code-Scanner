@@ -384,7 +384,7 @@ public class SeeQuestionsActivity extends Activity implements SeeQuestionListene
             }
         }
 
-        Intent intent = new Intent(this, ProfessorAccountActivity.class);
+        Intent intent = new Intent(this, ProfessorMenuActivity.class);
         startActivity(intent);
     }
 }

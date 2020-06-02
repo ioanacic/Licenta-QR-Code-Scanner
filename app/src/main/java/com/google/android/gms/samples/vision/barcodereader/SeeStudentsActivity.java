@@ -399,7 +399,7 @@ public class SeeStudentsActivity extends Activity {
     public void onBackPressed() {
         super.onBackPressed();
 
-        Intent intent = new Intent(this, ProfessorAccountActivity.class);
+        Intent intent = new Intent(this, ProfessorMenuActivity.class);
         startActivity(intent);
     }
 }

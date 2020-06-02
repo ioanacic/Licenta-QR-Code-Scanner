@@ -509,7 +509,7 @@ public final class BarcodeCaptureActivity extends AppCompatActivity implements B
     public void onBackPressed() {
         super.onBackPressed();
 
-        Intent intent = new Intent(this, StudentAccountActivity.class);
+        Intent intent = new Intent(this, StudentMenuActivity.class);
         startActivity(intent);
     }
 }

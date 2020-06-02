@@ -75,7 +75,7 @@ public class AddSubjectActivity extends Activity implements View.OnClickListener
     public void onBackPressed() {
         super.onBackPressed();
 
-        Intent intent = new Intent(this, ProfessorAccountActivity.class);
+        Intent intent = new Intent(this, ProfessorMenuActivity.class);
         startActivity(intent);
     }
 }

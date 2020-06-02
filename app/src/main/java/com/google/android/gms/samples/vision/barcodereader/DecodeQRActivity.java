@@ -192,18 +192,10 @@ public class DecodeQRActivity extends Activity {
             }
 
             public void onFinish() {
-                Intent intent = new Intent(DecodeQRActivity.this, StudentAccountActivity.class);
+                Intent intent = new Intent(DecodeQRActivity.this, StudentMenuActivity.class);
                 intent.putExtra(BarcodeObject, decodedQR);
                 startActivity(intent);
             }
         }.start();
-    }
-
-    @Override
-    public void onBackPressed() {
-        super.onBackPressed();
-
-        Intent intent = new Intent(this, BarcodeCaptureActivity.class);
-        startActivity(intent);
     }
 }
