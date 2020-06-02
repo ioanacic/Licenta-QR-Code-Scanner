@@ -66,9 +66,14 @@ public class ProfessorMenuActivity extends FragmentActivity {
         });
     }
 
-    public void openNewFragment(Fragment newFragment) {
+    public void replaceWithFragment(Fragment newFragment) {
         FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
         transaction.replace(R.id.fragmentContainer, newFragment).commit();
+    }
+
+    public void addFragment(Fragment newFragment) {
+        FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
+        transaction.add(R.id.fragmentContainer, newFragment).commit();
     }
 
     @SuppressLint("RestrictedApi")
@@ -94,11 +99,17 @@ public class ProfessorMenuActivity extends FragmentActivity {
 
     @Override
     public void onBackPressed() {
-        super.onBackPressed();
+        int count = getSupportFragmentManager().getBackStackEntryCount();
 
-        Intent intent = new Intent(Intent.ACTION_MAIN);
-        intent.addCategory(Intent.CATEGORY_HOME);
-        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-        startActivity(intent);
+        if (count == 0) {
+            super.onBackPressed();
+
+            Intent intent = new Intent(Intent.ACTION_MAIN);
+            intent.addCategory(Intent.CATEGORY_HOME);
+            intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+            startActivity(intent);
+        } else {
+            getSupportFragmentManager().popBackStack();
+        }
     }
 }

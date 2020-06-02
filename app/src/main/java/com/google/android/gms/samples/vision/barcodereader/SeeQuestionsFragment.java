@@ -124,7 +124,7 @@ public class SeeQuestionsFragment extends Fragment implements SeeQuestionListene
                         if (spinnerSubject.getSelectedItem().toString().trim().equals("All subjects")) {
                             Toast.makeText(getActivity().getApplicationContext(), R.string.selectASubject, Toast.LENGTH_SHORT).show();
                         } else {
-                            ((ProfessorMenuActivity) getActivity()).openNewFragment(generateQRFragment);
+                            ((ProfessorMenuActivity) getActivity()).addFragment(generateQRFragment);
                         }
                     }
 

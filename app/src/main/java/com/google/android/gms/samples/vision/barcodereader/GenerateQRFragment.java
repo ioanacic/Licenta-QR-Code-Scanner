@@ -126,13 +126,13 @@ public class GenerateQRFragment extends Fragment implements View.OnClickListener
                     result = save ? "Image Saved" : "Image Not Saved";
                     Toast.makeText(getActivity().getApplicationContext(), result, Toast.LENGTH_SHORT).show();
 
-                    Intent intent;
-                    if (type.equals("question")) {
-                        intent = new Intent(getActivity().getApplicationContext(), SeeQuestionsActivity.class);
-                    } else {
-                        intent = new Intent(getActivity().getApplicationContext(), SeeTestsActivity.class);
-                    }
-                    startActivity(intent);
+//                    Intent intent;
+//                    if (type.equals("question")) {
+//                        intent = new Intent(getActivity().getApplicationContext(), SeeQuestionsActivity.class);
+//                    } else {
+//                        intent = new Intent(getActivity().getApplicationContext(), SeeTestsActivity.class);
+//                    }
+//                    startActivity(intent);
                 } catch (WriterException e) {
                     e.printStackTrace();
                 }
@@ -158,6 +158,11 @@ public class GenerateQRFragment extends Fragment implements View.OnClickListener
         this.courseOfSelectedQuestion = courseOfSelectedQuestion;
         this.type = type;
         this.statement = statement;
+    }
+
+    public void setup(String keyOfSelectedQuestion, String type) {
+        this.keyOfSelectedQuestion = keyOfSelectedQuestion;
+        this.type = type;
     }
 
     @Override

@@ -90,10 +90,12 @@
             android:label="The activity after the scan"/>
 
         <activity android:name=".ProfessorMenuActivity"
-            android:label="Navig bar"/>
+            android:label="Navig bar"
+            android:windowSoftInputMode="adjustPan"/>
 
         <activity android:name=".StudentMenuActivity"
-            android:label="Navig bar"/>
+            android:label="Navig bar"
+            android:windowSoftInputMode="adjustPan"/>
     </application>
 
 </manifest>

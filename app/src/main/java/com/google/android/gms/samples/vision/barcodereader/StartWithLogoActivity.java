@@ -34,10 +34,11 @@ public class StartWithLogoActivity extends Activity {
 
         quizImg = findViewById(R.id.quizImg);
 
-        new CountDownTimer(700, 100){
-            public void onTick(long millisUntilFinished){
+        new CountDownTimer(700, 100) {
+            public void onTick(long millisUntilFinished) {
             }
-            public  void onFinish(){
+
+            public void onFinish() {
                 mAuth = FirebaseAuth.getInstance();
                 if (mAuth.getCurrentUser() != null) {
                     getTypeOfUser();
@@ -78,5 +79,33 @@ public class StartWithLogoActivity extends Activity {
 
             }
         });
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+
+        mAuth = FirebaseAuth.getInstance();
+        if (mAuth.getCurrentUser() != null) {
+            getTypeOfUser();
+            return;
+        } else {
+            Intent intent = new Intent(StartWithLogoActivity.this, SignInActivity.class);
+            startActivity(intent);
+        }
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
+        mAuth = FirebaseAuth.getInstance();
+        if (mAuth.getCurrentUser() != null) {
+            getTypeOfUser();
+            return;
+        } else {
+            Intent intent = new Intent(StartWithLogoActivity.this, SignInActivity.class);
+            startActivity(intent);
+        }
     }
 }
