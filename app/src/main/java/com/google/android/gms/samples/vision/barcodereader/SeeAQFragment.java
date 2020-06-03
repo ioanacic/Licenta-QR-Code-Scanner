@@ -267,7 +267,7 @@ public class SeeAQFragment extends Fragment {
                 if (resultStr.length() >= 5) {
                     resultStr = resultStr.substring(0, 5);
                 }
-                statistics.setText("A total of " + resultStr + "% answered correctly to this question");
+                statistics.setText("Statistics: " + resultStr);
             }
 
             @Override

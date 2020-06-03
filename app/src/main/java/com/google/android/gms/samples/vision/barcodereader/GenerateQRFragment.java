@@ -23,6 +23,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.FirebaseDatabase;
 import com.google.zxing.WriterException;
 
 import java.io.File;
@@ -125,6 +126,8 @@ public class GenerateQRFragment extends Fragment implements View.OnClickListener
                     save = QRGSaver.save(filepath.toString(), keyOfSelectedQuestion.trim(), bitmap, QRGContents.ImageType.IMAGE_JPEG);
                     result = save ? "Image Saved" : "Image Not Saved";
                     Toast.makeText(getActivity().getApplicationContext(), result, Toast.LENGTH_SHORT).show();
+
+                    FirebaseDatabase.getInstance().getReference("questions").child(keyOfSelectedQuestion).child("isQrGenerated").setValue(true);
 
                     getActivity().getSupportFragmentManager().popBackStack();
                 } catch (WriterException e) {

@@ -4,24 +4,27 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/linearLayout5"
     android:layout_width="wrap_content"
-    android:layout_height="70dp">
+    android:layout_height="70dp"
+    android:background="#FFFFFF">
 
 
     <TextView
         android:id="@+id/courseField"
         android:layout_width="wrap_content"
         android:layout_height="25dp"
+        android:fontFamily="sans-serif-light"
+        android:paddingLeft="10dp"
         android:textSize="18sp"
         app:layout_constraintBottom_toTopOf="@+id/questionField"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="1.0"
-        android:paddingLeft="10dp" />
+        app:layout_constraintVertical_bias="1.0" />
 
     <TextView
         android:id="@+id/questionField"
         android:layout_width="250dp"
         android:layout_height="18dp"
+        android:fontFamily="sans-serif-light"
         android:paddingLeft="10dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -49,7 +52,7 @@
         android:background="@null"
         android:scaleType="fitCenter"
         android:src="@drawable/ic_edit_24px"
-        app:layout_constraintBottom_toTopOf="@+id/imageView"
+        app:layout_constraintBottom_toTopOf="@+id/qrImageView"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toStartOf="@+id/dividerQuestion"
@@ -72,12 +75,13 @@
         app:layout_constraintVertical_bias="0.088" />
 
     <ImageView
-        android:id="@+id/imageView"
+        android:id="@+id/qrImageView"
         android:layout_width="25dp"
         android:layout_height="25dp"
         android:layout_marginEnd="16dp"
         android:layout_marginBottom="8dp"
         android:src="@drawable/ic_qr_code_black_18dp"
+        android:visibility="invisible"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="1.0"

@@ -15,6 +15,7 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.Spinner;
 import android.widget.Toast;
 
@@ -39,7 +40,7 @@ public class SeeQuestionsFragment extends Fragment implements SeeQuestionListene
     private FirebaseAuth mAuth;
 
     Spinner spinner, spinnerSubject;
-    Button createTestButton;
+    ImageButton createTestButton;
 
     List<Question> questions = new ArrayList<>();
     List<Question> questionsBySubject = new ArrayList<>();
@@ -49,6 +50,21 @@ public class SeeQuestionsFragment extends Fragment implements SeeQuestionListene
     ArrayAdapter<String> dataAdapterSpinner;
 
     boolean isPressed = false;
+
+    @Override
+    public void onResume() {
+        super.onResume();
+
+        if (spinnerSubject.equals("All subjects")) {
+            adapter.updateQ(questions);     // all subjects, all questions
+        } else {
+            if (!spinner.equals("All courses")) {
+                adapter.updateQ(questionsByCourse);     // questions by course
+            } else {
+                adapter.updateQ(questionsBySubject);       // questions by subject
+            }
+        }
+    }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {

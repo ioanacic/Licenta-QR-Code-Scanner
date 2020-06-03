@@ -12,6 +12,7 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.Spinner;
 import android.widget.Toast;
 
@@ -36,7 +37,7 @@ public class SeeStudentsFragment extends Fragment {
     private FirebaseAuth mAuth;
 
     Spinner spinner;
-    Button saveFile;
+    ImageButton saveFile;
 
     List<Student> students = new ArrayList<>();
     List<Question> questions = new ArrayList<>();
@@ -62,7 +63,7 @@ public class SeeStudentsFragment extends Fragment {
             }
         });
 
-        saveFile = rootView.findViewById(R.id.saveFile);
+        saveFile = (ImageButton) rootView.findViewById(R.id.saveFile);
         saveFile.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {

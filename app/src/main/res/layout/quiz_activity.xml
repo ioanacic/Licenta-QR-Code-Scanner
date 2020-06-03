@@ -3,7 +3,8 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:background="#FFFFFF">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -31,6 +32,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:ems="11"
+                    android:fontFamily="sans-serif-light"
                     android:inputType="textMultiLine"
                     android:textSize="18sp" />
             </TableRow>
@@ -53,6 +55,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:ems="11"
+                        android:fontFamily="sans-serif-light"
                         android:inputType="textMultiLine"
                         android:visibility="invisible" />
 
@@ -61,6 +64,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:ems="11"
+                        android:fontFamily="sans-serif-light"
                         android:inputType="textMultiLine"
                         android:visibility="invisible" />
 
@@ -69,6 +73,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:ems="11"
+                        android:fontFamily="sans-serif-light"
                         android:inputType="textMultiLine"
                         android:visibility="invisible" />
 
@@ -77,6 +82,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:ems="11"
+                        android:fontFamily="sans-serif-light"
                         android:inputType="textMultiLine"
                         android:visibility="invisible" />
                 </RadioGroup>
@@ -103,7 +109,8 @@
                 android:id="@+id/questionNumber"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_weight="1" />
+                android:layout_weight="1"
+                android:fontFamily="sans-serif-light" />
 
             <Space
                 android:layout_width="wrap_content"
@@ -123,8 +130,8 @@
             android:layout_height="wrap_content"
             android:background="#00009688"
             android:progress="100"
-            android:progressTint="#f9ba10"
-            android:progressBackgroundTint="#FFFFFFFF" />
+            android:progressBackgroundTint="#FFFFFFFF"
+            android:progressTint="#f9ba10" />
 
         <Space
             android:layout_width="match_parent"
@@ -142,9 +149,9 @@
 
             <Button
                 android:id="@+id/submit"
+                style="@style/button_style"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:background="#CE8081"
+                android:layout_height="40dp"
                 android:text="Submit"
                 android:visibility="invisible" />
 

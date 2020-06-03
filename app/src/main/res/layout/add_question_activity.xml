@@ -22,18 +22,19 @@
 
             <Spinner
                 android:id="@+id/spinnerSubject"
+                style="@style/spinnerItemStyle"
                 android:layout_width="277dp"
                 android:layout_height="50dp"
                 android:background="@drawable/spinner_background"
+                android:ems="13"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
-                android:ems="13"/>
+                app:layout_constraintTop_toTopOf="parent" />
 
 
             <Space
                 android:layout_width="wrap_content"
-                android:layout_height="2dp"
+                android:layout_height="5dp"
                 app:layout_constraintBottom_toTopOf="@+id/textInputLayout7"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
@@ -54,6 +55,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:ems="13"
+                    android:fontFamily="sans-serif-light"
                     android:hint="Question"
                     android:inputType="textMultiLine|textCapSentences"
                     android:text="Q?" />
@@ -77,6 +79,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:ems="13"
+                    android:fontFamily="sans-serif-light"
                     android:hint="Course"
                     android:inputType="number" />
             </android.support.design.widget.TextInputLayout>
@@ -98,6 +101,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:ems="13"
+                    android:fontFamily="sans-serif-light"
                     android:hint="Answer A"
                     android:inputType="textMultiLine|textCapSentences"
                     android:text="Aaa" />
@@ -120,6 +124,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:ems="13"
+                    android:fontFamily="sans-serif-light"
                     android:hint="Answer B"
                     android:inputType="textMultiLine|textCapSentences"
                     android:text="Bbb" />
@@ -143,6 +148,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:ems="13"
+                    android:fontFamily="sans-serif-light"
                     android:hint="Answer C"
                     android:inputType="textMultiLine|textCapSentences"
                     android:text="Ccc" />
@@ -165,6 +171,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:ems="13"
+                    android:fontFamily="sans-serif-light"
                     android:hint="Answer D"
                     android:inputType="textMultiLine|textCapSentences"
                     android:text="Ddd" />
@@ -172,6 +179,7 @@
 
             <Spinner
                 android:id="@+id/anwerOptions"
+                style="@style/spinnerItemStyle"
                 android:layout_width="277dp"
                 android:layout_height="50dp"
                 android:background="@drawable/spinner_background"
@@ -195,15 +203,17 @@
                     android:id="@+id/space2"
                     android:layout_width="0dp"
                     android:layout_height="10dp"
-                    app:layout_constraintTop_toTopOf="@id/linearLayout3"
                     app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent" />
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="@id/linearLayout3" />
 
                 <Button
                     android:id="@+id/saveButton"
+                    style="@style/button_style"
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="SAVE"
+                    android:layout_height="40dp"
+                    android:fontFamily="sans-serif-light"
+                    android:text="Save"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintHorizontal_bias="0.498"

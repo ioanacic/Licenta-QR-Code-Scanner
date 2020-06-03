@@ -2,8 +2,10 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:orientation="vertical" android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#FFFFFF"
+    android:orientation="vertical">
 
     <TableLayout
         android:layout_width="match_parent"
@@ -26,6 +28,7 @@
                     android:drawableStart="@drawable/ic_topic_black_18dp"
                     android:drawablePadding="10dp"
                     android:ems="15"
+                    android:fontFamily="sans-serif-light"
                     android:hint="New subject"
                     android:inputType="textCapSentences" />
             </android.support.design.widget.TextInputLayout>
@@ -46,8 +49,9 @@
 
         <Button
             android:id="@+id/saveSubjectButton"
+            style="@style/button_style"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_height="40dp"
             android:text="Add subject"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"

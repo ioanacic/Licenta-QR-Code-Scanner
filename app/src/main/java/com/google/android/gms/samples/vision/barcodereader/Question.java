@@ -8,6 +8,8 @@ public class Question {
     String idProfessor;
     String subject;
 
+    boolean isQrGenerated;
+
     // for "Add question to test"
     boolean isSelected = false;    // has not been selected
                                    // false = buton gol, true = buton plin
@@ -158,5 +160,13 @@ public class Question {
 
     public void setSelected(boolean selected) {
         isSelected = selected;
+    }
+
+    public boolean getIsQrGenerated() {
+        return isQrGenerated;
+    }
+
+    public void setIsQrGenerated(boolean isQrGenerated) {
+        this.isQrGenerated = isQrGenerated;
     }
 }

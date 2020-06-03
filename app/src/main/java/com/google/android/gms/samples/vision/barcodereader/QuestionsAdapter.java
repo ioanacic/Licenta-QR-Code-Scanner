@@ -9,6 +9,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import java.util.ArrayList;
@@ -21,6 +22,7 @@ public class QuestionsAdapter extends RecyclerView.Adapter<QuestionsAdapter.View
         // the info I want to see for an entry
         public TextView course, question, info;
         ImageButton addQuestion, editQuestion;
+        ImageView qrImageView;
         public Question questionQ;      // the selected Q
 
         SeeQuestionListener listener;
@@ -42,6 +44,8 @@ public class QuestionsAdapter extends RecyclerView.Adapter<QuestionsAdapter.View
 
             addQuestion = (ImageButton) itemView.findViewById(R.id.addQuestionToTest);
             editQuestion = (ImageButton) itemView.findViewById(R.id.editQuestionButton);
+
+            qrImageView = (ImageView) itemView.findViewById(R.id.qrImageView);
 
             addQuestion.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -108,13 +112,17 @@ public class QuestionsAdapter extends RecyclerView.Adapter<QuestionsAdapter.View
 
         if (!question.isSelected()) {
             // = false = nu a mai fost apasat
-            viewHolder.addQuestion.setImageResource(R.drawable.ic_check_circle_24px);
+            viewHolder.addQuestion.setImageResource(R.drawable.ic_check_circle_outline_24px);
 //            viewHolder.addQuestion.setBackgroundColor(Color.parseColor("#5A5656"));
         } else {
             // = true = a mai fost apasat = resetez
 
-            viewHolder.addQuestion.setImageResource(R.drawable.ic_check_circle_outline_24px);
+            viewHolder.addQuestion.setImageResource(R.drawable.ic_check_circle_24px);
 //            viewHolder.addQuestion.setBackgroundColor(Color.parseColor("#FFB500"));
+        }
+
+        if (question.getIsQrGenerated()) {
+            viewHolder.qrImageView.setVisibility(View.VISIBLE);
         }
     }
 

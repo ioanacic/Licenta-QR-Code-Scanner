@@ -1,9 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:orientation="vertical"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:background="#FFFFFF"
+    android:orientation="vertical">
     tools:context="com.google.android.gms.samples.vision.barcodereader.StudentProfileActivity
 
     <Space
@@ -43,6 +44,7 @@
                             android:drawableStart="@drawable/ic_person_black_18dp"
                             android:drawablePadding="10dp"
                             android:ems="15"
+                            android:fontFamily="sans-serif-light"
                             android:hint="Last Name"
                             android:inputType="textCapSentences" />
                     </android.support.design.widget.TextInputLayout>
@@ -73,6 +75,7 @@
                             android:drawableStart="@drawable/ic_person_black_18dp"
                             android:drawablePadding="10dp"
                             android:ems="15"
+                            android:fontFamily="sans-serif-light"
                             android:hint="First Name"
                             android:inputType="textCapSentences" />
                     </android.support.design.widget.TextInputLayout>
@@ -104,6 +107,7 @@
                             android:drawableStart="@drawable/ic_group_black_18dp"
                             android:drawablePadding="10dp"
                             android:ems="15"
+                            android:fontFamily="sans-serif-light"
                             android:hint="Group" />
                     </android.support.design.widget.TextInputLayout>
 
@@ -155,6 +159,7 @@
                             android:drawableStart="@drawable/ic_event_black_18dp"
                             android:drawablePadding="10dp"
                             android:ems="15"
+                            android:fontFamily="sans-serif-light"
                             android:hint="Year of study" />
                     </android.support.design.widget.TextInputLayout>
 
@@ -199,10 +204,11 @@
 
                 <Button
                     android:id="@+id/saveChangesStudent"
+                    style="@style/button_style"
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
+                    android:layout_height="40dp"
                     android:layout_weight="1"
-                    android:text="SAVE" />
+                    android:text="Save" />
 
                 <Space
                     android:layout_width="150dp"
@@ -227,8 +233,9 @@
 
                 <Button
                     android:id="@+id/changePasswordStudent"
-                    android:layout_width="10dp"
-                    android:layout_height="wrap_content"
+                    style="@style/button_style"
+                    android:layout_width="wrap_content"
+                    android:layout_height="40dp"
                     android:layout_weight="1"
                     android:text="Change password" />
 
@@ -256,10 +263,10 @@
                         android:id="@+id/oldPLayout"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
+                        android:theme="@style/TextLabel"
                         android:visibility="invisible"
                         app:passwordToggleEnabled="true"
-                        app:passwordToggleTint="@color/common_google_signin_btn_text_light"
-                        android:theme="@style/TextLabel">
+                        app:passwordToggleTint="@color/common_google_signin_btn_text_light">
 
                         <android.support.design.widget.TextInputEditText
                             android:id="@+id/oldPassword"
@@ -268,6 +275,7 @@
                             android:drawableStart="@drawable/ic_lock_black_18dp"
                             android:drawablePadding="10dp"
                             android:ems="15"
+                            android:fontFamily="sans-serif-light"
                             android:hint="Old password"
                             android:inputType="textPassword"
                             android:visibility="visible" />
@@ -286,11 +294,11 @@
                         android:id="@+id/newPLayout"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
+                        android:theme="@style/TextLabel"
                         android:visibility="invisible"
                         app:passwordToggleEnabled="true"
-                        app:passwordToggleTint="@color/common_google_signin_btn_text_light"
 
-                        android:theme="@style/TextLabel">
+                        app:passwordToggleTint="@color/common_google_signin_btn_text_light">
 
                         <android.support.design.widget.TextInputEditText
                             android:id="@+id/newPassword"
@@ -299,6 +307,7 @@
                             android:drawableStart="@drawable/ic_lock_black_18dp"
                             android:drawablePadding="10dp"
                             android:ems="15"
+                            android:fontFamily="sans-serif-light"
                             android:hint="New password"
                             android:inputType="textPassword"
                             android:visibility="visible" />
@@ -320,8 +329,9 @@
 
                 <Button
                     android:id="@+id/updatePasswordButton"
+                    style="@style/button_style"
                     android:layout_width="10dp"
-                    android:layout_height="wrap_content"
+                    android:layout_height="40dp"
                     android:layout_weight="1"
                     android:text="Update password"
                     android:visibility="invisible" />
