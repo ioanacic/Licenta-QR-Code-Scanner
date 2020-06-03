@@ -52,21 +52,6 @@ public class SeeQuestionsFragment extends Fragment implements SeeQuestionListene
     boolean isPressed = false;
 
     @Override
-    public void onResume() {
-        super.onResume();
-
-        if (spinnerSubject.equals("All subjects")) {
-            adapter.updateQ(questions);     // all subjects, all questions
-        } else {
-            if (!spinner.equals("All courses")) {
-                adapter.updateQ(questionsByCourse);     // questions by course
-            } else {
-                adapter.updateQ(questionsBySubject);       // questions by subject
-            }
-        }
-    }
-
-    @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.see_questions_activity, container, false);
 
@@ -390,5 +375,16 @@ public class SeeQuestionsFragment extends Fragment implements SeeQuestionListene
         Toast.makeText(getActivity().getApplicationContext(), R.string.testSaved, Toast.LENGTH_SHORT).show();
 
         questionsForTest.clear();
+    }
+
+    public void refresh() {
+        if (spinnerSubject.getSelectedItem().toString().trim().equals("All subjects")) {
+            adapter.updateQ(questions);
+        } else if (spinner.getSelectedItem().toString().trim().equals("All courses")) {
+            adapter.updateQ(questionsBySubject);
+        } else { 
+            adapter.updateQ(questionsByCourse);
+        }
+
     }
 }

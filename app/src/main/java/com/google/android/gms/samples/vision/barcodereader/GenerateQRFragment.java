@@ -129,6 +129,7 @@ public class GenerateQRFragment extends Fragment implements View.OnClickListener
 
                     FirebaseDatabase.getInstance().getReference("questions").child(keyOfSelectedQuestion).child("isQrGenerated").setValue(true);
 
+                    ((ProfessorMenuActivity) getActivity()).refresh();
                     getActivity().getSupportFragmentManager().popBackStack();
                 } catch (WriterException e) {
                     e.printStackTrace();

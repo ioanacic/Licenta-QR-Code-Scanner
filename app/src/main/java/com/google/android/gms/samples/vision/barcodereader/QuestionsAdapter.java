@@ -113,16 +113,16 @@ public class QuestionsAdapter extends RecyclerView.Adapter<QuestionsAdapter.View
         if (!question.isSelected()) {
             // = false = nu a mai fost apasat
             viewHolder.addQuestion.setImageResource(R.drawable.ic_check_circle_outline_24px);
-//            viewHolder.addQuestion.setBackgroundColor(Color.parseColor("#5A5656"));
         } else {
             // = true = a mai fost apasat = resetez
 
             viewHolder.addQuestion.setImageResource(R.drawable.ic_check_circle_24px);
-//            viewHolder.addQuestion.setBackgroundColor(Color.parseColor("#FFB500"));
         }
 
         if (question.getIsQrGenerated()) {
             viewHolder.qrImageView.setVisibility(View.VISIBLE);
+        } else {
+            viewHolder.qrImageView.setVisibility(View.INVISIBLE);
         }
     }
 

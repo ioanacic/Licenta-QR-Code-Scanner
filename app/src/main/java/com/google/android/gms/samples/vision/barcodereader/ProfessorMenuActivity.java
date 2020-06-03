@@ -112,4 +112,8 @@ public class ProfessorMenuActivity extends FragmentActivity {
             getSupportFragmentManager().popBackStack();
         }
     }
+
+    public void refresh() {
+        ((SeeQuestionsFragment) getSupportFragmentManager().getFragments().get(0)).refresh();
+    }
 }
