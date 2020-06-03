@@ -318,6 +318,11 @@ public class SeeQuestionsActivity extends Activity implements SeeQuestionListene
     }
 
     @Override
+    public void onEditButtonClicked(Question q) {
+
+    }
+
+    @Override
     public void onViewClicked(Question q) {
 
     }

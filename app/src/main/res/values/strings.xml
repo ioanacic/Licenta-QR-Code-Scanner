@@ -36,4 +36,5 @@
     <string name="questionAlreadySaved">This question is already included in another test</string>
     <string name="selectAGroup">Please, select a group!</string>
     <string name="csvFileSaved">The file was successfully saved</string>
+    <string name="editQSucceded">The question was successfully updated</string>
 </resources>

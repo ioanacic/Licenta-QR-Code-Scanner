@@ -34,7 +34,8 @@ import java.util.Map;
 public class ProfessorProfileActivity extends Activity implements View.OnClickListener {
 
     TextInputEditText lastNameField;
-    TextInputEditText firstNameField;TextInputEditText oldPassField, newPassField;
+    TextInputEditText firstNameField;
+    TextInputEditText oldPassField, newPassField;
     TextInputLayout oldPLayout, newPLayout;
 
     Spinner spinner;
@@ -134,13 +135,30 @@ public class ProfessorProfileActivity extends Activity implements View.OnClickLi
 
     public void save() {
         String lName = "", fName = "";
-        if (!lastNameField.getText().equals(currentProfessor.getLastName())) {
+        int count = 0;
+
+        if (!lastNameField.getText().toString().equals(currentProfessor.getLastName())) {
+            if (lastNameField.getText().toString().isEmpty()) {
+                Toast.makeText(ProfessorProfileActivity.this, getString(R.string.noFieldEmpty), Toast.LENGTH_LONG).show();
+                return;
+            }
             lName = lastNameField.getText().toString().trim();
             mDatabase.child("lastName").setValue(lName);
+            count++;
         }
-        if (!firstNameField.getText().equals(currentProfessor.getFirstName())) {
+        if (!firstNameField.getText().toString().equals(currentProfessor.getFirstName())) {
+            if (firstNameField.getText() == null) {
+                Toast.makeText(ProfessorProfileActivity.this, getString(R.string.noFieldEmpty), Toast.LENGTH_LONG).show();
+                return;
+            }
             fName = firstNameField.getText().toString().trim();
             mDatabase.child("firstName").setValue(fName);
+            count++;
+        }
+
+        if (count != 0) {
+            Intent intent = new Intent(ProfessorProfileActivity.this, ProfessorMenuActivity.class);
+            startActivity(intent);
         }
     }
 
@@ -203,8 +221,6 @@ public class ProfessorProfileActivity extends Activity implements View.OnClickLi
     public void onClick(View view) {
         if (view.getId() == R.id.saveChangesProfessor) {
             save();
-            Intent intent = new Intent(ProfessorProfileActivity.this, ProfessorMenuActivity.class);
-            startActivity(intent);
         }
         if (view.getId() == R.id.changePasswordProfessor) {
             oldPLayout.setVisibility(View.VISIBLE);

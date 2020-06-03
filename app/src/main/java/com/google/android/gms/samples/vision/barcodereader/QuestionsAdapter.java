@@ -8,6 +8,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.TextView;
 
 import java.util.ArrayList;
@@ -19,7 +20,7 @@ public class QuestionsAdapter extends RecyclerView.Adapter<QuestionsAdapter.View
     public static class ViewHolder extends RecyclerView.ViewHolder {
         // the info I want to see for an entry
         public TextView course, question, info;
-        public Button addQuestion;
+        ImageButton addQuestion, editQuestion;
         public Question questionQ;      // the selected Q
 
         SeeQuestionListener listener;
@@ -39,12 +40,20 @@ public class QuestionsAdapter extends RecyclerView.Adapter<QuestionsAdapter.View
             course = (TextView) itemView.findViewById(R.id.courseField);
             question = (TextView) itemView.findViewById(R.id.questionField);
 
-            addQuestion = (Button) itemView.findViewById(R.id.addQuestionToTest);
+            addQuestion = (ImageButton) itemView.findViewById(R.id.addQuestionToTest);
+            editQuestion = (ImageButton) itemView.findViewById(R.id.editQuestionButton);
 
             addQuestion.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
                     listener.onAddQButtonClicked(questionQ);
+                }
+            });
+
+            editQuestion.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    listener.onEditButtonClicked(questionQ);
                 }
             });
 
@@ -99,10 +108,13 @@ public class QuestionsAdapter extends RecyclerView.Adapter<QuestionsAdapter.View
 
         if (!question.isSelected()) {
             // = false = nu a mai fost apasat
-            viewHolder.addQuestion .setBackgroundColor(Color.parseColor("#5A5656"));
+            viewHolder.addQuestion.setImageResource(R.drawable.ic_check_circle_24px);
+//            viewHolder.addQuestion.setBackgroundColor(Color.parseColor("#5A5656"));
         } else {
             // = true = a mai fost apasat = resetez
-            viewHolder.addQuestion.setBackgroundColor(Color.parseColor("#FFB500"));
+
+            viewHolder.addQuestion.setImageResource(R.drawable.ic_check_circle_outline_24px);
+//            viewHolder.addQuestion.setBackgroundColor(Color.parseColor("#FFB500"));
         }
     }
 

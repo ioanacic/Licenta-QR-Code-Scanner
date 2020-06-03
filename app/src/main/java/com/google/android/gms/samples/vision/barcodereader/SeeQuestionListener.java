@@ -5,6 +5,8 @@ import android.view.View;
 public interface SeeQuestionListener {
     void onAddQButtonClicked(Question q);
 
+    void onEditButtonClicked(Question q);
+
     void onViewClicked(Question q);
 
     void onViewLongClicked(View view, Question q);

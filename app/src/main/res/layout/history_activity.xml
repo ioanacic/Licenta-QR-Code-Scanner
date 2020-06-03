@@ -9,7 +9,12 @@
     <Spinner
         android:id="@+id/subjectsOptions"
         android:layout_width="match_parent"
-        android:layout_height="50dp" />
+        android:layout_height="50dp"
+        android:background="@drawable/spinner_background" />
+
+    <Space
+        android:layout_width="match_parent"
+        android:layout_height="2dp" />
 
     <LinearLayout
         android:layout_width="match_parent"

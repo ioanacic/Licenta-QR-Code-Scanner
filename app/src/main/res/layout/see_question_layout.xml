@@ -4,69 +4,83 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/linearLayout5"
     android:layout_width="wrap_content"
-    android:layout_height="100dp">
+    android:layout_height="70dp">
 
 
     <TextView
         android:id="@+id/courseField"
-        android:layout_width="300dp"
+        android:layout_width="wrap_content"
         android:layout_height="25dp"
         android:textSize="18sp"
         app:layout_constraintBottom_toTopOf="@+id/questionField"
-        app:layout_constraintEnd_toStartOf="@+id/imageButton2"
-        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="1.0"
+        android:paddingLeft="10dp" />
 
     <TextView
         android:id="@+id/questionField"
-        android:layout_width="300dp"
-        android:layout_height="16dp"
+        android:layout_width="250dp"
+        android:layout_height="18dp"
+        android:paddingLeft="10dp"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/courseField" />
-
-    <Button
-        android:id="@+id/addQuestionToTest"
-        android:layout_width="146dp"
-        android:layout_height="42dp"
-        android:layout_marginTop="12dp"
-        android:text="add question"
-        app:layout_constraintStart_toStartOf="@+id/questionField"
-        app:layout_constraintTop_toBottomOf="@+id/questionField" />
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.562" />
 
     <View
         android:id="@+id/dividerQuestion"
         android:layout_width="wrap_content"
-        android:layout_height="0dp"
-        android:layout_marginBottom="618dp"
+        android:layout_height="2dp"
         android:background="#f9ba10"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toStartOf="@+id/addQuestionToTest"
-        app:layout_constraintTop_toBottomOf="@+id/addQuestionToTest" />
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.986" />
 
     <ImageButton
-        android:id="@+id/imageButton"
-        android:layout_width="18dp"
-        android:layout_height="18dp"
-        android:layout_marginTop="4dp"
+        android:id="@+id/editQuestionButton"
+        android:layout_width="25dp"
+        android:layout_height="25dp"
+        android:layout_marginEnd="16dp"
+        android:adjustViewBounds="true"
         android:background="@null"
-        android:src="@drawable/ic_history_black_18dp"
+        android:scaleType="fitCenter"
+        android:src="@drawable/ic_edit_24px"
+        app:layout_constraintBottom_toTopOf="@+id/imageView"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.516"
-        app:layout_constraintStart_toEndOf="@+id/courseField"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintStart_toStartOf="@+id/dividerQuestion"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.333" />
 
     <ImageButton
-        android:id="@+id/imageButton2"
-        android:layout_width="18dp"
-        android:layout_height="18dp"
+        android:id="@+id/addQuestionToTest"
+        android:layout_width="25dp"
+        android:layout_height="25dp"
+        android:adjustViewBounds="true"
         android:background="@null"
-        android:src="@drawable/ic_help_outline_black_18dp"
-        app:layout_constraintBottom_toTopOf="@+id/dividerQuestion"
+        android:scaleType="fitCenter"
+        android:src="@drawable/ic_check_circle_outline_24px"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/editQuestionButton"
+        app:layout_constraintHorizontal_bias="0.953"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.088" />
+
+    <ImageView
+        android:id="@+id/imageView"
+        android:layout_width="25dp"
+        android:layout_height="25dp"
+        android:layout_marginEnd="16dp"
+        android:layout_marginBottom="8dp"
+        android:src="@drawable/ic_qr_code_black_18dp"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.515"
-        app:layout_constraintStart_toEndOf="@+id/questionField"
-        app:layout_constraintTop_toBottomOf="@+id/imageButton"
-        app:layout_constraintVertical_bias="0.069" />
+        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintStart_toStartOf="parent" />
 
 </android.support.constraint.ConstraintLayout>

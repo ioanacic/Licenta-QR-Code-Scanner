@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -106,56 +107,6 @@ public class SeeQuestionsFragment extends Fragment implements SeeQuestionListene
         adapter = new QuestionsAdapter(this);
         recyclerView.setAdapter(adapter);
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity().getApplicationContext()));
-
-//        recyclerView.addOnItemTouchListener(
-//                new RecyclerItemClickListener(getActivity().getApplicationContext(), recyclerView, new RecyclerItemClickListener.OnItemClickListener() {
-//                    @Override
-//                    public void onItemClick(View view, int position) {
-//                        Question selectedQuestion = adapter.getMyQuestions().get(position);
-//                        String key = selectedQuestion.getKey();
-//                        String subject = spinnerSubject.getSelectedItem().toString().trim();
-//                        String course = selectedQuestion.getCourse();
-//                        String statement = selectedQuestion.getQuestion();
-//
-//                        GenerateQRFragment generateQRFragment = new GenerateQRFragment();
-//                        generateQRFragment.setup(key, subject, course, "question", statement);
-//
-//                        if (spinnerSubject.getSelectedItem().toString().trim().equals("All subjects")) {
-//                            Toast.makeText(getActivity().getApplicationContext(), R.string.selectASubject, Toast.LENGTH_SHORT).show();
-//                        } else {
-//                            ((ProfessorMenuActivity) getActivity()).addFragment(generateQRFragment);
-//                        }
-//                    }
-//
-//                    @Override
-//                    public void onLongItemClick(View view, int position) {
-//                        Question selectedQuestion = adapter.getMyQuestions().get(position);
-//                        String key = selectedQuestion.getKey();
-//                        DialogInterface.OnClickListener dialogClickListener = new DialogInterface.OnClickListener() {
-//                            @Override
-//                            public void onClick(DialogInterface dialog, int which) {
-//                                switch (which) {
-//                                    case DialogInterface.BUTTON_POSITIVE:
-//                                        //Yes button clicked
-//                                        mDatabase.child(key).removeValue();
-//                                        Intent intent = new Intent(getActivity(), SeeQuestionsActivity.class);
-//                                        startActivity(intent);
-//                                        break;
-//
-//                                    case DialogInterface.BUTTON_NEGATIVE:
-//                                        //No button clicked
-//                                        break;
-//                                }
-//                            }
-//                        };
-//
-//                        AlertDialog.Builder builder = new AlertDialog.Builder(view.getContext());
-//                        builder.setMessage("Are you sure you want to permanently delete the question?").
-//                                setPositiveButton("Yes", dialogClickListener).setNegativeButton("No", dialogClickListener).show();
-//                        adapter.notifyDataSetChanged();
-//                    }
-//                })
-//        );
     }
 
     public void getData() {
@@ -300,7 +251,6 @@ public class SeeQuestionsFragment extends Fragment implements SeeQuestionListene
 
     @Override
     public void onAddQButtonClicked(Question selectedQuestion) {
-        // TODO update somehow that you cannoe DESELECT a question added to another test
         // with if condition = the button shows SELECTED, if questionsForTest.isEmpty = the questions are added in another test, CANNOT ADD AGAIN
         // without if condition = the button is selected, with DESELECT AND SELECT AGAIN can add the question to another test
 
@@ -315,6 +265,19 @@ public class SeeQuestionsFragment extends Fragment implements SeeQuestionListene
             updateTestQs(questionsByCourse, selectedQuestion);
             adapter.updateQ(questionsByCourse);
         }
+    }
+
+    @Override
+    public void onEditButtonClicked(Question q) {
+        AddQuestionFragment addQuestionFragment = new AddQuestionFragment();
+
+        String course = q.getCourse();
+        String[] courseS = course.split(" ");
+        course = courseS[1];
+
+        addQuestionFragment.setup(q.getKey(), q.getQuestion(), course, q.getAnswerA(), q.getAnswerB(), q.getAnswerC(), q.getAnswerD(), q.getSubject(), q.getCorrectAnswer());
+
+        ((ProfessorMenuActivity) getActivity()).addFragment(addQuestionFragment);
     }
 
     public void onViewClicked(Question selectedQuestion) {
@@ -365,7 +328,6 @@ public class SeeQuestionsFragment extends Fragment implements SeeQuestionListene
             isPressed = false;
         }
 
-        // TODO user can deselect a question randomly, even if it s in a test and he doesnt want to use it in another
         for (Question q : questions) {
             if (q.equals(question)) {
                 if (!q.isSelected()) {

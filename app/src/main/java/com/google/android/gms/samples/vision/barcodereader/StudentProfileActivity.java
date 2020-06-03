@@ -115,21 +115,48 @@ public class StudentProfileActivity extends Activity implements View.OnClickList
 
     public void save() {
         String lName = "", fName = "", group = "", year = "";
-        if (!lastNameField.getText().equals(currentStudent.getLastName()) && !lastNameField.getText().toString().isEmpty()) {
+        int count = 0;
+
+        if (!lastNameField.getText().toString().equals(currentStudent.getLastName())) {
+            if (lastNameField.getText().toString().isEmpty()) {
+                Toast.makeText(StudentProfileActivity.this, getString(R.string.noFieldEmpty), Toast.LENGTH_LONG).show();
+                return;
+            }
             lName = lastNameField.getText().toString().trim();
             mDatabase.child("lastName").setValue(lName);
+            count++;
         }
-        if (!firstNameField.getText().equals(currentStudent.getFirstName()) && !lastNameField.getText().toString().isEmpty()) {
+        if (!firstNameField.getText().toString().equals(currentStudent.getFirstName())) {
+            if (firstNameField.getText().toString().isEmpty()) {
+                Toast.makeText(StudentProfileActivity.this, getString(R.string.noFieldEmpty), Toast.LENGTH_LONG).show();
+                return;
+            }
             fName = firstNameField.getText().toString().trim();
             mDatabase.child("firstName").setValue(fName);
+            count++;
         }
-        if (!groupField.getText().equals(currentStudent.getGroup()) && !lastNameField.getText().toString().isEmpty()) {
+        if (!groupField.getText().toString().equals(currentStudent.getGroup())) {
+            if (groupField.getText().toString().isEmpty()) {
+                Toast.makeText(StudentProfileActivity.this, getString(R.string.noFieldEmpty), Toast.LENGTH_LONG).show();
+                return;
+            }
             group = groupField.getText().toString().trim();
             mDatabase.child("group").setValue(group);
+            count++;
         }
-        if (!yearOfStudyField.getText().equals(currentStudent.getYearOfStudy()) && !lastNameField.getText().toString().isEmpty()) {
+        if (!yearOfStudyField.getText().toString().equals(currentStudent.getYearOfStudy())) {
+            if (yearOfStudyField.getText().toString().isEmpty()) {
+                Toast.makeText(StudentProfileActivity.this, getString(R.string.noFieldEmpty), Toast.LENGTH_LONG).show();
+                return;
+            }
             year = yearOfStudyField.getText().toString().trim();
             mDatabase.child("yearOfStudy").setValue(year);
+            count++;
+        }
+
+        if (count != 0) {
+            Intent intent = new Intent(StudentProfileActivity.this, StudentMenuActivity.class);
+            startActivity(intent);
         }
     }
 
@@ -192,8 +219,6 @@ public class StudentProfileActivity extends Activity implements View.OnClickList
     public void onClick(View view) {
         if (view.getId() == R.id.saveChangesStudent) {
             save();
-            Intent intent = new Intent(StudentProfileActivity.this, StudentMenuActivity.class);
-            startActivity(intent);
         }
         if (view.getId() == R.id.changePasswordStudent) {
             oldPLayout.setVisibility(View.VISIBLE);

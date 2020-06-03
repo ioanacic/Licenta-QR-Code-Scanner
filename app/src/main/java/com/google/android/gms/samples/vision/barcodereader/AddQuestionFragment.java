@@ -1,5 +1,6 @@
 package com.google.android.gms.samples.vision.barcodereader;
 
+import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -10,6 +11,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
+import android.widget.ScrollView;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -29,13 +32,17 @@ import java.util.List;
 import java.util.Map;
 import java.util.UUID;
 
-public class AddQuestionFragment extends Fragment implements View.OnClickListener {
+public class AddQuestionFragment extends Fragment {
     private static final String TAG = "AddQuestionActivity";
 
     TextInputEditText questionField, courseField;
     TextInputEditText answerAField, answerBField, answerCField, answerDField;
     Spinner spinner, spinnerSubject;
+    Button saveButton;
+    ScrollView scrollView;
+
     boolean isEmpty = false;
+    String idQ, questionText, courseText, answAText, answBText, answCText, answDText, subjectText, correctAnswText;
 
     List<String> options = new ArrayList<String>();
     List<String> optionsSubjects = new ArrayList<String>();
@@ -56,9 +63,23 @@ public class AddQuestionFragment extends Fragment implements View.OnClickListene
         courseField = rootView.findViewById(R.id.courseField);
         spinner = rootView.findViewById(R.id.anwerOptions);
         spinnerSubject = rootView.findViewById(R.id.spinnerSubject);
+        scrollView = rootView.findViewById(R.id.addQscrollView);
 
         // Buttons
-        rootView.findViewById(R.id.saveButton).setOnClickListener(this);
+        saveButton = rootView.findViewById(R.id.saveButton);
+        if (idQ != null) {
+            saveButton.setText("Update");
+        }
+        saveButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if (saveButton.getText().equals("Update") || saveButton.getText().equals("UPDATE")) {
+                    editQuestion();
+                } else {
+                    addQuestion();
+                }
+            }
+        });
 
         mAuth = FirebaseAuth.getInstance();
         mDatabase = FirebaseDatabase.getInstance().getReference("questions");
@@ -67,7 +88,35 @@ public class AddQuestionFragment extends Fragment implements View.OnClickListene
         addItemOnSpinner();
         addItemOnSpinnerSubject();
 
+        if (idQ != null) {
+            init();
+        }
+
         return rootView;
+    }
+
+    public void setup(String idQ, String question, String course, String answA, String answB, String answC, String answD, String subject, String correctAnsw) {
+        this.idQ = idQ;
+        this.questionText = question;
+        this.answAText = answA;
+        this.answBText = answB;
+        this.answCText = answC;
+        this.answDText = answD;
+        this.courseText = course;
+        this.subjectText = subject;
+        this.correctAnswText = correctAnsw;
+    }
+
+    public void init() {
+        questionField.setText(questionText);
+        courseField.setText(courseText);
+        answerAField.setText(answAText);
+        answerBField.setText(answBText);
+        answerCField.setText(answCText);
+        answerDField.setText(answDText);
+
+        int position = ((ArrayAdapter) spinner.getAdapter()).getPosition(correctAnswText);
+        spinner.setSelection(position);
     }
 
     public void addItemOnSpinner() {
@@ -87,9 +136,6 @@ public class AddQuestionFragment extends Fragment implements View.OnClickListene
         optionsSubjects.add("Select a subject");
         getAllSubjects();
 
-        // dont know if necessary
-//        Collections.sort(options, (o1, o2) -> o1.compareTo(o2));
-
         ArrayAdapter<String> dataAdapter = new ArrayAdapter<String>(getActivity().getApplicationContext(), android.R.layout.simple_spinner_item, optionsSubjects);
         dataAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
 
@@ -108,6 +154,12 @@ public class AddQuestionFragment extends Fragment implements View.OnClickListene
                             optionsSubjects.add(ii.getValue().toString());
                         }
                     }
+                }
+
+                if (idQ != null) {
+                    int positionSubject = ((ArrayAdapter) spinnerSubject.getAdapter()).getPosition(subjectText);
+                    spinnerSubject.setSelection(positionSubject);
+                    spinnerSubject.setEnabled(false);
                 }
             }
 
@@ -195,11 +247,76 @@ public class AddQuestionFragment extends Fragment implements View.OnClickListene
         });
     }
 
-    @Override
-    public void onClick(View v) {
-        int i = v.getId();
-        if (i == R.id.saveButton) {
-            addQuestion();
+    public void editQuestion() {
+        String question = "", answA = "", answB = "", answC = "", answD = "", course = "", correctAnsw = "";
+        int count = 0;
+
+        if (!questionField.getText().toString().equals(questionText)) {
+            if (questionField.getText().toString().isEmpty()) {
+                Toast.makeText(getActivity().getApplicationContext(), getString(R.string.noFieldEmpty), Toast.LENGTH_LONG).show();
+                return;
+            }
+            question = questionField.getText().toString().trim();
+            mDatabase.child(idQ).child("question").setValue(question);
+            count++;
+        }
+        if (!courseField.getText().toString().equals(courseText)) {
+            if (courseField.getText().toString().isEmpty()) {
+                Toast.makeText(getActivity().getApplicationContext(), getString(R.string.noFieldEmpty), Toast.LENGTH_LONG).show();
+                return;
+            }
+            course = "Course " +  courseField.getText().toString().trim();
+            mDatabase.child(idQ).child("course").setValue(course);
+            count++;
+        }
+        if (!answerAField.getText().toString().equals(answAText)) {
+            if (answerAField.getText().toString().isEmpty()) {
+                Toast.makeText(getActivity().getApplicationContext(), getString(R.string.noFieldEmpty), Toast.LENGTH_LONG).show();
+                return;
+            }
+            answA = answerAField.getText().toString().trim();
+            mDatabase.child(idQ).child("answerA").setValue(answA);
+            count++;
+        }
+        if (!answerBField.getText().toString().equals(answBText)) {
+            if (answerBField.getText().toString().isEmpty()) {
+                Toast.makeText(getActivity().getApplicationContext(), getString(R.string.noFieldEmpty), Toast.LENGTH_LONG).show();
+                return;
+            }
+            answB = answerBField.getText().toString().trim();
+            mDatabase.child(idQ).child("answerB").setValue(answB);
+            count++;
+        }
+        if (!answerCField.getText().toString().equals(answCText)) {
+            if (answerCField.getText().toString().isEmpty()) {
+                Toast.makeText(getActivity().getApplicationContext(), getString(R.string.noFieldEmpty), Toast.LENGTH_LONG).show();
+                return;
+            }
+            answC = answerCField.getText().toString().trim();
+            mDatabase.child(idQ).child("answerC").setValue(answC);
+            count++;
+        }
+        if (!answerDField.getText().toString().equals(answDText)) {
+            if (answerDField.getText().toString().isEmpty()) {
+                Toast.makeText(getActivity().getApplicationContext(), getString(R.string.noFieldEmpty), Toast.LENGTH_LONG).show();
+                return;
+            }
+            answD = answerDField.getText().toString().trim();
+            mDatabase.child(idQ).child("answerD").setValue(answD);
+            count++;
+        }
+        if (!spinner.getSelectedItem().toString().equals(correctAnswText)) {
+            if (answerDField.getText().toString().isEmpty()) {
+                Toast.makeText(getActivity().getApplicationContext(), getString(R.string.noFieldEmpty), Toast.LENGTH_LONG).show();
+                return;
+            }
+            correctAnsw = answerDField.getText().toString().trim();
+            mDatabase.child(idQ).child("correctAnswer").setValue(correctAnsw);
+            count++;
+        }
+
+        if (count != 0) {
+            Toast.makeText(getActivity().getApplicationContext(), getString(R.string.editQSucceded), Toast.LENGTH_LONG).show();
         }
     }
 }
