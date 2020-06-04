@@ -7,59 +7,46 @@
     android:background="#FFFFFF"
     android:orientation="vertical">
 
-    <TableLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content">
-
-        <TableRow
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:padding="10dp">
-
-            <android.support.design.widget.TextInputLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:theme="@style/TextLabel">
-
-                <android.support.design.widget.TextInputEditText
-                    android:id="@+id/newSubjectField"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:drawableStart="@drawable/ic_topic_black_18dp"
-                    android:drawablePadding="10dp"
-                    android:ems="15"
-                    android:fontFamily="sans-serif-light"
-                    android:hint="New subject"
-                    android:inputType="textCapSentences" />
-            </android.support.design.widget.TextInputLayout>
-
-        </TableRow>
-
-    </TableLayout>
-
-    <Space
-        android:layout_width="match_parent"
-        android:layout_height="30dp" />
-
     <android.support.constraint.ConstraintLayout
-        android:id="@+id/tableLayout"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="match_parent">
 
+        <android.support.design.widget.TextInputLayout
+            android:id="@+id/textInputLayout"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:theme="@style/TextLabel"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.494"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
+
+            <android.support.design.widget.TextInputEditText
+                android:id="@+id/newSubjectField"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:drawableStart="@drawable/ic_topic_black_18dp"
+                android:drawablePadding="10dp"
+                android:ems="15"
+                android:fontFamily="sans-serif-light"
+                android:hint="New subject"
+                android:inputType="textCapSentences" />
+        </android.support.design.widget.TextInputLayout>
 
         <Button
             android:id="@+id/saveSubjectButton"
             style="@style/button_style"
             android:layout_width="wrap_content"
             android:layout_height="40dp"
+            android:layout_marginTop="40dp"
             android:text="Add subject"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.498"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/textInputLayout"
             app:layout_constraintVertical_bias="0.0" />
-
-
     </android.support.constraint.ConstraintLayout>
 
 </LinearLayout>
