@@ -98,6 +98,8 @@ public class QuizActivity extends Activity {
 
         paused = true;
 
+        animator.setDuration(0);
+
         if (!submitted) {                             // submit not pressed
             if (qAnswered) {              // just see the activity
                 return;
@@ -398,6 +400,8 @@ public class QuizActivity extends Activity {
             public void onAnimationEnd(Animator animation) {
                 super.onAnimationEnd(animation);
 
+                animator.setDuration(0);
+
                 if (!submitted) {
                     if (paused) {
                         return;
@@ -458,29 +462,31 @@ public class QuizActivity extends Activity {
 
     @Override
     public void onBackPressed() {
-//        super.onBackPressed();
+        if (animator.getDuration() != 0) {
+            DialogInterface.OnClickListener dialogClickListener = new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                    switch (which) {
+                        case DialogInterface.BUTTON_POSITIVE:
+                            //Yes button clicked
+                            Intent intent = new Intent(QuizActivity.this, StudentMenuActivity.class);
+                            startActivity(intent);
+                            break;
 
-        DialogInterface.OnClickListener dialogClickListener = new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-                switch (which) {
-                    case DialogInterface.BUTTON_POSITIVE:
-                        //Yes button clicked
-                        Intent intent = new Intent(QuizActivity.this, StudentMenuActivity.class);
-                        startActivity(intent);
-                        break;
-
-                    case DialogInterface.BUTTON_NEGATIVE:
-                        //No button clicked
-                        break;
+                        case DialogInterface.BUTTON_NEGATIVE:
+                            //No button clicked
+                            break;
+                    }
                 }
-            }
-        };
+            };
 
-        Context context = this;
-        AlertDialog.Builder builder = new AlertDialog.Builder(context);
-        builder.setMessage("Are you sure you want to exit the quiz? You won't be able to take it again!").
-                setPositiveButton("Yes", dialogClickListener).setNegativeButton("No", dialogClickListener).show();
-
+            Context context = this;
+            AlertDialog.Builder builder = new AlertDialog.Builder(context);
+            builder.setMessage("Are you sure you want to exit the quiz? You won't be able to take it again!").
+                    setPositiveButton("Yes", dialogClickListener).setNegativeButton("No", dialogClickListener).show();
+        } else {
+            Intent intent = new Intent(QuizActivity.this, StudentMenuActivity.class);
+            startActivity(intent);
+        }
     }
 }
