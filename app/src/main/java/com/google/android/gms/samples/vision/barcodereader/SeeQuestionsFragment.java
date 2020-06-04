@@ -42,6 +42,8 @@ public class SeeQuestionsFragment extends Fragment implements SeeQuestionListene
     Spinner spinner, spinnerSubject;
     ImageButton createTestButton;
 
+    Question questionForQR;
+
     List<Question> questions = new ArrayList<>();
     List<Question> questionsBySubject = new ArrayList<>();
     List<Question> questionsByCourse = new ArrayList<>();
@@ -294,6 +296,8 @@ public class SeeQuestionsFragment extends Fragment implements SeeQuestionListene
             Toast.makeText(getActivity().getApplicationContext(), R.string.selectASubject, Toast.LENGTH_SHORT).show();
         } else {
             ((ProfessorMenuActivity) getActivity()).addFragment(generateQRFragment);
+
+            questionForQR = selectedQuestion;
         }
     }
 
@@ -378,11 +382,12 @@ public class SeeQuestionsFragment extends Fragment implements SeeQuestionListene
     }
 
     public void refresh() {
+        questionForQR.setIsQrGenerated(true);
         if (spinnerSubject.getSelectedItem().toString().trim().equals("All subjects")) {
             adapter.updateQ(questions);
         } else if (spinner.getSelectedItem().toString().trim().equals("All courses")) {
             adapter.updateQ(questionsBySubject);
-        } else { 
+        } else {
             adapter.updateQ(questionsByCourse);
         }
 

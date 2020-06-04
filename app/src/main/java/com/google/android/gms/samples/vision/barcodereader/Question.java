@@ -8,7 +8,7 @@ public class Question {
     String idProfessor;
     String subject;
 
-    boolean isQrGenerated;
+    boolean isQrGenerated = false;
 
     // for "Add question to test"
     boolean isSelected = false;    // has not been selected
@@ -31,6 +31,7 @@ public class Question {
         this.subject = subject;
 
         isSelected = false;
+        isQrGenerated = false;
     }
 
     public Question(String key, String question, String course, String answerA, String answerB, String answerC, String answerD,
