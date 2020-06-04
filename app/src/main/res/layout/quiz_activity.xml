@@ -9,143 +9,116 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:background="#FFFFFF"
         android:orientation="vertical">
 
-        <Space
+        <android.support.constraint.ConstraintLayout
+            android:id="@+id/tableLayout4"
             android:layout_width="match_parent"
-            android:layout_height="80dp" />
+            android:layout_height="wrap_content"
+            android:background="#FFFFFF">
 
-        <TableLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            <TextView
+                android:id="@+id/questionText"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="20dp"
+                android:layout_marginTop="60dp"
+                android:ems="11"
+                android:fontFamily="sans-serif-light"
+                android:inputType="textMultiLine"
+                android:textSize="18sp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
 
-            <TableRow
-                android:layout_width="match_parent"
-                android:layout_height="match_parent">
+            <RadioGroup
+                android:id="@+id/answersGroup"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="20dp"
+                android:layout_marginTop="20dp"
+                android:layout_marginBottom="40dp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/questionText">
 
-                <Space
-                    android:layout_width="20dp"
-                    android:layout_height="wrap_content" />
-
-                <TextView
-                    android:id="@+id/questionText"
-                    android:layout_width="wrap_content"
+                <RadioButton
+                    android:id="@+id/answerA"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:ems="11"
                     android:fontFamily="sans-serif-light"
                     android:inputType="textMultiLine"
-                    android:textSize="18sp" />
-            </TableRow>
+                    android:visibility="invisible" />
 
-            <TableRow
-                android:layout_width="match_parent"
-                android:layout_height="match_parent">
+                <RadioButton
+                    android:id="@+id/answerB"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:ems="11"
+                    android:fontFamily="sans-serif-light"
+                    android:inputType="textMultiLine"
+                    android:visibility="invisible" />
 
-                <Space
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content" />
+                <RadioButton
+                    android:id="@+id/answerC"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:ems="11"
+                    android:fontFamily="sans-serif-light"
+                    android:inputType="textMultiLine"
+                    android:visibility="invisible" />
 
-                <RadioGroup
-                    android:id="@+id/answersGroup"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content">
+                <RadioButton
+                    android:id="@+id/answerD"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:ems="11"
+                    android:fontFamily="sans-serif-light"
+                    android:inputType="textMultiLine"
+                    android:visibility="invisible" />
+            </RadioGroup>
 
-                    <RadioButton
-                        android:id="@+id/answerA"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:ems="11"
-                        android:fontFamily="sans-serif-light"
-                        android:inputType="textMultiLine"
-                        android:visibility="invisible" />
+        </android.support.constraint.ConstraintLayout>
 
-                    <RadioButton
-                        android:id="@+id/answerB"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:ems="11"
-                        android:fontFamily="sans-serif-light"
-                        android:inputType="textMultiLine"
-                        android:visibility="invisible" />
-
-                    <RadioButton
-                        android:id="@+id/answerC"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:ems="11"
-                        android:fontFamily="sans-serif-light"
-                        android:inputType="textMultiLine"
-                        android:visibility="invisible" />
-
-                    <RadioButton
-                        android:id="@+id/answerD"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:ems="11"
-                        android:fontFamily="sans-serif-light"
-                        android:inputType="textMultiLine"
-                        android:visibility="invisible" />
-                </RadioGroup>
-
-            </TableRow>
-
-        </TableLayout>
-
-        <Space
+        <android.support.constraint.ConstraintLayout
+            android:id="@+id/linearLayout14"
             android:layout_width="match_parent"
-            android:layout_height="20dp" />
-
-        <LinearLayout
-            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:orientation="horizontal">
-
-            <Space
-                android:layout_width="150dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1" />
+            android:background="#FFFFFF">
 
             <TextView
                 android:id="@+id/questionNumber"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:fontFamily="sans-serif-light" />
+                android:layout_marginBottom="80dp"
+                android:fontFamily="sans-serif-light"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
 
-            <Space
-                android:layout_width="wrap_content"
+        </android.support.constraint.ConstraintLayout>
+
+        <android.support.constraint.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="#FFFFFF">
+
+            <ProgressBar
+                android:id="@+id/progressBarHoriz"
+                style="@android:style/Widget.DeviceDefault.Light.ProgressBar.Horizontal"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_weight="1" />
-
-        </LinearLayout>
-
-        <Space
-            android:layout_width="match_parent"
-            android:layout_height="100dp" />
-
-        <ProgressBar
-            android:id="@+id/progressBarHoriz"
-            style="@android:style/Widget.DeviceDefault.Light.ProgressBar.Horizontal"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:background="#00009688"
-            android:progress="100"
-            android:progressBackgroundTint="#FFFFFFFF"
-            android:progressTint="#f9ba10" />
-
-        <Space
-            android:layout_width="match_parent"
-            android:layout_height="30dp" />
-
-        <LinearLayout
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal">
-
-            <Space
-                android:layout_width="160dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1" />
+                android:layout_marginTop="75dp"
+                android:background="#00009688"
+                android:progress="100"
+                android:progressBackgroundTint="#FFFFFFFF"
+                android:progressTint="#f9ba10"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.0"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
 
             <Button
                 android:id="@+id/submit"
@@ -153,23 +126,25 @@
                 android:layout_width="wrap_content"
                 android:layout_height="40dp"
                 android:text="Submit"
-                android:visibility="invisible" />
+                android:visibility="visible"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.498"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/progressBarHoriz"
+                app:layout_constraintVertical_bias="0.454" />
 
-        </LinearLayout>
-
-        <Space
-            android:layout_width="match_parent"
-            android:layout_height="50dp" />
-
-        <ProgressBar
-            android:id="@+id/progressBar"
-            style="?android:attr/progressBarStyle"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
-
-        <Space
-            android:layout_width="match_parent"
-            android:layout_height="30dp" />
+            <ProgressBar
+                android:id="@+id/progressBar"
+                style="?android:attr/progressBarStyle"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="36dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="1.0"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/progressBarHoriz" />
+        </android.support.constraint.ConstraintLayout>
 
     </LinearLayout>
 
