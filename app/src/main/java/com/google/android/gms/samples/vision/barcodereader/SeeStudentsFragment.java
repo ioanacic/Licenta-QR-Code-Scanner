@@ -1,5 +1,7 @@
 package com.google.android.gms.samples.vision.barcodereader;
 
+import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
 import android.support.annotation.NonNull;
@@ -25,6 +27,7 @@ import com.google.firebase.database.ValueEventListener;
 
 import java.io.File;
 import java.io.FileWriter;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -37,7 +40,7 @@ public class SeeStudentsFragment extends Fragment {
     private FirebaseAuth mAuth;
 
     Spinner spinner;
-    ImageButton saveFile;
+    ImageButton saveFile, sendFileToEmail;
 
     List<Student> students = new ArrayList<>();
     List<Question> questions = new ArrayList<>();
@@ -67,8 +70,19 @@ public class SeeStudentsFragment extends Fragment {
         saveFile.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                saveCsvFile();
-                Toast.makeText(getActivity().getApplicationContext(), R.string.csvFileSaved, Toast.LENGTH_SHORT).show();
+                try {
+                    saveCsvFile();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+        });
+
+        sendFileToEmail = (ImageButton) rootView.findViewById(R.id.sendFileToEmail);
+        sendFileToEmail.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                sendFileToEmail();
             }
         });
 
@@ -313,7 +327,7 @@ public class SeeStudentsFragment extends Fragment {
         return subjects;
     }
 
-    public void saveCsvFile() {
+    public void saveCsvFile() throws IOException {
         // HOW IT S DONE - poti salva doar daca a selectat o grupa, iar pt o grupa salveaza scorurile pentru fiecare materie
         String groupNumber = spinner.getSelectedItem().toString().trim();
         if (groupNumber.equals("All groups")) {
@@ -347,7 +361,6 @@ public class SeeStudentsFragment extends Fragment {
                         fw.append(s);
                         fw.append(';');
                     }
-
 
                     fw.append('\n');
 
@@ -398,5 +411,106 @@ public class SeeStudentsFragment extends Fragment {
                 }
             }
         }.start();
+
+
+        Toast.makeText(getActivity().getApplicationContext(), R.string.csvFileSaved, Toast.LENGTH_SHORT).show();
+    }
+
+    public void sendFileToEmail() {
+        String groupNumber = spinner.getSelectedItem().toString().trim();
+        if (groupNumber.equals("All groups")) {
+            Toast.makeText(getActivity().getApplicationContext(), R.string.selectAGroup, Toast.LENGTH_SHORT).show();
+            return;
+        }
+
+        File filepath = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOCUMENTS);
+        File dir;
+        String addToPath = "/Quiz Results/";
+        dir = new File(filepath.getAbsoluteFile() + addToPath);
+        dir.mkdir();
+
+        final String filename = dir.toString() + "/" + groupNumber + ".csv";
+
+        File f = new File(filename);
+
+        List<String> subjects = getAllSubjects();
+
+        new Thread() {
+            public void run() {
+                try {
+
+                    FileWriter fw = new FileWriter(filename);
+
+                    fw.append("Nr. crt.");
+                    fw.append(';');
+
+                    fw.append("Nume complet");
+                    fw.append(';');
+
+                    for (String s : subjects) {
+                        fw.append(s);
+                        fw.append(';');
+                    }
+
+                    fw.append('\n');
+
+                    Integer i = 1;
+                    for (Student st : selectedStudents) {
+                        fw.append(i.toString());
+                        fw.append(';');
+
+                        fw.append(st.getLastName() + " " + st.getFirstName());
+                        fw.append(';');
+
+                        List<AnsweredQuestion> aqList = st.getAnswers();
+
+                        for (AnsweredQuestion aq : aqList) {
+                            for (String s : subjects) {
+                                if (aq.getSubject().equals(s)) {
+                                    if (aq.isCorrect()) {
+                                        String score = scorePerSubject.get(s);
+                                        Double scoreDouble = Double.parseDouble(score);
+                                        scoreDouble += 0.1;
+
+                                        score = scoreDouble.toString();
+                                        score = score.substring(0, 3);
+
+                                        scorePerSubject.put(s, score);
+                                    }
+                                }
+                            }
+                        }
+
+                        i++;
+
+                        for (Map.Entry entry : scorePerSubject.entrySet()) {
+                            fw.append(entry.getValue().toString());
+                            fw.append(';');
+                        }
+
+                        fw.append('\n');
+                    }
+
+                    // fw.flush();
+                    fw.close();
+
+
+                    scorePerSubject.clear();
+
+                } catch (Exception e) {
+                }
+            }
+        }.start();
+
+        Uri fileUri = GenericFileProvider.getUriForFile(getActivity().getApplicationContext(),
+                getActivity().getApplicationContext().getPackageName() + ".provider", f);
+
+        Intent emailIntent = new Intent(android.content.Intent.ACTION_SEND);
+        emailIntent.setType("*/*");
+        emailIntent.putExtra(android.content.Intent.EXTRA_EMAIL, new String[] {mAuth.getCurrentUser().getEmail()});
+        emailIntent.putExtra(android.content.Intent.EXTRA_SUBJECT, groupNumber + " results");
+        emailIntent.putExtra(android.content.Intent.EXTRA_STREAM, fileUri);
+        emailIntent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
+        startActivity(Intent.createChooser(emailIntent, "Send mail"));
     }
 }

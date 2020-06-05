@@ -10,28 +10,45 @@
     <Spinner
         android:id="@+id/groupsOptions"
         style="@style/spinnerItemStyle"
-        android:layout_width="300dp"
+        android:layout_width="250dp"
         android:layout_height="50dp"
         android:layout_marginStart="3dp"
         android:layout_marginTop="3dp"
         android:background="@drawable/spinner_background"
+        app:layout_constraintEnd_toStartOf="@+id/saveFile"
+        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
     <ImageButton
         android:id="@+id/saveFile"
-        android:layout_width="wrap_content"
-        android:layout_height="50dp"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
         android:layout_marginTop="3dp"
-        android:layout_marginEnd="5dp"
+        android:layout_marginEnd="12dp"
         android:adjustViewBounds="true"
         android:background="@null"
         android:scaleType="fitCenter"
         android:src="@drawable/ic_save_alt_black_18dp_1"
+        app:layout_constraintBottom_toTopOf="@+id/my_recycler_view_students"
+        app:layout_constraintEnd_toStartOf="@+id/sendFileToEmail"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="1.0" />
+
+    <ImageButton
+        android:id="@+id/sendFileToEmail"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:layout_marginTop="3dp"
+        android:layout_marginEnd="8dp"
+        android:adjustViewBounds="true"
+        android:background="@null"
+        android:scaleType="fitCenter"
+        android:src="@drawable/ic_email_black_18dp"
+        app:layout_constraintBottom_toTopOf="@+id/my_recycler_view_students"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="1.0"
-        app:layout_constraintStart_toEndOf="@+id/groupsOptions"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="1.0" />
 
     <android.support.v7.widget.RecyclerView
         android:id="@+id/my_recycler_view_students"
