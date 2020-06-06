@@ -286,8 +286,8 @@ public class SeeQuestionsFragment extends Fragment implements SeeQuestionListene
     public void onViewClicked(Question selectedQuestion) {
         String key = selectedQuestion.getKey();
         String subject = spinnerSubject.getSelectedItem().toString().trim();
-        String course = selectedQuestion.getCourse();
-        String statement = selectedQuestion.getQuestion();
+        String course = selectedQuestion.getCourse().trim();
+        String statement = selectedQuestion.getQuestion().trim();
 
         GenerateQRFragment generateQRFragment = new GenerateQRFragment();
         generateQRFragment.setup(key, subject, course, "question", statement);

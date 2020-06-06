@@ -85,7 +85,16 @@ public class SeeTestsFragment extends Fragment implements View.OnClickListener {
                         String key = selectedTest.getKey();
 
                         GenerateQRFragment generateQRFragment = new GenerateQRFragment();
-                        generateQRFragment.setup(key, "test");
+
+                        String[] components = selectedTest.getTitle().split("-");
+                        String subject = components[0].trim();
+                        String course;
+                        if (components.length == 2) {
+                            course = components[1].trim();
+                            generateQRFragment.setup(key, "test", subject, course);
+                        } else {
+                            generateQRFragment.setup(key, "test", subject);
+                        }
 
                         ((ProfessorMenuActivity) getActivity()).addFragment(generateQRFragment);
                     }

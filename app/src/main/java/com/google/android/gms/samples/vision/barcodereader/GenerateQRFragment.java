@@ -1,6 +1,5 @@
 package com.google.android.gms.samples.vision.barcodereader;
 
-import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.Point;
 import android.os.Bundle;
@@ -8,21 +7,16 @@ import android.os.Environment;
 import android.support.design.widget.TextInputEditText;
 import android.support.design.widget.TextInputLayout;
 import android.support.v4.app.Fragment;
-import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.Display;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.WindowManager;
-import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.ImageView;
-import android.widget.Spinner;
-import android.widget.TextView;
 import android.widget.Toast;
 
-import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.zxing.WriterException;
 
@@ -49,7 +43,7 @@ public class GenerateQRFragment extends Fragment implements View.OnClickListener
     String inputValue;
     boolean show = false;
 
-    String keyOfSelectedQuestion, subjectOfSelectedQuestion, courseOfSelectedQuestion, type, statement;
+    String keyOfSelectedQuiz, subjectOfSelectedQuestion, courseOfSelectedQuestion, type, statement, subject, course;
 
     Bitmap bitmap;
     QRGEncoder qrgEncoder;
@@ -65,9 +59,11 @@ public class GenerateQRFragment extends Fragment implements View.OnClickListener
 
         rootView.findViewById(R.id.infoRenameButton).setOnClickListener(this);
         renameLayout = rootView.findViewById(R.id.renameLayout);
-        renameLayout.setErrorTextAppearance(R.style.error_appearance);;
+        renameLayout.setErrorTextAppearance(R.style.error_appearance);
 
-        inputValue = keyOfSelectedQuestion.trim();
+        inputValue = keyOfSelectedQuiz.trim();
+
+
         if (inputValue.length() > 0) {
             WindowManager manager = (WindowManager) getActivity().getSystemService(WINDOW_SERVICE);
             Display display = manager.getDefaultDisplay();
@@ -99,21 +95,80 @@ public class GenerateQRFragment extends Fragment implements View.OnClickListener
 
                 File filepath = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DCIM);
                 File dir;
-                String addToPath1 = "/QRCodes/" + subjectOfSelectedQuestion + "/";
+
+                String pictureName;
+
+                String subjectTitle = "", courseTitle = "";
+
+                if (subjectOfSelectedQuestion != null) {
+                    subjectTitle = subjectOfSelectedQuestion;
+                }
+                if (subject != null) {
+                    subjectTitle = subject;
+                }
+
+                if (courseOfSelectedQuestion != null) {
+                    courseTitle = courseOfSelectedQuestion;
+                }
+                if (course != null) {
+                    courseTitle = course;
+                }
+
+                // question
+                String addToPath1 = "/QRCodes/" + subjectTitle + "/";
                 dir = new File(filepath.getAbsoluteFile() + addToPath1);
                 dir.mkdir();
 
-                String addToPath2 = addToPath1 + courseOfSelectedQuestion + "/";
-                dir = new File(filepath.getAbsoluteFile() + addToPath2);
-                dir.mkdir();
-
-
-                String pictureName;
-                if (renamePicture.getText().toString().isEmpty()) {
-                    pictureName = statement;
+                if (type.equals("question")) {
+                    // question
+                    String addToPath2 = addToPath1 + courseOfSelectedQuestion + "/";
+                    dir = new File(filepath.getAbsoluteFile() + addToPath2);
+                    dir.mkdir();
                 } else {
-                    pictureName = renamePicture.getText().toString();
+                    // test
+                    String addToPath3 = addToPath1 + "Tests" + "/";
+                    dir = new File(filepath.getAbsoluteFile() + addToPath3);
+                    dir.mkdir();
+
+                    if (!courseTitle.equals("")) {
+                        String addToPath4 = addToPath3 + courseTitle + "/";
+                        dir = new File(filepath.getAbsoluteFile() + addToPath4);
+                        dir.mkdir();
+                    }
                 }
+
+
+//                    String addToPath2 = addToPath1 + subjectTitle + "/";
+//                    dir = new File(filepath.getAbsoluteFile() + addToPath2);
+//                    dir.mkdir();
+//
+//
+////                }
+//
+//                if (type.equals("question")) {
+//                    String addToPath2 = addToPath1 + courseTitle + "/";
+//                    dir = new File(filepath.getAbsoluteFile() + addToPath2);
+//                    dir.mkdir();
+//                } else {
+//                    String addToPath3 = addToPath1 + "Tests" + "/";
+//                    dir = new File(filepath.getAbsoluteFile() + addToPath3);
+//                    dir.mkdir();
+//                }
+
+                if (type.equals("question")) {
+                    if (renamePicture.getText().toString().isEmpty()) {
+                        pictureName = statement;
+                    } else {
+                        pictureName = renamePicture.getText().toString();
+                    }
+                } else {
+                    if (renamePicture.getText().toString().isEmpty()) {
+                        pictureName = keyOfSelectedQuiz;
+                    } else {
+                        pictureName = renamePicture.getText().toString();
+                    }
+                }
+
                 File file = new File(dir, pictureName + ".jpg");
 
                 try {
@@ -123,14 +178,16 @@ public class GenerateQRFragment extends Fragment implements View.OnClickListener
                 }
                 bitmap.compress(Bitmap.CompressFormat.JPEG, 100, outputStream);
                 try {
-                    save = QRGSaver.save(filepath.toString(), keyOfSelectedQuestion.trim(), bitmap, QRGContents.ImageType.IMAGE_JPEG);
+                    save = QRGSaver.save(filepath.toString(), keyOfSelectedQuiz.trim(), bitmap, QRGContents.ImageType.IMAGE_JPEG);
                     result = save ? "Image Saved" : "Image Not Saved";
                     Toast.makeText(getActivity().getApplicationContext(), result, Toast.LENGTH_SHORT).show();
 
-                    FirebaseDatabase.getInstance().getReference("questions").child(keyOfSelectedQuestion).child("isQrGenerated").setValue(true);
+                    FirebaseDatabase.getInstance().getReference("questions").child(keyOfSelectedQuiz).child("isQrGenerated").setValue(true);
 
-                    ((ProfessorMenuActivity) getActivity()).refresh();
-                    getActivity().getSupportFragmentManager().popBackStack();
+                    if (type.equals("question")) {
+                        ((ProfessorMenuActivity) getActivity()).refresh();
+                        getActivity().getSupportFragmentManager().popBackStack();
+                    }
                 } catch (WriterException e) {
                     e.printStackTrace();
                 }
@@ -151,16 +208,24 @@ public class GenerateQRFragment extends Fragment implements View.OnClickListener
     }
 
     public void setup(String keyOfSelectedQuestion, String subjectOfSelectedQuestion, String courseOfSelectedQuestion, String type, String statement) {
-        this.keyOfSelectedQuestion = keyOfSelectedQuestion;
+        this.keyOfSelectedQuiz = keyOfSelectedQuestion;
         this.subjectOfSelectedQuestion = subjectOfSelectedQuestion;
         this.courseOfSelectedQuestion = courseOfSelectedQuestion;
         this.type = type;
         this.statement = statement;
     }
 
-    public void setup(String keyOfSelectedQuestion, String type) {
-        this.keyOfSelectedQuestion = keyOfSelectedQuestion;
+    public void setup(String keyOfSelectedTest, String type, String subject, String course) {
+        this.keyOfSelectedQuiz = keyOfSelectedTest;
         this.type = type;
+        this.subject = subject;
+        this.course = course;
+    }
+
+    public void setup(String keyOfSelectedTest, String type, String subject) {
+        this.keyOfSelectedQuiz = keyOfSelectedTest;
+        this.type = type;
+        this.subject = subject;
     }
 
     @Override
