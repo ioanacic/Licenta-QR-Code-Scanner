@@ -317,6 +317,7 @@ public class AddQuestionFragment extends Fragment {
 
         if (count != 0) {
             Toast.makeText(getActivity().getApplicationContext(), getString(R.string.editQSucceded), Toast.LENGTH_LONG).show();
+            getActivity().getSupportFragmentManager().popBackStack();
         }
     }
 }

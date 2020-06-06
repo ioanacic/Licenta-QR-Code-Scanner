@@ -187,6 +187,8 @@ public class GenerateQRFragment extends Fragment implements View.OnClickListener
                     if (type.equals("question")) {
                         ((ProfessorMenuActivity) getActivity()).refresh();
                         getActivity().getSupportFragmentManager().popBackStack();
+                    } else {
+                        getActivity().getSupportFragmentManager().popBackStack();
                     }
                 } catch (WriterException e) {
                     e.printStackTrace();
