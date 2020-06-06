@@ -188,7 +188,8 @@ public class QuizActivity extends Activity {
 
         questionNumber.setText("Question:" + (count + 1) + "/" + test.getNumberOfQuestions());
         getData(test.getQuestionsId().get(count));
-        startAnimation();
+//        animator.setDuration(0);
+//        startAnimation();
     }
 
     public void getData(String questionId) {
