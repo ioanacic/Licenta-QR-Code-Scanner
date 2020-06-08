@@ -1,148 +1,114 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="#FFFFFF"
     android:orientation="vertical">
     tools:context="com.google.android.gms.samples.vision.barcodereader.SignInActivity"
 
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="300dp"
-        android:orientation="vertical">
-
-        <Space
-            android:layout_width="match_parent"
-            android:layout_height="100dp" />
-
-        <TableLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent">
-
-            <TableRow
-                android:layout_width="match_parent"
-                android:layout_height="match_parent">
-
-                <Space
-                    android:layout_width="10dp"
-                    android:layout_height="wrap_content" />
-
-                <android.support.design.widget.TextInputLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:theme="@style/TextLabel">
-
-                    <android.support.design.widget.TextInputEditText
-                        android:id="@+id/fieldEmail"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:drawableStart="@drawable/ic_email_black_18dp"
-                        android:drawablePadding="10dp"
-                        android:ems="15"
-                        android:fontFamily="sans-serif-light"
-                        android:hint="Email Address"
-                        android:inputType="textEmailAddress"
-                        android:text="secondstud@gmail.com" />
-                </android.support.design.widget.TextInputLayout>
-            </TableRow>
-
-            <TableRow
-                android:layout_width="match_parent"
-                android:layout_height="match_parent">
-
-                <Space
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content" />
-
-                <android.support.design.widget.TextInputLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:theme="@style/TextLabel"
-                    app:passwordToggleEnabled="true"
-                    app:passwordToggleTint="@color/common_google_signin_btn_text_light">
-
-                    <android.support.design.widget.TextInputEditText
-                        android:id="@+id/fieldPassword"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:drawableStart="@drawable/ic_lock_black_18dp"
-                        android:drawablePadding="10dp"
-                        android:ems="15"
-                        android:fontFamily="sans-serif-light"
-                        android:hint="Password"
-                        android:inputType="textPassword"
-                        android:text="newnew" />
-                </android.support.design.widget.TextInputLayout>
-
-            </TableRow>
-
-        </TableLayout>
-    </LinearLayout>
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="vertical">
-
-        <Space
-            android:layout_width="match_parent"
-            android:layout_height="30dp" />
-    </LinearLayout>
-
-    <TableLayout
+    <android.support.constraint.ConstraintLayout
+        android:id="@+id/linearLayout14"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-        <TableRow
-            android:layout_width="match_parent"
-            android:layout_height="match_parent">
+        <android.support.design.widget.TextInputLayout
+            android:id="@+id/textInputLayout2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="100dp"
+            android:theme="@style/TextLabel"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
 
-            <Space
-                android:layout_width="120dp"
-                android:layout_height="wrap_content" />
+            <android.support.design.widget.TextInputEditText
+                android:id="@+id/fieldEmail"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:drawableStart="@drawable/ic_email_black_18dp"
+                android:drawablePadding="10dp"
+                android:ems="15"
+                android:fontFamily="sans-serif-light"
+                android:hint="Email Address"
+                android:inputType="textEmailAddress"
+                android:text="secondstud@gmail.com" />
+        </android.support.design.widget.TextInputLayout>
 
-            <Button
-                android:id="@+id/emailSignInButton"
-                style="@style/button_style"
-                android:layout_width="wrap_content"
-                android:layout_height="40dp"
-                android:text="Sign in" />
+        <android.support.design.widget.TextInputLayout
+            android:id="@+id/textInputLayout3"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:theme="@style/TextLabel"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/textInputLayout2"
+            app:passwordToggleEnabled="true"
+            app:passwordToggleTint="@color/common_google_signin_btn_text_light">
 
-        </TableRow>
+            <android.support.design.widget.TextInputEditText
+                android:id="@+id/fieldPassword"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:drawableStart="@drawable/ic_lock_black_18dp"
+                android:drawablePadding="10dp"
+                android:ems="15"
+                android:fontFamily="sans-serif-light"
+                android:hint="Password"
+                android:inputType="textPassword"
+                android:text="newnew" />
+        </android.support.design.widget.TextInputLayout>
 
-        <TableRow
-            android:layout_width="match_parent"
-            android:layout_height="match_parent">
+        <Button
+            android:id="@+id/emailSignInButton"
+            style="@style/button_style"
+            android:layout_width="wrap_content"
+            android:layout_height="40dp"
+            android:layout_marginTop="70dp"
+            android:text="Sign in"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/textInputLayout3" />
 
-            <Space
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content" />
-
-            <Button
-                android:id="@+id/createStudentAccountButton"
-                style="@style/button_style"
-                android:layout_width="wrap_content"
-                android:layout_height="40dp"
-                android:text="Sign up Student" />
-        </TableRow>
-
-        <TableRow
-            android:layout_width="match_parent"
-            android:layout_height="match_parent">
-
-            <Space
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content" />
+        <android.support.constraint.ConstraintLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="100dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="1.0"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/emailSignInButton"
+            app:layout_constraintVertical_bias="0.062">
 
             <Button
                 android:id="@+id/createProfessorAccountButton"
-                style="@style/button_style"
-                android:layout_width="wrap_content"
+                style="@style/button_style_fill"
+                android:layout_width="135dp"
                 android:layout_height="40dp"
-                android:text="Sign up Professor" />
-        </TableRow>
+                android:layout_marginEnd="30dp"
+                android:text="Sign up Professor"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintVertical_bias="0.0" />
 
-    </TableLayout>
+            <Button
+                android:id="@+id/createStudentAccountButton"
+                style="@style/button_style_fill"
+                android:layout_width="135dp"
+                android:layout_height="40dp"
+                android:layout_marginStart="30dp"
+                android:text="Sign up Student"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toStartOf="@+id/createProfessorAccountButton"
+                app:layout_constraintHorizontal_bias="0.032"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintVertical_bias="0.0" />
+        </android.support.constraint.ConstraintLayout>
+
+    </android.support.constraint.ConstraintLayout>
 
 </LinearLayout>

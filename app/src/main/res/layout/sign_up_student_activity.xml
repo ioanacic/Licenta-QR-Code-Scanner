@@ -1,243 +1,192 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/linearLayout15"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="#FFFFFF"
     android:orientation="vertical">
     tools:context="com.google.android.gms.samples.vision.barcodereader.SignUpStudentActivity
 
-    <Space
-        android:layout_width="match_parent"
-        android:layout_height="80dp" />
 
     <ScrollView
+        android:id="@+id/scrollView3"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
 
-        <LinearLayout
+        <android.support.constraint.ConstraintLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical">
+            android:layout_height="wrap_content">
 
-            <TableLayout
-                android:layout_width="match_parent"
-                android:layout_height="410dp">
+            <android.support.design.widget.TextInputLayout
+                android:id="@+id/textInputLayout18"
+                android:layout_width="wrap_content"
+                android:layout_height="0dp"
+                android:layout_marginTop="50dp"
+                android:theme="@style/TextLabel"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent">
 
-                <TableRow
+                <android.support.design.widget.TextInputEditText
+                    android:id="@+id/fieldLastName"
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent">
+                    android:layout_height="wrap_content"
+                    android:drawableStart="@drawable/ic_person_black_18dp"
+                    android:drawablePadding="10dp"
+                    android:ems="15"
+                    android:fontFamily="sans-serif-light"
+                    android:hint="Last Name"
+                    android:inputType="textCapSentences" />
+            </android.support.design.widget.TextInputLayout>
 
-                    <Space
-                        android:layout_width="10dp"
-                        android:layout_height="wrap_content" />
+            <android.support.design.widget.TextInputLayout
+                android:id="@+id/textInputLayout19"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:theme="@style/TextLabel"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/textInputLayout18">
 
-                    <android.support.design.widget.TextInputLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:theme="@style/TextLabel">
-
-                        <android.support.design.widget.TextInputEditText
-                            android:id="@+id/fieldLastName"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:drawableStart="@drawable/ic_person_black_18dp"
-                            android:drawablePadding="10dp"
-                            android:ems="15"
-                            android:fontFamily="sans-serif-light"
-                            android:hint="Last Name"
-                            android:inputType="textCapSentences" />
-                    </android.support.design.widget.TextInputLayout>
-                </TableRow>
-
-                <TableRow
+                <android.support.design.widget.TextInputEditText
+                    android:id="@+id/fieldFirstName"
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent">
+                    android:layout_height="wrap_content"
+                    android:drawableStart="@drawable/ic_person_black_18dp"
+                    android:drawablePadding="10dp"
+                    android:ems="15"
+                    android:fontFamily="sans-serif-light"
+                    android:hint="First Name"
+                    android:inputType="textCapSentences" />
+            </android.support.design.widget.TextInputLayout>
 
-                    <Space
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content" />
+            <android.support.design.widget.TextInputLayout
+                android:id="@+id/textInputLayout20"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:theme="@style/TextLabel"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/textInputLayout19">
 
-                    <android.support.design.widget.TextInputLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:theme="@style/TextLabel">
-
-                        <android.support.design.widget.TextInputEditText
-                            android:id="@+id/fieldFirstName"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:drawableStart="@drawable/ic_person_black_18dp"
-                            android:drawablePadding="10dp"
-                            android:ems="15"
-                            android:fontFamily="sans-serif-light"
-                            android:hint="First Name"
-                            android:inputType="textCapSentences" />
-                    </android.support.design.widget.TextInputLayout>
-                </TableRow>
-
-                <TableRow
+                <android.support.design.widget.TextInputEditText
+                    android:id="@+id/fieldPhone"
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent">
+                    android:layout_height="wrap_content"
+                    android:drawableStart="@drawable/ic_call_black_18dp"
+                    android:drawablePadding="10dp"
+                    android:ems="15"
+                    android:fontFamily="sans-serif-light"
+                    android:hint="Phone"
+                    android:inputType="number" />
+            </android.support.design.widget.TextInputLayout>
 
-                    <Space
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content" />
+            <android.support.design.widget.TextInputLayout
+                android:id="@+id/textInputLayout21"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:theme="@style/TextLabel"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/textInputLayout20">
 
-                    <android.support.design.widget.TextInputLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:theme="@style/TextLabel">
-
-                        <android.support.design.widget.TextInputEditText
-                            android:id="@+id/fieldPhone"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:drawableStart="@drawable/ic_call_black_18dp"
-                            android:drawablePadding="10dp"
-                            android:ems="15"
-                            android:fontFamily="sans-serif-light"
-                            android:hint="Phone"
-                            android:inputType="number" />
-                    </android.support.design.widget.TextInputLayout>
-                </TableRow>
-
-                <TableRow
+                <android.support.design.widget.TextInputEditText
+                    android:id="@+id/fieldGroup"
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent">
+                    android:layout_height="wrap_content"
+                    android:drawableStart="@drawable/ic_group_black_18dp"
+                    android:drawablePadding="10dp"
+                    android:ems="15"
+                    android:fontFamily="sans-serif-light"
+                    android:hint="Group"
+                    android:inputType="textCapSentences" />
+            </android.support.design.widget.TextInputLayout>
 
-                    <Space
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content" />
+            <android.support.design.widget.TextInputLayout
+                android:id="@+id/textInputLayout22"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:theme="@style/TextLabel"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/textInputLayout21">
 
-                    <android.support.design.widget.TextInputLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:theme="@style/TextLabel">
-
-                        <android.support.design.widget.TextInputEditText
-                            android:id="@+id/fieldGroup"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:drawableStart="@drawable/ic_group_black_18dp"
-                            android:drawablePadding="10dp"
-                            android:ems="15"
-                            android:fontFamily="sans-serif-light"
-                            android:hint="Group"
-                            android:inputType="textCapSentences" />
-                    </android.support.design.widget.TextInputLayout>
-                </TableRow>
-
-                <TableRow
+                <android.support.design.widget.TextInputEditText
+                    android:id="@+id/fieldYearOfStudy"
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent">
+                    android:layout_height="wrap_content"
+                    android:drawableStart="@drawable/ic_event_black_18dp"
+                    android:drawablePadding="10dp"
+                    android:ems="15"
+                    android:fontFamily="sans-serif-light"
+                    android:hint="Year of study"
+                    android:inputType="number" />
+            </android.support.design.widget.TextInputLayout>
 
-                    <Space
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content" />
+            <android.support.design.widget.TextInputLayout
+                android:id="@+id/textInputLayout23"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:theme="@style/TextLabel"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/textInputLayout22">
 
-                    <android.support.design.widget.TextInputLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:theme="@style/TextLabel">
-
-                        <android.support.design.widget.TextInputEditText
-                            android:id="@+id/fieldYearOfStudy"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:drawableStart="@drawable/ic_event_black_18dp"
-                            android:drawablePadding="10dp"
-                            android:ems="15"
-                            android:fontFamily="sans-serif-light"
-                            android:hint="Year of study"
-                            android:inputType="number" />
-                    </android.support.design.widget.TextInputLayout>
-                </TableRow>
-
-                <TableRow
+                <android.support.design.widget.TextInputEditText
+                    android:id="@+id/fieldEmail"
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent">
+                    android:layout_height="wrap_content"
+                    android:drawableStart="@drawable/ic_email_black_18dp"
+                    android:drawablePadding="10dp"
+                    android:ems="15"
+                    android:fontFamily="sans-serif-light"
+                    android:hint="Email Address"
+                    android:inputType="textEmailAddress" />
+            </android.support.design.widget.TextInputLayout>
 
-                    <Space
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content" />
+            <android.support.design.widget.TextInputLayout
+                android:id="@+id/textInputLayout24"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:theme="@style/TextLabel"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/textInputLayout23"
+                app:passwordToggleEnabled="true"
+                app:passwordToggleTint="@color/common_google_signin_btn_text_dark">
 
-                    <android.support.design.widget.TextInputLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:theme="@style/TextLabel">
-
-                        <android.support.design.widget.TextInputEditText
-                            android:id="@+id/fieldEmail"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:drawableStart="@drawable/ic_email_black_18dp"
-                            android:drawablePadding="10dp"
-                            android:ems="15"
-                            android:fontFamily="sans-serif-light"
-                            android:hint="Email Address"
-                            android:inputType="textEmailAddress" />
-                    </android.support.design.widget.TextInputLayout>
-                </TableRow>
-
-                <TableRow
+                <android.support.design.widget.TextInputEditText
+                    android:id="@+id/fieldPassword"
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent">
+                    android:layout_height="wrap_content"
+                    android:drawableStart="@drawable/ic_lock_black_18dp"
+                    android:drawablePadding="10dp"
+                    android:ems="15"
+                    android:fontFamily="sans-serif-light"
+                    android:hint="Password"
+                    android:inputType="textPassword" />
+            </android.support.design.widget.TextInputLayout>
 
-                    <Space
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content" />
+            <Button
+                android:id="@+id/createStudAccount"
+                style="@style/button_style"
+                android:layout_width="wrap_content"
+                android:layout_height="40dp"
+                android:layout_marginTop="70dp"
+                android:layout_marginBottom="50dp"
+                android:layout_weight="1"
+                android:text="Create account"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/textInputLayout24" />
 
-                    <android.support.design.widget.TextInputLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:theme="@style/TextLabel"
-                        app:passwordToggleEnabled="true"
-                        app:passwordToggleTint="@color/common_google_signin_btn_text_dark">
-
-                        <android.support.design.widget.TextInputEditText
-                            android:id="@+id/fieldPassword"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:drawableStart="@drawable/ic_lock_black_18dp"
-                            android:drawablePadding="10dp"
-                            android:ems="15"
-                            android:fontFamily="sans-serif-light"
-                            android:hint="Password"
-                            android:inputType="textPassword" />
-                    </android.support.design.widget.TextInputLayout>
-                </TableRow>
-            </TableLayout>
-
-            <Space
-                android:layout_width="match_parent"
-                android:layout_height="50dp" />
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:orientation="horizontal">
-
-                <Space
-                    android:layout_width="150dp"
-                    android:layout_height="match_parent"
-                    android:layout_weight="1" />
-
-                <Button
-                    android:id="@+id/createStudAccount"
-                    style="@style/button_style"
-                    android:layout_width="wrap_content"
-                    android:layout_height="40dp"
-                    android:layout_weight="1"
-                    android:text="Create account" />
-
-                <Space
-                    android:layout_width="150dp"
-                    android:layout_height="match_parent"
-                    android:layout_weight="1" />
-
-            </LinearLayout>
-        </LinearLayout>
+        </android.support.constraint.ConstraintLayout>
     </ScrollView>
-
-</LinearLayout>
+</android.support.constraint.ConstraintLayout>

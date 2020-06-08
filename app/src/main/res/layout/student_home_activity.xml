@@ -39,14 +39,13 @@
         android:id="@+id/addContainer"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:padding="10dp">
+        android:paddingTop="20dp">
 
         <ImageView
             android:id="@+id/logoImageView"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="16dp"
-            android:paddingTop="15dp"
+            android:paddingTop="20dp"
             android:src="@drawable/logoapp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"

@@ -67,7 +67,7 @@
             android:id="@+id/infoRenameButton"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginEnd="16dp"
+            android:layout_marginEnd="15dp"
             android:background="@null"
             android:src="@drawable/ic_info_outline_black_24dp"
             app:layout_constraintBottom_toBottomOf="parent"
