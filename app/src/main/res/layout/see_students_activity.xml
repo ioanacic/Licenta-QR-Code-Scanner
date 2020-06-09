@@ -61,4 +61,14 @@
         app:layout_constraintTop_toBottomOf="@+id/groupsOptions"
         android:paddingTop="3dp"/>
 
+    <TextView
+        android:id="@+id/noDataLblS"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        style="@style/label_style"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
 </android.support.constraint.ConstraintLayout>

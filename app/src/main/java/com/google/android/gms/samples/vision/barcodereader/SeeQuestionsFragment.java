@@ -17,6 +17,7 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.Spinner;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.firebase.auth.FirebaseAuth;
@@ -41,6 +42,7 @@ public class SeeQuestionsFragment extends Fragment implements SeeQuestionListene
 
     Spinner spinner, spinnerSubject;
     ImageButton createTestButton;
+    TextView noDataLbl;
 
     Question questionForQR;
 
@@ -60,6 +62,7 @@ public class SeeQuestionsFragment extends Fragment implements SeeQuestionListene
         mAuth = FirebaseAuth.getInstance();
 
         recyclerView = (RecyclerView) rootView.findViewById(R.id.my_recycler_view);
+        noDataLbl = (TextView) rootView.findViewById(R.id.noDataLblQ);
 
         spinner = (Spinner) rootView.findViewById(R.id.coursesOptions);
         spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
@@ -125,9 +128,15 @@ public class SeeQuestionsFragment extends Fragment implements SeeQuestionListene
                         questions.add(q);
                     }
                 }
-                adapter.notifyDataSetChanged();
-//                addItemOnSpinner();
-                addItemOnSpinnerSubject();
+
+                if (!questions.isEmpty()) {
+                    noDataLbl.setVisibility(View.INVISIBLE);
+                    adapter.notifyDataSetChanged();
+                    addItemOnSpinnerSubject();
+                } else {
+                    noDataLbl.setVisibility(View.VISIBLE);
+                }
+
             }
 
             @Override
@@ -257,8 +266,6 @@ public class SeeQuestionsFragment extends Fragment implements SeeQuestionListene
         // without if condition = the button is selected, with DESELECT AND SELECT AGAIN can add the question to another test
 
         if (spinnerSubject.getSelectedItem().toString().trim().equals("All subjects")) {
-//            updateTestQs(questions, question);
-//            adapter.updateQ(questions);
             Toast.makeText(getActivity().getApplicationContext(), R.string.selectASubject, Toast.LENGTH_SHORT).show();
         } else if (spinner.getSelectedItem().toString().trim().equals("All courses")) {
             updateTestQs(questionsBySubject, selectedQuestion);
@@ -309,8 +316,10 @@ public class SeeQuestionsFragment extends Fragment implements SeeQuestionListene
                     case DialogInterface.BUTTON_POSITIVE:
                         //Yes button clicked
                         mDatabase.child(key).removeValue();
-                        Intent intent = new Intent(getActivity(), SeeQuestionsActivity.class);
-                        startActivity(intent);
+
+                        SeeQuestionsFragment seeQuestionsFragment = new SeeQuestionsFragment();
+                        FragmentTransaction transactionQuestions = getActivity().getSupportFragmentManager().beginTransaction();
+                        transactionQuestions.replace(R.id.fragmentContainer, seeQuestionsFragment).commit();
                         break;
 
                     case DialogInterface.BUTTON_NEGATIVE:

@@ -32,7 +32,7 @@ public class HistoryFragment extends Fragment {
     private FirebaseAuth mAuth;
     private DatabaseReference mDatabase, historyAsProfessor, historyAsStudent;
 
-    TextView yourScore, infoScore;
+    TextView yourScore, infoScore, noDataLbl;
     Spinner spinner;
     Double score = 0.0;
     String keyOfSelectedStudent;
@@ -49,6 +49,7 @@ public class HistoryFragment extends Fragment {
         yourScore = (TextView) rootView.findViewById(R.id.yourScore);
         infoScore = (TextView) rootView.findViewById(R.id.scoreTextView);
         infoScore.setVisibility(View.INVISIBLE);
+        noDataLbl = (TextView) rootView.findViewById(R.id.noDataLblH);
 
         spinner = (Spinner) rootView.findViewById(R.id.subjectsOptions);
         spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
@@ -113,7 +114,6 @@ public class HistoryFragment extends Fragment {
             // the professor
             historyAsProfessor = mDatabase.child(keyOfSelectedStudent);
             seeHistoryAs(historyAsProfessor);
-//            spinner.setVisibility(View.INVISIBLE);
         } else {
             // the student
             historyAsStudent = mDatabase.child(mAuth.getCurrentUser().getUid());
@@ -256,12 +256,15 @@ public class HistoryFragment extends Fragment {
                     }
                 }
                 if (!professorQuestionsAQ.isEmpty()) {
+                    noDataLbl.setVisibility(View.INVISIBLE);
                     adapter.updateQ(professorQuestionsAQ);
                     addItemsOnSpinnerProfessor();
-
-                } else {
+                } else if (!questionsAQ.isEmpty()){
+                    noDataLbl.setVisibility(View.INVISIBLE);
                     adapter.updateQ(questionsAQ);
                     addItemsOnSpinnerStudent();
+                } else {
+                    noDataLbl.setVisibility(View.VISIBLE);
                 }
             }
 

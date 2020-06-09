@@ -16,6 +16,7 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.Spinner;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.firebase.auth.FirebaseAuth;
@@ -41,6 +42,7 @@ public class SeeStudentsFragment extends Fragment {
 
     Spinner spinner;
     ImageButton saveFile, sendFileToEmail;
+    TextView noDataLbl;
 
     List<Student> students = new ArrayList<>();
     List<Question> questions = new ArrayList<>();
@@ -52,6 +54,7 @@ public class SeeStudentsFragment extends Fragment {
         View rootView = inflater.inflate(R.layout.see_students_activity, container, false);
 
         recyclerView = (RecyclerView) rootView.findViewById(R.id.my_recycler_view_students);
+        noDataLbl = (TextView) rootView.findViewById(R.id.noDataLblS);
 
         spinner = (Spinner) rootView.findViewById(R.id.groupsOptions);
         spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
@@ -235,8 +238,14 @@ public class SeeStudentsFragment extends Fragment {
                 if (!aqListForProfessor.isEmpty()) {
                     addStudent(aqListForProfessor, lastName, firstName, group, year, key);
                 }
-                adapter.notifyDataSetChanged();
-                addItemOnSpinner();
+
+                if (!students.isEmpty()) {
+                    noDataLbl.setVisibility(View.INVISIBLE);
+                    adapter.notifyDataSetChanged();
+                    addItemOnSpinner();
+                } else {
+                    noDataLbl.setVisibility(View.VISIBLE);
+                }
             }
 
             @Override

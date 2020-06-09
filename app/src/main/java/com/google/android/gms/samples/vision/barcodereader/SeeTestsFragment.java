@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -14,6 +15,7 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Spinner;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.firebase.auth.FirebaseAuth;
@@ -37,6 +39,7 @@ public class SeeTestsFragment extends Fragment implements View.OnClickListener {
     private FirebaseAuth mAuth;
 
     Spinner spinner;
+    TextView noDataLbl;
 
     List<Test> tests = new ArrayList<>();
     List<Test> selectedTests = new ArrayList<>();
@@ -46,6 +49,7 @@ public class SeeTestsFragment extends Fragment implements View.OnClickListener {
         View rootView = inflater.inflate(R.layout.see_tests_activity, container, false);
 
         recyclerView = (RecyclerView) rootView.findViewById(R.id.my_recycler_view_tests);
+        noDataLbl = (TextView) rootView.findViewById(R.id.noDataLblT);
 
         spinner = (Spinner) rootView.findViewById(R.id.subjectsOptionsTests);
         spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
@@ -111,8 +115,10 @@ public class SeeTestsFragment extends Fragment implements View.OnClickListener {
                                         //Yes button clicked
 
                                         mDatabase.child(key).removeValue();
-                                        Intent intent = new Intent(getActivity(), SeeTestsActivity.class);
-                                        startActivity(intent);
+
+                                        SeeTestsFragment seeTestsFragment = new SeeTestsFragment();
+                                        FragmentTransaction transactionTests = getActivity().getSupportFragmentManager().beginTransaction();
+                                        transactionTests.replace(R.id.fragmentContainer, seeTestsFragment).commit();
                                         break;
 
                                     case DialogInterface.BUTTON_NEGATIVE:
@@ -136,7 +142,6 @@ public class SeeTestsFragment extends Fragment implements View.OnClickListener {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 Map<String, Object> map = (HashMap<String, Object>) dataSnapshot.getValue();
-                // TODO only the tests for logged professor
 
                 if (map != null) {      // there are tests
                     for (HashMap.Entry i : map.entrySet()) {
@@ -168,9 +173,15 @@ public class SeeTestsFragment extends Fragment implements View.OnClickListener {
                     }
                 }
 
-                adapter.notifyDataSetChanged();
-                adapter.updateT(tests);
-                addItemOnSpinner();
+                if (!tests.isEmpty()) {
+                    noDataLbl.setVisibility(View.INVISIBLE);
+                    adapter.notifyDataSetChanged();
+                    adapter.updateT(tests);
+                    addItemOnSpinner();
+                } else {
+                    noDataLbl.setVisibility(View.VISIBLE);
+                }
+
             }
 
             @Override
