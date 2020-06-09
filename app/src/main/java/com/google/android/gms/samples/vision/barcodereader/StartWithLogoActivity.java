@@ -66,7 +66,8 @@ public class StartWithLogoActivity extends Activity {
                 Intent intent;
                 if (typeOfUser == null) {
                     intent = new Intent(StartWithLogoActivity.this, SignInActivity.class);
-                } else if (typeOfUser.equals("S")) {       // is student
+                } else
+                    if (typeOfUser.equals("S")) {       // is student
                     intent = new Intent(StartWithLogoActivity.this, StudentMenuActivity.class);
                 } else {        // is professor
                     intent = new Intent(StartWithLogoActivity.this, ProfessorMenuActivity.class);
@@ -81,19 +82,19 @@ public class StartWithLogoActivity extends Activity {
         });
     }
 
-    @Override
-    protected void onResume() {
-        super.onResume();
-
-        mAuth = FirebaseAuth.getInstance();
-        if (mAuth.getCurrentUser() != null) {
-            getTypeOfUser();
-            return;
-        } else {
-            Intent intent = new Intent(StartWithLogoActivity.this, SignInActivity.class);
-            startActivity(intent);
-        }
-    }
+//    @Override
+//    protected void onResume() {
+//        super.onResume();
+//
+//        mAuth = FirebaseAuth.getInstance();
+//        if (mAuth.getCurrentUser() != null) {
+//            getTypeOfUser();
+//            return;
+//        } else {
+//            Intent intent = new Intent(StartWithLogoActivity.this, SignInActivity.class);
+//            startActivity(intent);
+//        }
+//    }
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
