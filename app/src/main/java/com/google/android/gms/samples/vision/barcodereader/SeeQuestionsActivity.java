@@ -82,7 +82,7 @@ public class SeeQuestionsActivity extends Activity implements SeeQuestionListene
             }
         });
 
-        createTestButton = findViewById(R.id.createTest);
+//        createTestButton = findViewById(R.id.createTest);
         createTestButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -165,8 +165,7 @@ public class SeeQuestionsActivity extends Activity implements SeeQuestionListene
                 for (DataSnapshot d : dataSnapshot.getChildren()) {
                     Question q = d.getValue(Question.class);
                     // takes the questions created by the logged in professor
-                    // TODO - remove the not null condition (it s just for now, when i have Qs without profId)
-                    if (q.getIdProfessor() != null && q.getIdProfessor().equals(mAuth.getCurrentUser().getUid())) {
+                    if (q.getIdProfessor().equals(mAuth.getCurrentUser().getUid())) {
                         String key = d.getKey();
                         q.setKey(key);
                         questions.add(q);
@@ -300,7 +299,6 @@ public class SeeQuestionsActivity extends Activity implements SeeQuestionListene
 
     @Override
     public void onAddQButtonClicked(Question question) {
-        // TODO update somehow that you cannoe DESELECT a question added to another test
         // with if condition = the button shows SELECTED, if questionsForTest.isEmpty = the questions are added in another test, CANNOT ADD AGAIN
         // without if condition = the button is selected, with DESELECT AND SELECT AGAIN can add the question to another test
 
@@ -339,7 +337,6 @@ public class SeeQuestionsActivity extends Activity implements SeeQuestionListene
             isPressed = false;
         }
 
-        // TODO user can deselect a question randomly, even if it s in a test and he doesnt want to use it in another
         for (Question q : questions) {
             if (q.equals(question)) {
                 if (!q.isSelected()) {

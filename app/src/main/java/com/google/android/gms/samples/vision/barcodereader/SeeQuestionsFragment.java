@@ -119,8 +119,7 @@ public class SeeQuestionsFragment extends Fragment implements SeeQuestionListene
                 for (DataSnapshot d : dataSnapshot.getChildren()) {
                     Question q = d.getValue(Question.class);
                     // takes the questions created by the logged in professor
-                    // TODO - remove the not null condition (it s just for now, when i have Qs without profId)
-                    if (q.getIdProfessor() != null && q.getIdProfessor().equals(mAuth.getCurrentUser().getUid())) {
+                    if (q.getIdProfessor().equals(mAuth.getCurrentUser().getUid())) {
                         String key = d.getKey();
                         q.setKey(key);
                         questions.add(q);

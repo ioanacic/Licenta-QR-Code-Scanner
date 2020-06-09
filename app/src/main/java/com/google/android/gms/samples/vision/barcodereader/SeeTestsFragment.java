@@ -138,30 +138,34 @@ public class SeeTestsFragment extends Fragment implements View.OnClickListener {
                 Map<String, Object> map = (HashMap<String, Object>) dataSnapshot.getValue();
                 // TODO only the tests for logged professor
 
-                for (HashMap.Entry i : map.entrySet()) {
-                    Map<String, Object> oneTest = (HashMap<String, Object>) i.getValue();
+                if (map != null) {      // there are tests
+                    for (HashMap.Entry i : map.entrySet()) {
+                        Map<String, Object> oneTest = (HashMap<String, Object>) i.getValue();
 
-                    String testKey = i.getKey().toString();
-                    int numberOfQuestions = 0;
-                    String title = "", professorKey = "";
-                    List<String> qs = new ArrayList<>();
+                        String testKey = i.getKey().toString();
+                        int numberOfQuestions = 0;
+                        String title = "", professorKey = "";
+                        List<String> qs = new ArrayList<>();
 
-                    for (HashMap.Entry ii : oneTest.entrySet()) {
-                        if (ii.getKey().equals("numberOfQuestions")) {
-                            numberOfQuestions = Integer.valueOf(String.valueOf(ii.getValue()));
-                        } else if (ii.getKey().equals("title")) {
-                            title = (String) ii.getValue();
-                        } else if (ii.getKey().equals("professorKey")) {
-                            professorKey = (String) ii.getValue();
-                        } else {
-                            qs.add((String) ii.getKey());
+                        for (HashMap.Entry ii : oneTest.entrySet()) {
+                            if (ii.getKey().equals("numberOfQuestions")) {
+                                numberOfQuestions = Integer.valueOf(String.valueOf(ii.getValue()));
+                            } else if (ii.getKey().equals("title")) {
+                                title = (String) ii.getValue();
+                            } else if (ii.getKey().equals("professorKey")) {
+                                professorKey = (String) ii.getValue();
+                            } else {
+                                qs.add((String) ii.getKey());
+                            }
+                        }
+
+                        if (professorKey.equals(mAuth.getCurrentUser().getUid())) {
+                            Test t = new Test(testKey, professorKey, title, numberOfQuestions);
+                            t.setQuestionsId(qs);
+
+                            tests.add(t);
                         }
                     }
-
-                    Test t = new Test(testKey, professorKey, title, numberOfQuestions);
-                    t.setQuestionsId(qs);
-
-                    tests.add(t);
                 }
 
                 adapter.notifyDataSetChanged();
