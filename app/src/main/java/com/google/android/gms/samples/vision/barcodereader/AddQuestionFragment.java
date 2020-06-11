@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.TextInputEditText;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentTransaction;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -319,5 +320,9 @@ public class AddQuestionFragment extends Fragment {
             Toast.makeText(getActivity().getApplicationContext(), getString(R.string.editQSucceded), Toast.LENGTH_LONG).show();
             getActivity().getSupportFragmentManager().popBackStack();
         }
+
+        SeeQuestionsFragment seeQuestionsFragment = new SeeQuestionsFragment();
+        FragmentTransaction transactionQuestions = getActivity().getSupportFragmentManager().beginTransaction();
+        transactionQuestions.replace(R.id.fragmentContainer, seeQuestionsFragment).commit();
     }
 }

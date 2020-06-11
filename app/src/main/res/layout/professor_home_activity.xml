@@ -69,8 +69,7 @@
     <android.support.constraint.ConstraintLayout
         android:id="@+id/addContainer"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:paddingTop="20dp">
+        android:layout_height="wrap_content">
 
         <ImageView
             android:id="@+id/logoImageView"
