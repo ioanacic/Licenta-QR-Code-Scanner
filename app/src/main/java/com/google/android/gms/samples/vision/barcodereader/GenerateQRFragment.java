@@ -138,24 +138,6 @@ public class GenerateQRFragment extends Fragment implements View.OnClickListener
                     }
                 }
 
-
-//                    String addToPath2 = addToPath1 + subjectTitle + "/";
-//                    dir = new File(filepath.getAbsoluteFile() + addToPath2);
-//                    dir.mkdir();
-//
-//
-////                }
-//
-//                if (type.equals("question")) {
-//                    String addToPath2 = addToPath1 + courseTitle + "/";
-//                    dir = new File(filepath.getAbsoluteFile() + addToPath2);
-//                    dir.mkdir();
-//                } else {
-//                    String addToPath3 = addToPath1 + "Tests" + "/";
-//                    dir = new File(filepath.getAbsoluteFile() + addToPath3);
-//                    dir.mkdir();
-//                }
-
                 if (type.equals("question")) {
                     if (renamePicture.getText().toString().isEmpty()) {
                         pictureName = statement;
