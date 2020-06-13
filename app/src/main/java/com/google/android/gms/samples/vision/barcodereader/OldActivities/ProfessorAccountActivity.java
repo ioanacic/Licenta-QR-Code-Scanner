@@ -1,4 +1,4 @@
-package com.google.android.gms.samples.vision.barcodereader.ProfessorPackage;
+package com.google.android.gms.samples.vision.barcodereader.OldActivities;
 
 import android.app.Activity;
 import android.content.Intent;
@@ -10,6 +10,8 @@ import com.google.android.gms.samples.vision.barcodereader.OldActivities.AddSubj
 import com.google.android.gms.samples.vision.barcodereader.OldActivities.SeeQuestionsActivity;
 import com.google.android.gms.samples.vision.barcodereader.OldActivities.SeeStudentsActivity;
 import com.google.android.gms.samples.vision.barcodereader.OldActivities.SeeTestsActivity;
+import com.google.android.gms.samples.vision.barcodereader.ProfessorPackage.ProfessorMenuActivity;
+import com.google.android.gms.samples.vision.barcodereader.ProfessorPackage.ProfessorProfileActivity;
 import com.google.android.gms.samples.vision.barcodereader.R;
 import com.google.android.gms.samples.vision.barcodereader.Authentication.SignInActivity;
 import com.google.firebase.auth.FirebaseAuth;

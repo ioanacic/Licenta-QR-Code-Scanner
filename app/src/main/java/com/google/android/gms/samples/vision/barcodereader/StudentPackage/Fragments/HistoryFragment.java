@@ -20,7 +20,6 @@ import com.google.android.gms.samples.vision.barcodereader.ProfessorPackage.Prof
 import com.google.android.gms.samples.vision.barcodereader.Question;
 import com.google.android.gms.samples.vision.barcodereader.R;
 import com.google.android.gms.samples.vision.barcodereader.RecyclerItemClickListener;
-import com.google.android.gms.samples.vision.barcodereader.SeeAQFragment;
 import com.google.android.gms.samples.vision.barcodereader.StudentPackage.StudentMenuActivity;
 import com.google.android.gms.samples.vision.barcodereader.Classes.User;
 import com.google.firebase.auth.FirebaseAuth;

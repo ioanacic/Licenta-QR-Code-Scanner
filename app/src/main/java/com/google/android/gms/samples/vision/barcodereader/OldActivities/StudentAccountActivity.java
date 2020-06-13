@@ -1,4 +1,4 @@
-package com.google.android.gms.samples.vision.barcodereader.StudentPackage;
+package com.google.android.gms.samples.vision.barcodereader.OldActivities;
 
 import android.app.Activity;
 import android.content.Intent;
@@ -10,6 +10,7 @@ import com.google.android.gms.samples.vision.barcodereader.Barcode.BarcodeCaptur
 import com.google.android.gms.samples.vision.barcodereader.OldActivities.HistoryActivity;
 import com.google.android.gms.samples.vision.barcodereader.R;
 import com.google.android.gms.samples.vision.barcodereader.Authentication.SignInActivity;
+import com.google.android.gms.samples.vision.barcodereader.StudentPackage.StudentProfileActivity;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DatabaseReference;
 

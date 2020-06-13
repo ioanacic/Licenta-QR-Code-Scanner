@@ -1,4 +1,4 @@
-package com.google.android.gms.samples.vision.barcodereader;
+package com.google.android.gms.samples.vision.barcodereader.StudentPackage.Fragments;
 
 import android.graphics.Color;
 import android.os.Bundle;
@@ -13,6 +13,8 @@ import android.widget.TextView;
 
 import com.google.android.gms.samples.vision.barcodereader.Classes.AnsweredQuestion;
 import com.google.android.gms.samples.vision.barcodereader.Classes.User;
+import com.google.android.gms.samples.vision.barcodereader.Question;
+import com.google.android.gms.samples.vision.barcodereader.R;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;

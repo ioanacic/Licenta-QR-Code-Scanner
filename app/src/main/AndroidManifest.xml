@@ -57,10 +57,10 @@
         <activity android:name=".OldActivities.GenerateQRActivity"
             android:label="Generate QR code"/>
 
-        <activity android:name=".StudentPackage.StudentAccountActivity"
+        <activity android:name=".OldActivities.StudentAccountActivity"
             android:label="After you logged in as a student"/>
 
-        <activity android:name=".ProfessorPackage.ProfessorAccountActivity"
+        <activity android:name=".OldActivities.ProfessorAccountActivity"
             android:label="After you logged in as a professor"/>
 
         <activity android:name=".Authentication.SignUpStudentActivity"
