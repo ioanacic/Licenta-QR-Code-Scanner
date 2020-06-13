@@ -20,6 +20,9 @@ import android.widget.RadioGroup;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.android.gms.samples.vision.barcodereader.Classes.AnsweredQuestion;
+import com.google.android.gms.samples.vision.barcodereader.Classes.Test;
+import com.google.android.gms.samples.vision.barcodereader.StudentPackage.StudentMenuActivity;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
