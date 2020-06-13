@@ -6,6 +6,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.google.android.gms.samples.vision.barcodereader.ProfessorPackage.Fragments.SeeQuestionsFragment;
+import com.google.android.gms.samples.vision.barcodereader.ProfessorPackage.ProfessorMenuActivity;
 import com.google.firebase.auth.FirebaseAuth;
 
 public class FragmentExample extends Fragment implements View.OnClickListener {

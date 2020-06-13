@@ -17,6 +17,7 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.Toast;
 
+import com.google.android.gms.samples.vision.barcodereader.ProfessorPackage.ProfessorMenuActivity;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.zxing.WriterException;
 

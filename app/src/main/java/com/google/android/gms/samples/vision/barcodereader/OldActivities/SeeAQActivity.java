@@ -1,17 +1,17 @@
-package com.google.android.gms.samples.vision.barcodereader;
+package com.google.android.gms.samples.vision.barcodereader.OldActivities;
 
+import android.app.Activity;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
-import android.support.v4.app.Fragment;
-import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.TextView;
 
 import com.google.android.gms.samples.vision.barcodereader.Classes.AnsweredQuestion;
+import com.google.android.gms.samples.vision.barcodereader.Question;
+import com.google.android.gms.samples.vision.barcodereader.R;
 import com.google.android.gms.samples.vision.barcodereader.Classes.User;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
@@ -23,7 +23,7 @@ import com.google.firebase.database.ValueEventListener;
 import java.util.HashMap;
 import java.util.Map;
 
-public class SeeAQFragment extends Fragment {
+public class SeeAQActivity extends Activity {
     private FirebaseAuth mAuth;
     private DatabaseReference mDatabase, questionsAsProfessor, getQuestionsAsStudent;
 
@@ -39,28 +39,25 @@ public class SeeAQFragment extends Fragment {
     Double countCorrect = 0.0;       // total of student to answered correctly to this question
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        View rootView = inflater.inflate(R.layout.see_aq_activity, container, false);
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.see_aq_activity);
 
-        questionText = (TextView) rootView.findViewById(R.id.questionText);
-        answerA = (RadioButton) rootView.findViewById(R.id.answerA);
-        answerB = (RadioButton) rootView.findViewById(R.id.answerB);
-        answerC = (RadioButton) rootView.findViewById(R.id.answerC);
-        answerD = (RadioButton) rootView.findViewById(R.id.answerD);
-        answersGr = (RadioGroup) rootView.findViewById(R.id.answersGroup);
-        infoMessage = (TextView) rootView.findViewById(R.id.infoMessage);
-        statistics = (TextView) rootView.findViewById(R.id.statistics);
+        questionText = (TextView) findViewById(R.id.questionText);
+        answerA = (RadioButton) findViewById(R.id.answerA);
+        answerB = (RadioButton) findViewById(R.id.answerB);
+        answerC = (RadioButton) findViewById(R.id.answerC);
+        answerD = (RadioButton) findViewById(R.id.answerD);
+        answersGr = (RadioGroup) findViewById(R.id.answersGroup);
+        infoMessage = (TextView) findViewById(R.id.infoMessage);
+        statistics = (TextView) findViewById(R.id.statistics);
 
         mAuth = FirebaseAuth.getInstance();
+        // the id of the current question
+        keyOfSelectedQuestion = getIntent().getStringExtra("KEY");
+        keyOfSelectedStudent = getIntent().getStringExtra("STUDENT_KEY");
 
         getInfoAboutAQ();
-
-        return rootView;
-    }
-
-    public void setKeys(String keyOfSelectedQuestion, String keyOfSelectedStudent) {
-        this.keyOfSelectedQuestion = keyOfSelectedQuestion;
-        this.keyOfSelectedStudent = keyOfSelectedStudent;
     }
 
     public void getAnsweredQuestion() {
@@ -265,7 +262,7 @@ public class SeeAQFragment extends Fragment {
                 if (resultStr.length() >= 5) {
                     resultStr = resultStr.substring(0, 5);
                 }
-                statistics.setText("Statistics: " + resultStr + "% answered correctly");
+                statistics.setText("A total of " + resultStr + "% answered correctly to this question");
             }
 
             @Override

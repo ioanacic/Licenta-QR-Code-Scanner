@@ -5,7 +5,7 @@ android:layout_width="match_parent"
 android:layout_height="match_parent"
 android:background="#FFFFFF"
 android:orientation="vertical">
-tools:context="com.google.android.gms.samples.vision.barcodereader.SignUpProfessorActivity
+tools:context="com.google.android.gms.samples.vision.barcodereader.Authentication.SignUpProfessorActivity
 
 <Space
     android:layout_width="match_parent"

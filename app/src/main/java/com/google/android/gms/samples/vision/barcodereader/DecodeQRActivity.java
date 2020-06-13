@@ -8,6 +8,8 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.widget.ImageView;
 
+import com.google.android.gms.samples.vision.barcodereader.Classes.Test;
+import com.google.android.gms.samples.vision.barcodereader.StudentPackage.StudentMenuActivity;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
