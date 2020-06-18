@@ -112,6 +112,10 @@ public class ProfessorMenuActivity extends FragmentActivity {
             intent.addCategory(Intent.CATEGORY_HOME);
             intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
             startActivity(intent);
+
+            finishAffinity();
+            int pid = android.os.Process.myPid();
+            android.os.Process.killProcess(pid);
         } else {
             getSupportFragmentManager().popBackStack();
         }
