@@ -529,6 +529,6 @@ public class SeeStudentsFragment extends Fragment {
         emailIntent.putExtra(android.content.Intent.EXTRA_SUBJECT, groupNumber + " results");
         emailIntent.putExtra(android.content.Intent.EXTRA_STREAM, fileUri);
         emailIntent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
-        startActivity(Intent.createChooser(emailIntent, "Send mail"));
+        startActivity(Intent.createChooser(emailIntent, "Send via email"));
     }
 }
