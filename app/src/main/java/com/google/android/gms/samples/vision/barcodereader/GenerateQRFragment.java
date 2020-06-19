@@ -165,9 +165,8 @@ public class GenerateQRFragment extends Fragment implements View.OnClickListener
                     result = save ? "Image Saved" : "Image Not Saved";
                     Toast.makeText(getActivity().getApplicationContext(), result, Toast.LENGTH_SHORT).show();
 
-                    FirebaseDatabase.getInstance().getReference("questions").child(keyOfSelectedQuiz).child("isQrGenerated").setValue(true);
-
                     if (type.equals("question")) {
+                        FirebaseDatabase.getInstance().getReference("questions").child(keyOfSelectedQuiz).child("isQrGenerated").setValue(true);
                         ((ProfessorMenuActivity) getActivity()).refresh();
                         getActivity().getSupportFragmentManager().popBackStack();
                     } else {

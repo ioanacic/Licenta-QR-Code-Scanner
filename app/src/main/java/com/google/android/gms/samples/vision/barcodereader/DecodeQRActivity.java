@@ -113,9 +113,9 @@ public class DecodeQRActivity extends Activity {
                             if (ii.getKey().equals("numberOfQuestions")) {
                                 numberOfQuestions = Integer.valueOf(String.valueOf(ii.getValue()));
                             } else if (ii.getKey().equals("title")) {
-                                break;
+
                             } else if (ii.getKey().equals("professorKey")) {
-                                break;
+
                             } else {
                                 qs.add((String) ii.getKey());
                             }
