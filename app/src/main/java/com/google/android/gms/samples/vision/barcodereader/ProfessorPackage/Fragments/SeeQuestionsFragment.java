@@ -200,7 +200,7 @@ public class SeeQuestionsFragment extends Fragment implements SeeQuestionListene
             }
         }
 
-        Collections.sort(options, (o1, o2) -> o1.compareTo(o2));
+//        Collections.sort(options, (o1, o2) -> o1.compareTo(o2));
 
         ArrayAdapter<String> dataAdapter = new ArrayAdapter<String>(getActivity().getApplicationContext(), android.R.layout.simple_spinner_item, options);
         dataAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
@@ -399,7 +399,10 @@ public class SeeQuestionsFragment extends Fragment implements SeeQuestionListene
     }
 
     public void refresh() {
-        questionForQR.setIsQrGenerated(true);
+        SeeQuestionsFragment seeQuestionsFragment = new SeeQuestionsFragment();
+        FragmentTransaction transactionQuestions = getActivity().getSupportFragmentManager().beginTransaction();
+        transactionQuestions.replace(R.id.fragmentContainer, seeQuestionsFragment).commit();
+//        questionForQR.setIsQrGenerated(true);
         if (spinnerSubject.getSelectedItem().toString().trim().equals("All subjects")) {
             adapter.updateQ(questions);
         } else if (spinner.getSelectedItem().toString().trim().equals("All courses")) {

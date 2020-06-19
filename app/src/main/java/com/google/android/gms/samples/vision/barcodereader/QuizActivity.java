@@ -389,7 +389,7 @@ public class QuizActivity extends Activity {
         animator = ObjectAnimator.ofInt(progressBar, "progress", 0, 100);
         animator.setInterpolator(new LinearInterpolator());
         animator.setStartDelay(0);
-        animator.setDuration(10000);         // default = 60000
+        animator.setDuration(60000);         // default = 60000
 
         animator.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
             @Override
