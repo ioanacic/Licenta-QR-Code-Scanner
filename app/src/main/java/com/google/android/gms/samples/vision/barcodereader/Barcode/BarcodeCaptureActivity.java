@@ -377,10 +377,10 @@ public final class BarcodeCaptureActivity extends AppCompatActivity implements B
     }
 
     private class CaptureGestureListener extends GestureDetector.SimpleOnGestureListener {
-        @Override
-        public boolean onSingleTapConfirmed(MotionEvent e) {
-            return onTap(e.getRawX(), e.getRawY()) || super.onSingleTapConfirmed(e);
-        }
+//        @Override
+//        public boolean onSingleTapConfirmed(MotionEvent e) {
+//            return onTap(e.getRawX(), e.getRawY()) || super.onSingleTapConfirmed(e);
+//        }
     }
 
     private class ScaleListener implements ScaleGestureDetector.OnScaleGestureListener {
