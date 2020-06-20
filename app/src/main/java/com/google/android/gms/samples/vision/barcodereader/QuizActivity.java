@@ -63,6 +63,7 @@ public class QuizActivity extends Activity {
     boolean paused = false;
     boolean isQuestion = false, isTest = false;
     int count = 0;
+    Double score = 0.0;
 
     Test test;
     Question q;
@@ -283,6 +284,7 @@ public class QuizActivity extends Activity {
         // check if the answer is correct or not
         if (answerChecked.equals(correctAnswer)) {
             isCorrect = true;
+            score += 0.1;
         }
 
         AnsweredQuestion aQ = new AnsweredQuestion(answerChecked, isCorrect);
@@ -329,8 +331,12 @@ public class QuizActivity extends Activity {
 
                 // a afisat deja ultima intrebare din test
                 if (count+1 == test.getNumberOfQuestions()) {
+                    String scoreStr = score.toString();
+                    scoreStr = scoreStr.substring(0, 3);
+
                     Intent intent = new Intent(QuizActivity.this, DecodeQRActivity.class);
                     intent.putExtra("QUIZ ENDED", "ended");
+                    intent.putExtra("SCORE", scoreStr);
                     startActivity(intent);
 
                     return;
@@ -362,8 +368,12 @@ public class QuizActivity extends Activity {
 
                 submitted = true;
 
+                String scoreStr = score.toString();
+                scoreStr = scoreStr.substring(0, 3);
+
                 Intent intent = new Intent(QuizActivity.this, DecodeQRActivity.class);
                 intent.putExtra("QUIZ ENDED", "ended");
+                intent.putExtra("SCORE", scoreStr);
                 startActivity(intent);
             }
         }

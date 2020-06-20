@@ -6,7 +6,9 @@ import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.view.View;
 import android.widget.ImageView;
+import android.widget.TextView;
 
 import com.google.android.gms.samples.vision.barcodereader.Classes.Test;
 import com.google.android.gms.samples.vision.barcodereader.StudentPackage.StudentMenuActivity;
@@ -26,8 +28,9 @@ public class DecodeQRActivity extends Activity {
     public static final String BarcodeObject = "Barcode";
 
     ImageView backgroundImage;
+    TextView scoreInfo;
 
-    String decodedQR, typeOfQuiz, ended;
+    String decodedQR, typeOfQuiz, ended, score;
     boolean exists = false;
     Test test;
 
@@ -40,11 +43,13 @@ public class DecodeQRActivity extends Activity {
         setContentView(R.layout.decode_qr);
 
         backgroundImage = findViewById(R.id.aboutToStartQuiz);
+        scoreInfo = findViewById(R.id.scoreInfo);
 
         decodedQR = getIntent().getStringExtra(BarcodeObject);
         typeOfQuiz = getIntent().getStringExtra("TYPE OF QUIZ");
 
         ended = getIntent().getStringExtra("QUIZ ENDED");
+        score = getIntent().getStringExtra("SCORE");
 
         mAuth = FirebaseAuth.getInstance();
         mDatabase = FirebaseDatabase.getInstance().getReference("users");
@@ -59,6 +64,8 @@ public class DecodeQRActivity extends Activity {
 
         if (ended != null) {
             backgroundImage.setImageResource(R.drawable.ended);
+            scoreInfo.setText("Your score is " + score);
+            scoreInfo.setVisibility(View.VISIBLE);
             startTimerGoBack();
         }
     }

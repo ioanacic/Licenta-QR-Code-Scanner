@@ -296,6 +296,7 @@ public class HistoryFragment extends Fragment {
         String scoreStr = score.toString();
         scoreStr = scoreStr.substring(0, 3);
         infoScore.setVisibility(View.VISIBLE);
+        yourScore.setVisibility(View.VISIBLE);
         yourScore.setText(scoreStr);
     }
 
@@ -369,6 +370,8 @@ public class HistoryFragment extends Fragment {
             } else {
                 adapter.updateQ(questionsAQ);                   // student wanna see all the questions
             }
+            infoScore.setVisibility(View.INVISIBLE);
+            yourScore.setVisibility(View.INVISIBLE);
         } else {
             String idProfessor = "";
             // get professor id for option selected
