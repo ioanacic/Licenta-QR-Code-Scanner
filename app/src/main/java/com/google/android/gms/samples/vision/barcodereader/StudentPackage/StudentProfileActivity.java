@@ -151,9 +151,17 @@ public class StudentProfileActivity extends Activity implements View.OnClickList
                 Toast.makeText(StudentProfileActivity.this, getString(R.string.noFieldEmpty), Toast.LENGTH_LONG).show();
                 return;
             }
+
             year = yearOfStudyField.getText().toString().trim();
-            mDatabase.child("yearOfStudy").setValue(year);
-            count++;
+            int intYear = Integer.parseInt(year);
+            if (intYear < 1 || intYear > 7) {
+                yearOfStudyField.setError("Year of study must be a number between 1 and 6.");
+                return;
+            } else {
+                yearOfStudyField.setError(null);
+                mDatabase.child("yearOfStudy").setValue(year);
+                count++;
+            }
         }
 
         if (count != 0) {
