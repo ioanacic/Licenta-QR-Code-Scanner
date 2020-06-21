@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.TextInputEditText;
+import android.support.design.widget.TextInputLayout;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
@@ -37,6 +38,7 @@ public class SignUpProfessorActivity extends Activity implements View.OnClickLis
     TextInputEditText firstNameField;
     TextInputEditText phoneField;
     TextInputEditText subjectField;
+    TextInputLayout passwordLayout;
 
     private FirebaseAuth mAuth;
     private DatabaseReference mDatabase;
@@ -52,6 +54,7 @@ public class SignUpProfessorActivity extends Activity implements View.OnClickLis
         firstNameField = findViewById(R.id.fieldFirstName);
         phoneField = findViewById(R.id.fieldPhone);
         subjectField = findViewById(R.id.fieldSubject);
+        passwordLayout = findViewById(R.id.passLayoutProf);
 
         findViewById(R.id.createProfAccount).setOnClickListener(this);
 
@@ -188,10 +191,10 @@ public class SignUpProfessorActivity extends Activity implements View.OnClickLis
 
         String password = passwordField.getText().toString();
         if (TextUtils.isEmpty(password)) {
-            passwordField.setError("Required.");
+            passwordLayout.setError("Required.");
             valid = false;
         } else {
-            passwordField.setError(null);
+            passwordLayout.setError(null);
         }
 
         return valid;

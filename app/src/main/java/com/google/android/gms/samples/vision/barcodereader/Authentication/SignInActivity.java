@@ -21,6 +21,7 @@ import android.os.Bundle;
 import android.app.Activity;
 import android.support.annotation.NonNull;
 import android.support.design.widget.TextInputEditText;
+import android.support.design.widget.TextInputLayout;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
@@ -50,6 +51,7 @@ public class SignInActivity extends Activity implements View.OnClickListener {
 
     TextInputEditText mEmailField;
     TextInputEditText mPasswordField;
+    TextInputLayout passwordLayout;
 
     String typeOfUser;
 
@@ -64,6 +66,7 @@ public class SignInActivity extends Activity implements View.OnClickListener {
         // Views
         mEmailField = findViewById(R.id.fieldEmail);
         mPasswordField = findViewById(R.id.fieldPassword);
+        passwordLayout = findViewById(R.id.passLayout);
 
         // Buttons
         findViewById(R.id.emailSignInButton).setOnClickListener(this);
@@ -162,10 +165,10 @@ public class SignInActivity extends Activity implements View.OnClickListener {
 
         String password = mPasswordField.getText().toString();
         if (TextUtils.isEmpty(password)) {
-            mPasswordField.setError("Required.");
+            passwordLayout.setError("Required.");
             valid = false;
         } else {
-            mPasswordField.setError(null);
+            passwordLayout.setError(null);
         }
 
         return valid;

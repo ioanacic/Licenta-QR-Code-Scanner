@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.TextInputEditText;
+import android.support.design.widget.TextInputLayout;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
@@ -37,6 +38,7 @@ public class SignUpStudentActivity extends Activity implements View.OnClickListe
     TextInputEditText phoneField;
     TextInputEditText groupField;
     TextInputEditText yearOfStudyField;
+    TextInputLayout passwordLayout;
 
     private FirebaseAuth mAuth;
     private DatabaseReference mDatabase;
@@ -53,6 +55,7 @@ public class SignUpStudentActivity extends Activity implements View.OnClickListe
         phoneField = findViewById(R.id.fieldPhone);
         groupField = findViewById(R.id.fieldGroup);
         yearOfStudyField = findViewById(R.id.fieldYearOfStudy);
+        passwordLayout = findViewById(R.id.passLayoutStud);
 
         findViewById(R.id.createStudAccount).setOnClickListener(this);
 
@@ -178,14 +181,13 @@ public class SignUpStudentActivity extends Activity implements View.OnClickListe
             valid = false;
         } else {
             yearOfStudyField.setError(null);
-        }
-
-        int intYear = Integer.parseInt(year);
-        if (intYear < 1 || intYear > 7) {
-            yearOfStudyField.setError("Year of study must be a number between 1 and 6.");
-            valid = false;
-        } else {
-            yearOfStudyField.setError(null);
+            int intYear = Integer.parseInt(year);
+            if (intYear < 1 || intYear > 7) {
+                yearOfStudyField.setError("Year of study must be a number between 1 and 6.");
+                valid = false;
+            } else {
+                yearOfStudyField.setError(null);
+            }
         }
 
         String email = emailField.getText().toString();
@@ -198,10 +200,10 @@ public class SignUpStudentActivity extends Activity implements View.OnClickListe
 
         String password = passwordField.getText().toString();
         if (TextUtils.isEmpty(password)) {
-            passwordField.setError("Required.");
+            passwordLayout.setError("Required.");
             valid = false;
         } else {
-            passwordField.setError(null);
+            passwordLayout.setError(null);
         }
 
         return valid;
