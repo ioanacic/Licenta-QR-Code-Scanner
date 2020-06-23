@@ -216,7 +216,7 @@ public class GenerateQRFragment extends Fragment implements View.OnClickListener
     public void onClick(View view) {
         if (view.getId() == R.id.infoRenameButton) {
             if (!show) {
-                renameLayout.setError("You will identify the code easier if you rename it now");
+                renameLayout.setError("You will identify the code easier if you rename it");
                 renameLayout.setErrorEnabled(true);
                 show = true;
             } else {
