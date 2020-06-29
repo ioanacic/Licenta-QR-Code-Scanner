@@ -416,6 +416,10 @@ public class SeeStudentsFragment extends Fragment {
                             fw.append(';');
                         }
 
+                        for (Map.Entry entry : scorePerSubject.entrySet()) {
+                            entry.setValue("0.0");
+                        }
+
                         fw.append('\n');
                     }
 
@@ -424,6 +428,7 @@ public class SeeStudentsFragment extends Fragment {
 
 
                     scorePerSubject.clear();
+
 
                 } catch (Exception e) {
                 }
