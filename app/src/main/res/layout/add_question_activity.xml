@@ -59,8 +59,7 @@
                     android:ems="13"
                     android:fontFamily="sans-serif-light"
                     android:hint="Question"
-                    android:inputType="textMultiLine|textCapSentences"
-                    android:text="Q?" />
+                    android:inputType="textMultiLine|textCapSentences" />
             </android.support.design.widget.TextInputLayout>
 
 
@@ -105,8 +104,7 @@
                     android:ems="13"
                     android:fontFamily="sans-serif-light"
                     android:hint="Answer A"
-                    android:inputType="textMultiLine|textCapSentences"
-                    android:text="Aaa" />
+                    android:inputType="textMultiLine|textCapSentences" />
             </android.support.design.widget.TextInputLayout>
 
 
@@ -128,8 +126,7 @@
                     android:ems="13"
                     android:fontFamily="sans-serif-light"
                     android:hint="Answer B"
-                    android:inputType="textMultiLine|textCapSentences"
-                    android:text="Bbb" />
+                    android:inputType="textMultiLine|textCapSentences" />
             </android.support.design.widget.TextInputLayout>
 
 
@@ -152,8 +149,7 @@
                     android:ems="13"
                     android:fontFamily="sans-serif-light"
                     android:hint="Answer C"
-                    android:inputType="textMultiLine|textCapSentences"
-                    android:text="Ccc" />
+                    android:inputType="textMultiLine|textCapSentences" />
             </android.support.design.widget.TextInputLayout>
 
 
@@ -175,8 +171,7 @@
                     android:ems="13"
                     android:fontFamily="sans-serif-light"
                     android:hint="Answer D"
-                    android:inputType="textMultiLine|textCapSentences"
-                    android:text="Ddd" />
+                    android:inputType="textMultiLine|textCapSentences" />
             </android.support.design.widget.TextInputLayout>
 
             <Spinner
